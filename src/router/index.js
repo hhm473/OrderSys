@@ -6,20 +6,26 @@ import EditUserInfo from '../components/EditUserInfo.vue'
 import ChefIndex from '../components/ChefIndex.vue'
 import WaiterIndex from '../components/WaiterIndex.vue'
 import Order from '../components/Order.vue'
+import XiaDan from '../components/XiaDan.vue'
+import OrderManage from '../components/OrderManage.vue'
+import DishManage from '../components/DishManage.vue'
+import UserManage from '../components/UserManage.vue'
+import EditDish from '../components/EditDish.vue'
+import AddDish from '../components/AddDish.vue'
+import Announce from '../components/Announce.vue'
+import AEditUserInfo from '../components/AEditUserInfo.vue'
+import AdministratorIndex from '../components/AdministratorIndex.vue'
+
 
 Vue.use(VueRouter)
 
 const routes = [{
 		path: '/',
-		redirect: '/order'
+		redirect: '/ordermanage'
 	},
 	{
 		path: '/login',
 		component: Login,
-	},
-	{
-		path: '/order',
-		component: Order,
 	},
 	{
 		path: '/signup',
@@ -37,6 +43,47 @@ const routes = [{
 		path: '/edituserinfo',
 		component: EditUserInfo,
 	},
+	{
+		path: '/order',
+		component: Order,
+	},
+	{
+		path: '/xiadan',
+		component: XiaDan,
+	},
+	{
+		path: '/ordermanage',
+		component: OrderManage,
+	},
+	{
+		path: '/dishmanage',
+		component: DishManage,
+	},	
+	{
+		path: '/usermanage',
+		component: UserManage,
+	},	
+	{
+		path: '/editdish',
+		component: EditDish,
+	},
+	{
+		path: '/adddish',
+		component: AddDish,
+	},
+	{
+		path: '/announce',
+		component: Announce,
+	},
+	{
+		path: '/aedituserinfo',
+		component: AEditUserInfo,
+	},
+	{
+		path: '/administratorindex',
+		component: AdministratorIndex,
+	},
+	
 ]
 
 const router = new VueRouter({

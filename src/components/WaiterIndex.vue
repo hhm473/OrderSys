@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<page-header is-login="true" user-name="哈哈哈" user-type="点餐服务人员"></page-header>
+		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
 
 		<div class="body">
 			<a-row>
@@ -13,11 +13,11 @@
 						<div class="title">
 							传菜推送信息
 						</div>
-						<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 150 }">
-							<a-tag slot="cook" slot-scope="text, record"
-								:color="record.cook === '已烹饪' ? 'geekblue' : record.cook==='正在烹饪' ? 'volcano' : 'green'"
-								@click="() => handlecook(record.key)">
-								{{ record.cook}}
+						<a-table :columns="columnsDish" :data-source="dataDish" bordered :scroll="{y: 150 }">
+							<a-tag slot="deliver" slot-scope="text, record"
+								:color="record.deliver === '已推送' ? 'geekblue' : record.deliver==='正在推送' ? 'volcano' : 'green'"
+								@click="() => handledeliver(record.key)">
+								{{ record.deliver}}
 							</a-tag>
 						</a-table>
 					</div>
@@ -25,22 +25,21 @@
 						<div class="title">
 							正在进行中的订单
 						</div>
-						<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 150 }">
-							<a-button slot="check" slot-scope="text, record" @click="() => checkcook(record.key)">
+						<a-table :columns="columnsOrder" :data-source="dataOrder" bordered :scroll="{y: 150 }">
+							<a-button slot="check" slot-scope="text, record" @click="() => checkdeliver(record.key)">
 								查看
-								<!-- {{record}} -->
 							</a-button>
-							<a-tag slot="cook" slot-scope="text, record"
-								:color="record.cook === '已烹饪' ? 'geekblue' : record.cook==='正在烹饪' ? 'volcano' : 'green'"
-								@click="() => handlecook(record.key)">
+							<template slot="pay" slot-scope="text, record">
+								<a-popconfirm v-if="dataOrder.length" title="确定结账 ?"
+									@confirm="() => onDelete(record.key)">
+									<a-button>结账</a-button>
+								</a-popconfirm>
+							</template>
 
-								{{ record.cook}}
-								<!-- {{record}} -->
-							</a-tag>
 						</a-table>
 					</div>
 					<div style="text-align: center; padding-bottom: 20px;">
-						<a-button type="primary" size="large">前往点菜</a-button>
+						<a-button type="primary" size="large" @click="toOrder">前往点菜</a-button>
 					</div>
 				</a-col>
 			</a-row>
@@ -49,7 +48,7 @@
 </template>
 
 <script scoped>
-	const columns = [{
+	const columnsDish = [{
 			title: '菜品名称',
 			dataIndex: 'name',
 			key: 'name',
@@ -65,67 +64,135 @@
 			dataIndex: 'number',
 		},
 		{
-			title: '烹制状态',
-			key: 'cook',
-			dataIndex: 'cook',
+			title: '菜品状态',
+			key: 'deliver',
+			dataIndex: 'deliver',
 			scopedSlots: {
-				customRender: 'cook'
+				customRender: 'deliver'
 			},
+		},
+	];
+	const columnsOrder = [{
+			title: '菜品桌号',
+			dataIndex: 'tableNum',
+			key: 'table-num',
+		},
+		{
+			title: '下单时间',
+			dataIndex: 'orderTime',
+			key: 'order-time',
+		},
+		{
+			title: '总金额',
+			key: 'total-price',
+			dataIndex: 'totalPrice',
 		},
 		{
 			title: '订单详情',
 			key: 'check',
-			dataIndex: 'check',
 			scopedSlots: {
 				customRender: 'check'
 			},
 		},
+		{
+			title: '结账',
+			dataIndex: 'pay',
+			scopedSlots: {
+				customRender: 'pay'
+			},
+		},
 	];
 
-	const data = [{
+	const dataDish = [{
 			key: '1',
 			name: 'John Brown',
 			tableNum: "2",
 			number: '1',
-			cook: "等待烹饪"
+			deliver: "等待推送"
 		}, {
 			key: '6',
 			name: 'John Brown',
 			tableNum: "2",
 			number: '1',
-			cook: "等待烹饪"
+			deliver: "等待推送"
 		}, {
 			key: '7',
 			name: 'John Brown',
 			tableNum: "2",
 			number: '1',
-			cook: "等待烹饪"
+			deliver: "等待推送"
 		}, {
 			key: '8',
 			name: 'John Brown',
 			tableNum: "2",
 			number: '1',
-			cook: "等待烹饪"
+			deliver: "等待推送"
 		}, {
 			key: '1',
 			name: 'John Brown',
 			tableNum: "2",
 			number: '1',
-			cook: "等待烹饪"
+			deliver: "等待推送"
 		},
 		{
 			key: '2',
 			name: 'Jim Green',
 			age: 42,
 			address: 'London No. 1 Lake Park',
-			cook: "已烹饪"
+			deliver: "已推送"
 		},
 		{
 			key: '3',
 			name: 'Joe Black',
 			age: 32,
 			address: 'Sidney No. 1 Lake Park',
-			cook: "等待烹饪"
+			deliver: "等待推送"
+		},
+	];
+	const dataOrder = [{
+			key: '1',
+			name: 'John Brown',
+			tableNum: "2",
+			number: '1',
+			deliver: "等待推送"
+		}, {
+			key: '6',
+			name: 'John Brown',
+			tableNum: "2",
+			number: '1',
+			deliver: "等待推送"
+		}, {
+			key: '7',
+			name: 'John Brown',
+			tableNum: "2",
+			number: '1',
+			deliver: "等待推送"
+		}, {
+			key: '8',
+			name: 'John Brown',
+			tableNum: "2",
+			number: '1',
+			deliver: "等待推送"
+		}, {
+			key: '1',
+			name: 'John Brown',
+			tableNum: "2",
+			number: '1',
+			deliver: "等待推送"
+		},
+		{
+			key: '2',
+			name: 'Jim Green',
+			age: 42,
+			address: 'London No. 1 Lake Park',
+			deliver: "已推送"
+		},
+		{
+			key: '3',
+			name: 'Joe Black',
+			age: 32,
+			address: 'Sidney No. 1 Lake Park',
+			deliver: "等待推送"
 		},
 	];
 	import PageHeader from './PageHeader.vue'
@@ -138,22 +205,22 @@
 		},
 
 		mounted: function() {
-			let peaple = this.$route.query
+			let peaple = JSON.parse(localStorage.getItem('role'))
 			if (peaple.roleId == 3) {
 				this.$data.role = "服务员"
-			}
-			else if(peaple.roleId == 2) {
+			} else if (peaple.roleId == 2) {
 				this.$data.role = "后厨人员"
-			}
-			else{
+			} else {
 				this.$data.role = "管理人员"
 			}
 			this.$data.userId = peaple.userId
 		},
 		data() {
 			return {
-				data,
-				columns,
+				dataDish,
+				dataOrder,
+				columnsOrder,
+				columnsDish,
 				role: "",
 				userId: "",
 				anunlist: [{
@@ -176,18 +243,23 @@
 			}
 		},
 		methods: {
-			handlecook(key) {
+			handledeliver(key) {
 				console.log("进入handlebook")
-				const newData = [...this.data];
+				const newData = [...this.dataDish];
 				const target = newData.filter(item => key === item.key)[0];
 				if (target) {
-					if (target.cook === "等待烹饪") {
-						target.cook = "正在烹饪";
+					if (target.deliver === "等待推送") {
+						target.deliver = "正在推送";
 					} else {
-						target.cook = "已烹饪"
+						target.deliver = "已推送"
 					}
 				}
 			},
+			toOrder() {
+				this.$router.push({
+					path: "/Order"
+				})
+			}
 		}
 	}
 </script>
@@ -204,6 +276,7 @@
 	.selector {
 		padding: 10px 0 10px 0;
 	}
+
 	.title {
 		font-size: 30px;
 		font-weight: bold;

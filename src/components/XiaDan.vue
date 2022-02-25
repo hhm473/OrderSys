@@ -10,6 +10,10 @@
 				<span class="cata-info">
 					<router-link to="/order" style="color: white;">点菜</router-link>
 				</span>
+				>
+				<span class="cata-info">
+					<router-link to="/xiadan" style="color: white;">下单</router-link>
+				</span>
 				<a-button class="btn-back">返回</a-button>
 			</div>
 			<div class="secondary-head">
@@ -17,36 +21,28 @@
 					时间：{{timeNow}}
 				</div>
 				<div class="table-number">
-					桌号：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
-						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
-						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
-						</a-select-option>
-					</a-select>
+					桌号： {{tableNum}}
 				</div>
 				<div class="total-price">
 					总金额：{{totalPrice}}
 				</div>
-				<a-button class="btn-back" type="primary" @click="toXiadan">下单</a-button>
 			</div>
-			<div>
-				<a-row>
-					<a-col :span="8">
-						<OrderQingdan></OrderQingdan>
-					</a-col>
-					<a-col :span="8">
-						<Dish></Dish>
-					</a-col>
-					<a-col :span="8">
-						<Dish></Dish>
-					</a-col>
-				</a-row>
+			<div style="padding: 20px;">
+				<div>
+					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 150 }">
+						<a-button slot="check" slot-scope="text, record" @click="() => checkcook(record.key)">
+							查看
+						</a-button>
+						<a-tag slot="cook" slot-scope="text, record"
+							:color="record.cook === '已烹饪' ? 'geekblue' : record.cook==='正在烹饪' ? 'volcano' : 'green'"
+							@click="() => handlecook(record.key)">
+							{{ record.cook}}
+						</a-tag>
+					</a-table>
+				</div>
+				<div style="text-align: center; padding-bottom: 20px;">
+					<a-button type="primary" size="large" @click="toWaiterindex">确认下单</a-button>
+				</div>
 			</div>
 		</div>
 		<div style="width: 100%;height: 200px;"></div>、
@@ -58,23 +54,44 @@
 	import PageHeader from './PageHeader.vue'
 	import OrderQingdan from './OrderQingdan.vue'
 
+	const columns = [{
+			title: '菜品名称',
+			dataIndex: 'name',
+			key: 'name',
+		},
+		{
+			title: '菜品单价',
+			dataIndex: 'priceOne',
+			key: 'table-num',
+		},
+		{
+			title: '菜品数量',
+			key: 'number',
+			dataIndex: 'number',
+		},
+		{
+			title: '菜品金额',
+			key: 'cook',
+			dataIndex: 'priceOne',
+		},
+	];
 
 	export default {
 		data() {
 			return {
+				columns,
 				timeNow: "2021-02-26",
-				totalPrice: 35
+				totalPrice: 35,
+				tableNum: 2
 			}
 		},
 		components: {
-			Dish,
 			PageHeader,
-			OrderQingdan,
 		},
-		methods: {
-			toXiadan() {
+		methods:{
+			toWaiterindex() {
 				this.$router.push({
-					path: "/Xiadan"
+					path: "/WaiterIndex"
 				})
 			}
 		}

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<page-header is-login="true" user-name="哈哈哈" user-type="后厨人员"></page-header>
+		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
 
 		<div class="body">
 			<a-row>
@@ -68,7 +68,6 @@
 							<!-- {{record}} -->
 						</a-tag>
 					</a-table>
-
 				</a-col>
 			</a-row>
 		</div>
@@ -158,7 +157,8 @@
 		
 
 		mounted: function() {
-			let peaple = this.$route.query
+			let peaple = JSON.parse(localStorage.getItem('role'))
+			console.log(peaple)
 			if (peaple.roleId == 3) {
 				this.$data.role = "服务员"
 			}

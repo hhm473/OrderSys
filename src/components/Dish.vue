@@ -1,39 +1,60 @@
 <template>
 	<div class="all-wrap">
-		<div class="img-wrap"><img src="" />
+		<div class="img-wrap">
+			<img :src="dishPic" @click="showDetail" />
 		</div>
 		<div>
 			<div style="display: flex;">
-				
-			<div class="name">{{name}}</div>
-			<div v-if="tuijian" class="tuijian">推荐</div>
+
+				<div class="name">{{dishName}}</div>
+				<div v-if="tuijian" class="tuijian">推荐</div>
 			</div>
-			<div class="jianjie">{{jianjie}}</div>
+			<div class="jianjie">{{intro}}</div>
 			<div style="display: flex;">
-			<div class="price">{{price}}元</div>
-			<div style="padding-top: 10px; display: flex;">
-				
-			<a-button size="small" icon="minus" />
-			<div class="number">{{number}}</div>
-			<a-button size="small" icon="plus" /></div>
+				<div class="price">{{price}}元</div>
+				<div style="padding-top: 10px; display: flex;">
+
+					<a-button size="small" icon="minus" />
+					<div class="number">{{dishNum}}</div>
+					<a-button size="small" icon="plus" />
+				</div>
 			</div>
 		</div>
+		<!-- -->
+		<a-modal :visible="visible" closable="false"  @ok="closeDetail" dialogStyle="{ height: '500px' }">
+			<template slot="footer">
+				<a-button key="submit" type="primary" :loading="loading" @click="closeDetail">
+					确定
+				</a-button>
+			</template>
+			<dish-xiangqing :dishPic="dishPic" :dishName="dishName" :intro="intro" :detail="detail"></dish-xiangqing>
+		</a-modal>
 	</div>
 </template>
 
 <script>
+	import DishXiangqing from './DishXiangqing.vue'
+
 	export default {
 		name: 'Login',
+
+		components: {
+			DishXiangqing,
+		},
 		props: {
-			'name': {
+			'dishPic': {
 				type: String,
-				default: "鱼香肉丝"
+				default: ""
+			},
+			'dishName': {
+				type: String,
+				default: "鱼香肉丝hhh"
 			},
 			'tuijian': {
 				type: Boolean,
 				default: true
 			},
-			'jianjie': {
+			'intro': {
 				type: String,
 				default: "肉丝+胡罗卜+笋丝"
 			},
@@ -47,26 +68,19 @@
 			},
 		},
 
-		methods: {
-			ShowButton() {
-				this.$data.isShowButton = true
-				let that = this
-
-				let timer = setTimeout(
-					function() {
-						that.$data.isShowButton = false
-					}, 3000)
-			},
-			EditUserInfo() {
-				this.$router.push({
-					path: "/edituserinfo"
-				})
-			},
-			Quit() {
-				this.$router.push({
-					path: "/login"
-				})
+		data() {
+			return {
+				visible: false,
 			}
+		},
+		methods: {
+			showDetail() {
+				this.visible = true;
+			},
+
+			closeDetail(e) {
+				this.visible = false;
+			},
 		}
 
 	}
@@ -79,11 +93,11 @@
 	}
 
 	.all-wrap {
+		border: 1px solid #A4ADB3;
 		height: 150px;
 		width: 350px;
 		display: flex;
 		align-items: center;
-		border: #BBBBBB;
 		background-color: white;
 	}
 
@@ -93,23 +107,27 @@
 		margin: 0 20px 0 10px;
 	}
 
-	.name{
+	.name {
 		font-size: 1.5em;
 	}
-	.tuijian{
+
+	.tuijian {
 		font-size: 0.75em;
 		color: red;
 		padding-left: 8px;
 	}
-	.jianjie{
+
+	.jianjie {
 		font-size: 0.75em;
 		padding: 8px 0 8px 0;
 	}
-	.price{
+
+	.price {
 		font-size: 1.5em;
 		padding-right: 50px;
 	}
-	.number{
+
+	.number {
 		padding: 0 15px 0 15px;
 	}
 </style>

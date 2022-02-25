@@ -1,52 +1,37 @@
 <template>
 	<div>
-		<page-header></page-header>
+		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
+		
+		<div class="catalog">
+			<span class="cata-info">
+				<router-link to="/administratorindex" style="color: white;">管理员首页</router-link>
+			</span>
+			>
+			<span class="cata-info">
+				<router-link to="/usermanage" style="color: white;">用户管理</router-link>
+			</span>
+			>
+			<span class="cata-info">
+				<router-link to="/aedituserinfo" style="color: white;">编辑用户信息</router-link>
+			</span>
+			<a-button class="btn-back">返回</a-button>
+		</div>
+		
 		<div class="body">
 			<div style="display: flex;">
-
-				<div class="title highlight">欢迎注册</div>
-				<div class="hint">已有账号？ 马上
-					<span class="highlight"><router-link to="/login">登录</router-link></span>
-				</div>
+				<div class="title highlight">管理员修改个人信息</div>
 			</div>
 			<div class="form">
 				<a-form :form="form" @submit="handleSubmit">
-					<a-row :gutter="8">
-						<a-col :span="4">
-							<div class="input-item">
-								用户名：
-							</div>
-						</a-col>
-						<a-col :span="10">
-							<a-form-item v-bind="formItemLayout">
-								<a-input v-decorator="[
-									'username',
-									{
-										rules: [
-											{
-												required: true,
-												message: '请输入用户名！',
-											},
-										],
-									},
-								]" placeholder='请输入用户名' />
-							</a-form-item>
-						</a-col>
-						<a-col :span="9">
-							<div class="input-hint">
-								支持字母、数字、“-” “_”的组合，0-30个字符，支持中文
-							</div>
-						</a-col>
-					</a-row>
 
 					<a-row :gutter="8">
 						<a-col :span="4">
 							<div class="input-item">
-								设置密码：
+								用户密码
 							</div>
 						</a-col>
 						<a-col :span="10">
-							<a-form-item v-bind="formItemLayout" has-feedback>
+							<a-form-item has-feedback>
 								<a-input v-decorator="[
 									'password',
 									{
@@ -70,36 +55,45 @@
 							</div>
 						</a-col>
 					</a-row>
-
+					
 					<a-row :gutter="8">
 						<a-col :span="4">
-							<div class="input-item">
-								确认密码：
-							</div>
+							<div class="input-item">身份选择：</div>
 						</a-col>
+						
 						<a-col :span="10">
-							<a-form-item v-bind="formItemLayout" has-feedback>
-
-								<a-input v-decorator="[
-			          'confirm',
-			          {
-			            rules: [
-			              {
-			                required: true,
-			                message: '请再次输入密码!',
-			              },
-			              {
-			                validator: compareToFirstPassword,
-			              },
-			            ],
-			          },
-						]" type="password" @blur="handleConfirmBlur" placeholder='请再次输入密码' />
+							<a-form-item  has-feedback>
+							<a-select  v-decorator="['prefix']">
+								<a-select-option value="1">
+									管理员
+								</a-select-option>
+								<a-select-option value="2">
+									后厨
+								</a-select-option>
+								<a-select-option value="3">
+									服务员
+								</a-select-option>
+							</a-select>
 							</a-form-item>
 						</a-col>
-						<a-col :span="9">
-							<div class="input-hint">
-								建议使用字母、数字和符号两种及以上的组合，0-18个字符
-							</div>
+					</a-row>
+					
+					<a-row :gutter="8">
+						<a-col :span="4">
+							<div class="input-item">是否被锁定：</div>
+						</a-col>
+						
+						<a-col :span="10">
+							<a-form-item  has-feedback>
+							<a-select  v-decorator="['islock']">
+								<a-select-option value="1">
+									是
+								</a-select-option>
+								<a-select-option value="2">
+									否
+								</a-select-option>
+							</a-select>
+							</a-form-item>
 						</a-col>
 					</a-row>
 
@@ -138,7 +132,7 @@
 							</div>
 						</a-col>
 						<a-col :span="10">
-							<a-form-item v-bind="formItemLayout" has-feedback>
+							<a-form-item  has-feedback>
 
 								<a-input v-decorator="[
 			          'confirms',
@@ -148,12 +142,9 @@
 			                required: true,
 			                message: '请输入验证码!',
 			              },
-			              {
-			                validator: compareToFirstPassword,
-			              },
 			            ],
 			          },
-						]" type="password" @blur="handleConfirmBlur" placeholder='请再次输入密码' />
+						]" type="password" @blur="handleConfirmBlur" placeholder='验证码' />
 							</a-form-item>
 						</a-col>
 						<a-col :span="9">
@@ -162,34 +153,16 @@
 							</div>
 						</a-col>
 					</a-row>
-
 					<a-form-item v-bind="tailFormItemLayout">
 						<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger" shape="round"
-							@click="showModal" size="large">同意协议并创建账户</a-button>
-
-					</a-form-item>
-
-					<a-form-item v-bind="tailFormItemLayout">
-						<a-checkbox v-decorator="['agreement', { valuePropName: 'checked' }]">
-							已阅读并同意【
-							<a href="" class="highlight">
-								用户服务协议
-							</a>
-							】和【
-							<a href="" class="highlight">
-								隐私政策
-							</a>
-							】
-						</a-checkbox>
+							@click="showModal" size="large">确认修改</a-button>
+					
 					</a-form-item>
 				</a-form>
 			</div>
 		</div>
 
-		<a-modal title="提示" :visible="visible" :confirm-loading="confirmLoading" @ok="handleOk" @cancel="handleCancel"
-			okText="确定" cancelText="取消">
-			<p>{{ ModalText }}</p>
-		</a-modal>
+
 
 	</div>
 
@@ -203,32 +176,29 @@
 		components: {
 			PageHeader
 		},
+		mounted: function() {
+			let peaple = JSON.parse(localStorage.getItem('role'))
+			if (peaple.roleId == 1) {
+				this.$data.role = "服务员"
+			}
+			else if(peaple.roleId == 2) {
+				this.$data.role = "后厨人员"
+			}
+			else{
+				this.$data.role = "管理人员"
+			}
+			this.$data.userId = peaple.userId
+		},
 		data() {
 			return {
+				role: "",
+				userId: "",
 				// 以下代码为点击注册按钮后弹出框相关数据
 				ModalText: '已成功提交注册申请，等待管理员指定身份…………',
 				visible: false,
 
 				confirmDirty: false,
 				autoCompleteResult: [],
-				formItemLayout: {
-					labelCol: {
-						xs: {
-							span: 24
-						},
-						sm: {
-							span: 8
-						},
-					},
-					wrapperCol: {
-						xs: {
-							span: 24
-						},
-						sm: {
-							span: 16
-						},
-					},
-				},
 				tailFormItemLayout: {
 					wrapperCol: {
 						xs: {
@@ -311,6 +281,23 @@
 </script>
 
 <style scoped>
+	
+	.catalog {
+		margin-top: 100px;
+		height: 50px;
+		font-size: 20px;
+		line-height: 30px;
+		padding: 10px 20px 10px 20px;
+	}
+	
+	.cata-info {
+		background-color: #A4ADB3;
+		color: white;
+	}
+	
+	.btn-back {
+		float: right;
+	}
 	.body {
 		margin-top: 100px;
 		margin-left: 15%;
@@ -324,7 +311,7 @@
 	}
 
 	.form {
-		padding-top: 20px;
+		padding: 20px;
 	}
 
 	.body .title {

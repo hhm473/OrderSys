@@ -61,7 +61,7 @@
 					
 					<a-col :span="10">
 						<a-form-item  has-feedback>
-						<a-select  v-decorator="['prefix']">
+						<a-select  v-decorator="['roleId']">
 							<a-select-option value="1">
 								管理员
 							</a-select-option>
@@ -143,20 +143,22 @@
 			      e.preventDefault();
 			      this.form.validateFields((err, values) => {
 			        if (!err) {
-						values.prefix=Number(values.prefix)
+						values.roleId=Number(values.roleId)
 						
 						let role = {
-							"userId":"hhhm",
-							"password":"111",
-							"roleId":3,
+							userId:"hhhm",
+							password:"111",
+							roleId:3,
 							profliePic:"333",
-							"isLock":0
+							isLock:0
 						}
-						
-						if(role.roleId == 3){
-							this.$router.push({path:"/waiterindex", query:role})
-						} if(role.roleId == 2){
-							this.$router.push()
+						localStorage.setItem('role', JSON.stringify(values));
+						if(values.roleId === 3){
+							this.$router.push({path:"/waiterindex"})
+						}else if(values.roleId === 2){
+							this.$router.push({path:"/ChefIndex"})
+						}else{
+							this.$router.push({path:"/AdministratorIndex"})
 						}
 						
 						// this.$axios.post("http://127.0.0.1:4523/mock/661566/login", values).then(res => {
@@ -216,6 +218,5 @@
 		height: 100%;
 		width: 100%;
 	}
-	
-	
+
 </style>
