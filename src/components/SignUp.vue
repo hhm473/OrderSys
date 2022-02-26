@@ -147,13 +147,10 @@
 			              {
 			                required: true,
 			                message: '请输入验证码!',
-			              },
-			              {
-			                validator: compareToFirstPassword,
-			              },
+			              }
 			            ],
 			          },
-						]" type="password" @blur="handleConfirmBlur" placeholder='请再次输入密码' />
+						]" @blur="handleConfirmBlur" placeholder='请输入验证码' />
 							</a-form-item>
 						</a-col>
 						<a-col :span="9">
@@ -283,7 +280,7 @@
 			compareToFirstPassword(rule, value, callback) {
 				const form = this.form;
 				if (value && value !== form.getFieldValue('password')) {
-					callback('Two passwords that you enter is inconsistent!');
+					callback('输入的两个密码不一致!');
 				} else {
 					callback();
 				}

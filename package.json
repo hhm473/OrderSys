@@ -38,14 +38,14 @@
       "parser": "babel-eslint"
     },
     "rules": {
-		"generator-star-spacing": "off",
-			"no-tabs":"off",
-			"no-unused-vars":"off",
-			"no-console":"off",
-			"no-irregular-whitespace":"off",
-			"no-debugger": "off",
-			"no-mixed-spaces-and-tabs":0
-	}
+      "generator-star-spacing": "off",
+      "no-tabs": "off",
+      "no-unused-vars": "off",
+      "no-console": "off",
+      "no-irregular-whitespace": "off",
+      "no-debugger": "off",
+      "no-mixed-spaces-and-tabs": 0
+    }
   },
   "browserslist": [
     "> 1%",

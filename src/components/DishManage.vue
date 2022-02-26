@@ -69,9 +69,9 @@
 							修改
 						</a-button>
 						<template slot="pic" slot-scope="text, record">
-							<img src="../assets/logo.png" style="height: 20px"/>
+							<img src="../assets/logo.png" style="height: 20px" />
 							{{record.ipc}}
-								<!-- <a-button>结账</a-button> -->
+							<!-- <a-button>结账</a-button> -->
 						</template>
 						<template slot="delete" slot-scope="text, record">
 							<a-popconfirm v-if="data.length" title="确定删除 ?" @confirm="() => onDelete(record.key)">
@@ -90,7 +90,7 @@
 	import Dish from './Dish.vue'
 	import PageHeader from './PageHeader.vue'
 	import OrderQingdan from './OrderQingdan.vue'
-	
+	import axios from 'axios'
 	const columns = [{
 			title: '编号',
 			dataIndex: 'num',
@@ -192,7 +192,7 @@
 			deliver: "等待推送"
 		},
 	];
-	
+
 	export default {
 		data() {
 			return {
@@ -206,17 +206,42 @@
 		components: {
 			PageHeader,
 		},
-		methods:{
+		mounted() {
+			axios({ //格式a
+				method: 'get',
+				url: 'http://localhost:8080/OrderSys/dishes/all'
+			}).then(function(resp) {
+				console.log(resp)
+				console.log(resp.data);
+			}).catch(resp => {
+				console.log(resp)
+				console.log('请求失败：' + resp.status + ',' + resp.statusText);
+			});
+		},
+		methods: {
 			toAddDish() {
 				this.$router.push({
 					path: "/AddDish"
 				})
 			},
-			toEditDish(){
+
+			send() {
+				axios({ //格式a
+					method: 'get',
+					url: 'http:/localhost:8080/OrderSys/dishes/all'
+				}).then(function(resp) {
+					console.log(resp.data);
+				}).catch(resp => {
+					console.log('请求失败：' + resp.status + ',' + resp.statusText);
+				});
+			},
+
+			toEditDish() {
 				this.$router.push({
 					path: "/EditDish"
 				})
 			}
+			// http:/localhost:8080/OrderSys/dishes/add
 		}
 	}
 </script>

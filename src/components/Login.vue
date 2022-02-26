@@ -12,7 +12,7 @@
 					</a-col>
 
 					<a-col :span="16">
-						<a-form-item  has-feedback>
+						<a-form-item has-feedback>
 							<a-input v-decorator="[
 								'userId',
 								{
@@ -36,7 +36,7 @@
 					</a-col>
 
 					<a-col :span="16">
-						<a-form-item  has-feedback>
+						<a-form-item has-feedback>
 							<a-input v-decorator="[
 								'password',
 								{
@@ -58,20 +58,20 @@
 					<a-col :span="6">
 						<div class="username">身份选择：</div>
 					</a-col>
-					
+
 					<a-col :span="10">
-						<a-form-item  has-feedback>
-						<a-select  v-decorator="['roleId']">
-							<a-select-option value="1">
-								管理员
-							</a-select-option>
-							<a-select-option value="2">
-								后厨
-							</a-select-option>
-							<a-select-option value="3">
-								服务员
-							</a-select-option>
-						</a-select>
+						<a-form-item has-feedback>
+							<a-select v-decorator="['roleId']">
+								<a-select-option value="1">
+									管理员
+								</a-select-option>
+								<a-select-option value="2">
+									后厨
+								</a-select-option>
+								<a-select-option value="3">
+									服务员
+								</a-select-option>
+							</a-select>
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -79,28 +79,30 @@
 					<a-col :span="6">
 						<div class="username">验证码：</div>
 					</a-col>
-					
+
 					<a-col :span="8">
-						<a-form-item  has-feedback>
-						<a-input  style="height: 50px; border-radius: 50px; padding-left: 15px;" />
-					</a-form-item>
+						<a-form-item has-feedback>
+							<a-input v-model="writeCode" style="height: 50px; border-radius: 50px; padding-left: 15px;" />
+						</a-form-item>
 					</a-col>
 					<a-col :span="5">
-						<div class="codeimg">
-								<img src="" />
+						<div class="codeimg" @click="makeCode(identifyCodes, 4)">
+							<s-identify :identifyCode="identifyCode"></s-identify>
 						</div>
 					</a-col>
-					
+
 				</a-row>
-				
 
 
-				<a-button html-type="submit" style="color: white; background-color: #FE742B;" size="large" type="danger" shape="round">
+
+				<a-button html-type="submit" style="color: white; background-color: #FE742B;" size="large" type="danger"
+					shape="round">
 					登录
 				</a-button>
-				
+
 				<a-row style="font-size: 16px; font-weight: bold; margin-top: 20px;">
-					<a-col :span="15"> 没有账号？<router-link to="/signup">注册</router-link></a-col>
+					<a-col :span="15"> 没有账号？<router-link to="/signup">注册</router-link>
+					</a-col>
 					<a-col :span="5"> 忘记密码</a-col>
 				</a-row>
 			</a-form>
@@ -110,25 +112,37 @@
 
 <script>
 	import PageHeader from './PageHeader.vue'
+	import SIdentify from './Identify'
 	export default {
 		name: 'Login',
 		components: {
-			PageHeader
+			PageHeader,
+			SIdentify
 		},
 
 		data() {
 			return {
 				confirmDirty: false,
 				autoCompleteResult: [],
+
+				identifyCodes: "1234567890",
+				identifyCode: "",
+				writeCode:""
 			};
 		},
+
+		mounted() {
+			this.identifyCode = "";
+			this.makeCode(this.identifyCodes, 4);
+		},
+
 		beforeCreate() {
 			this.form = this.$form.createForm(this, {
 				name: 'register'
 			});
 		},
 		methods: {
-			
+
 			validateToNextPassword(rule, value, callback) {
 				const form = this.form;
 				if (value && this.confirmDirty) {
@@ -138,38 +152,74 @@
 				}
 				callback();
 			},
-			
+
+			randomNum(min, max) {
+				return Math.floor(Math.random() * (max - min) + min);
+			},
+			refreshCode() {
+				this.identifyCode = "";
+				this.makeCode(this.identifyCodes, 4);
+			},
+			makeCode(o, l) {
+				this.identifyCode = "";
+				for (let i = 0; i < l; i++) {
+					this.identifyCode += this.identifyCodes[
+						this.randomNum(0, this.identifyCodes.length)
+					];
+				}
+				console.log(this.identifyCode);
+			},
+
 			handleSubmit(e) {
-			      e.preventDefault();
-			      this.form.validateFields((err, values) => {
-			        if (!err) {
-						values.roleId=Number(values.roleId)
-						
-						let role = {
-							userId:"hhhm",
-							password:"111",
-							roleId:3,
-							profliePic:"333",
-							isLock:0
+				
+				if(this.writeCode == this.identifyCode){
+					this.form.validateFields((err, values) => {
+						if (!err) {
+							values.roleId = Number(values.roleId)
+							
+							// let role = {
+							// 	userId: "hhhm",
+							// 	password: "111",
+							// 	roleId: 3,
+							// 	profliePic: "333",
+							// 	isLock: 0
+							// }
+							localStorage.setItem('role', JSON.stringify(values));
+							if (values.roleId === 3) {
+					
+								this.$router.push({
+									path: "/waiterindex"
+								})
+							} else if (values.roleId === 2) {
+								this.$router.push({
+									path: "/ChefIndex"
+								})
+							} else {
+								this.$router.push({
+									path: "/AdministratorIndex"
+								})
+							}
+					
+							// this.$axios.post("http://127.0.0.1:4523/mock/661566/login", values).then(res => {
+							// 	console.log(res);
+							// })
+							// .catch(function (error) {
+							//   console.log(error);
+							// });
 						}
-						localStorage.setItem('role', JSON.stringify(values));
-						if(values.roleId === 3){
-							this.$router.push({path:"/waiterindex"})
-						}else if(values.roleId === 2){
-							this.$router.push({path:"/ChefIndex"})
-						}else{
-							this.$router.push({path:"/AdministratorIndex"})
-						}
-						
-						// this.$axios.post("http://127.0.0.1:4523/mock/661566/login", values).then(res => {
-						// 	console.log(res);
-						// })
-						// .catch(function (error) {
-						//   console.log(error);
-						// });
-			        }
-			      });
-			    },
+					});
+					
+				}else{
+					alert(
+						"验证码错误"
+					)
+					this.makeCode(this.identifyCodes, 4);
+				}
+				
+				
+			},
+
+
 		},
 	};
 </script>
@@ -196,27 +246,29 @@
 		font-size: 20px;
 		font-weight: bold;
 	}
-	
-	.ant-select-selection{
-		height: 50px !important; 
+
+	.ant-select-selection {
+		height: 50px !important;
 		border-radius: 10px !important;
 	}
-	.ant-select-selection-selected-value{
+
+	.ant-select-selection-selected-value {
 		line-height: 42px;
 	}
-	.ant-btn{
+
+	.ant-btn {
 		width: 400px;
 		margin: auto !important;
 	}
 
-	.codeimg{
+	.codeimg {
 		margin: 5px;
 		height: 40px;
 		width: 80px;
 	}
-	img{
+
+	img {
 		height: 100%;
 		width: 100%;
 	}
-
 </style>
