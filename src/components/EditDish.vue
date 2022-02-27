@@ -2,6 +2,7 @@
 	<div>
 		<page-header></page-header>
 		<div class="body">
+			this is the news page.the transform param is {{this.$route.params}}
 			<div class="catalog">
 
 				<span class="cata-info">
@@ -18,7 +19,7 @@
 			<a-row :gutter="[0,50]">
 				<a-col :span="4">
 					<div class="input-item">
-						菜品编号： {{DishNo}}
+						菜品编号： {{dishId}}
 					</div>
 				</a-col>
 				<a-col :span="4">
@@ -27,7 +28,7 @@
 					</div>
 				</a-col>
 				<a-col :span="6">
-					<a-input placeholder='请输入用户名' />
+					<a-input placeholder='请输入菜品名称' v-model="dishName" />
 				</a-col>
 				<a-col :span="4">
 					<div class="input-item">
@@ -35,7 +36,7 @@
 					</div>
 				</a-col>
 				<a-col :span="2">
-					<a-input placeholder='请输入用户名' />
+					<a-input placeholder='请输入菜品价格' v-model="price" />
 				</a-col>
 			</a-row>
 			<a-row :gutter="[0,50]">
@@ -45,7 +46,7 @@
 					</div>
 				</a-col>
 				<a-col :span="14">
-					<a-input placeholder='请输入用户名' />
+					<a-input placeholder='请输入菜品简介' v-model="intro" />
 				</a-col>
 			</a-row>
 			<a-row :gutter="[0,50]">
@@ -55,7 +56,7 @@
 					</div>
 				</a-col>
 				<a-col :span="14">
-					<a-textarea placeholder="Basic usage" :rows="4" />
+					<a-textarea placeholder="菜品详情" :rows="4" v-model="detail" />
 				</a-col>
 			</a-row>
 			<a-row :gutter="[0,50]">
@@ -90,9 +91,9 @@
 			</a-row>
 
 			<div style="text-align: center;">
-				<a-button type="primary" size="large">提交</a-button>
+				<a-button type="primary" size="large" @click="dishEdit">提交</a-button>
 
-				<a-button size="large" style="margin-left: 30px;">返回</a-button>
+				<a-button size="large" style="margin-left: 30px;" @click="back">返回</a-button>
 			</div>
 			<div style="text-align: center;">
 			</div>
@@ -112,7 +113,47 @@
 		},
 		data() {
 			return {
-				DishNo: 5
+				initData: "",
+				dishId: 0,
+				dishName: "",
+				price: 0,
+				type: "",
+				detail: "",
+				intro: ""
+			}
+		},
+		mounted() {
+			let that = this;
+			that.initData = this.$route.params;
+			that.dishId = that.initData.dishId;
+			that.dishName = that.initData.dishName;
+			that.price = that.initData.price;
+			that.detail = that.initData.detail;
+			that.intro = that.initData.intro;
+			that.type = that.initData.type;
+		},
+		methods: {
+			dishEdit() {
+				let that = this;
+				this.axios.get("http://47.98.238.175:8080/dishes/edit", {
+					params: {
+						"dishId": that.dishId,
+						"dishName": that.dishName,
+						"price": that.price,
+						"detail": that.detail,
+						"intro": that.intro,
+						"type": that.type,
+
+					}
+				}).then(function(response) {
+					alert('修改成功！');
+					that.$router.go(-1);
+				}).catch(function(error) {
+					alert(error);
+				});
+			},
+			back() {
+				this.$router.go(-1);
 			}
 		}
 	}

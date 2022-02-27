@@ -14,77 +14,107 @@
 				<span class="cata-info">新增菜品</span>
 				<a-button class="btn-back">返回</a-button>
 			</div>
-			<a-row :gutter="[0,50]">
-				<a-col :span="4">
-					<div class="input-item">
-						菜品名称：
+			<a-form :form="form" @submit="handleAddDish">
+				<a-row :gutter="[0,50]">
+					<a-col :span="4">
+						<div class="input-item">
+							菜品名称：
+						</div>
+					</a-col>
+					<a-col :span="6">
+						<a-form-item>
+							<a-input v-decorator="['dishName']" placeholder='请输入菜品名称' />
+						</a-form-item>
+					</a-col>
+					<a-col :span="4">
+						<div class="input-item">
+							菜品价格：
+						</div>
+					</a-col>
+					<a-col :span="2">
+						<a-form-item>
+							<!-- 							{
+							            rules: [
+							              {
+							                type: 'number',
+							                message: '请输入数字!',
+							              },
+							              {
+							                required: true,
+							                message: '请输入菜品价格!',
+							              },
+							            ],
+							          }, -->
+							<a-input-number v-decorator="[
+							          'price',
+									  
+							        ]" placeholder='请输入菜品价格' />
+						</a-form-item>
+					</a-col>
+				</a-row>
+				<a-row :gutter="[0,50]">
+					<a-col :span="4">
+						<div class="input-item">
+							菜品简介：
+						</div>
+					</a-col>
+					<a-col :span="14">
+						<a-form-item>
+							<a-input v-decorator="['intro']" placeholder='请输入菜品简介' />
+						</a-form-item>
+					</a-col>
+				</a-row>
+				<a-row :gutter="[0,50]">
+					<a-col :span="4">
+						<div class="input-item">
+							菜品详情：
+						</div>
+					</a-col>
+					<a-col :span="14">
+						<a-form-item>
+							<a-textarea v-decorator="['detail']" placeholder="请输入菜品详情" :rows="4" />
+						</a-form-item>
+					</a-col>
+				</a-row>
+				<a-row :gutter="[0,50]">
+					<a-col :span="4">
+						<div class="input-item">
+							菜品图片：
+						</div>
+					</a-col>
+					<a-col :span="4">
+						<a-button>
+							<a-icon type="upload" /> 上传头像
+						</a-button>
+					</a-col>
+					<a-col :span="4">
+						<div class="input-item">
+							是否推荐：
+						</div>
+					</a-col>
+					<a-col :span="4">
+						<a-form-item>
+							<a-select v-decorator="['type']" default-value="lucy" style="width: 120px">
+								<a-select-option value="jack">
+									Jack
+								</a-select-option>
+								<a-select-option value="lucy">
+									Lucy
+								</a-select-option>
+								<a-select-option value="Yiminghe">
+									yiminghe
+								</a-select-option>
+							</a-select>
+						</a-form-item>
+					</a-col>
+				</a-row>
+				<a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+					<div style="text-align: center;">
+						<a-button type="primary" html-type="submit" size="large">确认</a-button>
 					</div>
-				</a-col>
-				<a-col :span="6">
-					<a-input placeholder='请输入用户名' />
-				</a-col>
-				<a-col :span="4">
-					<div class="input-item">
-						菜品价格：
-					</div>
-				</a-col>
-				<a-col :span="2">
-					<a-input placeholder='请输入用户名' />
-				</a-col>
-			</a-row>
-			<a-row :gutter="[0,50]">
-				<a-col :span="4">
-					<div class="input-item">
-						菜品简介：
-					</div>
-				</a-col>
-				<a-col :span="14">
-					<a-input placeholder='请输入用户名' />
-				</a-col>
-			</a-row>
-			<a-row :gutter="[0,50]">
-				<a-col :span="4">
-					<div class="input-item">
-						菜品详情：
-					</div>
-				</a-col>
-				<a-col :span="14">
-					<a-textarea placeholder="Basic usage" :rows="4" />
-				</a-col>
-			</a-row>
-			<a-row :gutter="[0,50]">
-				<a-col :span="4">
-					<div class="input-item">
-						菜品图片：
-					</div>
-				</a-col>
-				<a-col :span="4">
-					<a-button> <a-icon type="upload" /> 上传头像 </a-button>
-				</a-col>
-				<a-col :span="4">
-					<div class="input-item">
-						是否推荐：
-					</div>
-				</a-col>
-				<a-col :span="4">
-					
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
-						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
-						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
-						</a-select-option>
-					</a-select>
-				</a-col>
-			</a-row>
-			
-			<div style="text-align: center;">
-				<a-button type="primary" size="large">确认</a-button>
-			</div>
+
+				</a-form-item>
+			</a-form>
 		</div>
 
 	</div>
@@ -93,11 +123,36 @@
 
 <script>
 	import PageHeader from './PageHeader.vue'
-
+	import axios from 'axios'
 	export default {
 		name: 'SignUp',
 		components: {
 			PageHeader
+		},
+
+		beforeCreate() {
+			this.form = this.$form.createForm(this, {
+				name: 'register'
+			});
+		},
+		methods: {
+			handleAddDish() {
+				let that = this;
+				this.form.validateFields((err, values) => {
+					if (!err) {
+						values.price = Number(values.price)
+						console.log(values)
+						axios.get("http://47.98.238.175:8080/dishes/add", {
+							params: values
+						}).then(function(response) {
+							alert('添加成功！');
+							that.$router.go(-1);
+						}).catch(function(error) {
+							alert(error);
+						});
+					}
+				});
+			},
 		},
 	}
 </script>

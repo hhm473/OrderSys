@@ -12,6 +12,11 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 Vue.use(Antd);
 
+import qs from 'qs'
+
+//Vue全局对象可用
+Vue.prototype.$qs = qs
+
 Vue.use(VueRouter)
 new Vue({
 	render: h => h(App),

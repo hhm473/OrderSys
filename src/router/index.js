@@ -49,6 +49,7 @@ const routes = [{
 	},
 	{
 		path: '/xiadan',
+		name: 'xiadan',
 		component: XiaDan,
 	},
 	{
@@ -58,13 +59,14 @@ const routes = [{
 	{
 		path: '/dishmanage',
 		component: DishManage,
-	},	
+	},
 	{
 		path: '/usermanage',
 		component: UserManage,
-	},	
+	},
 	{
 		path: '/editdish',
+		name: 'editdish',
 		component: EditDish,
 	},
 	{
@@ -83,7 +85,7 @@ const routes = [{
 		path: '/administratorindex',
 		component: AdministratorIndex,
 	},
-	
+
 ]
 
 const router = new VueRouter({

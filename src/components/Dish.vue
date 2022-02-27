@@ -14,20 +14,21 @@
 				<div class="price">{{price}}元</div>
 				<div style="padding-top: 10px; display: flex;">
 
-					<a-button size="small" icon="minus" />
+					<a-button size="small" icon="minus" @click="minusDish" />
 					<div class="number">{{dishNum}}</div>
-					<a-button size="small" icon="plus" />
+					<a-button size="small" icon="plus" @click="plusDish" />
 				</div>
 			</div>
 		</div>
 		<!-- -->
-		<a-modal :visible="visible" closable="false"  @ok="closeDetail" dialogStyle="{ height: '500px' }">
+		<a-modal :visible="visible" closable="false" @ok="closeDetail">
 			<template slot="footer">
 				<a-button key="submit" type="primary" :loading="loading" @click="closeDetail">
 					确定
 				</a-button>
 			</template>
-			<dish-xiangqing :dishPic="dishPic" :dishName="dishName" :intro="intro" :detail="detail"></dish-xiangqing>
+			<dish-xiangqing :dishPic="dishPic" :dishName="dishName" :intro="intro" :detail="detail" :price="price">
+			</dish-xiangqing>
 		</a-modal>
 	</div>
 </template>
@@ -48,7 +49,7 @@
 			},
 			'dishName': {
 				type: String,
-				default: "鱼香肉丝hhh"
+				// default: "鱼香肉丝hhh"
 			},
 			'tuijian': {
 				type: Boolean,
@@ -56,15 +57,16 @@
 			},
 			'intro': {
 				type: String,
-				default: "肉丝+胡罗卜+笋丝"
 			},
 			'price': {
 				type: Number,
-				default: 15
 			},
-			'number': {
+			'detail': {
+				type: String,
+			},
+			'dishNum': {
 				type: Number,
-				default: 0
+				// default: 0
 			},
 		},
 
@@ -81,6 +83,16 @@
 			closeDetail(e) {
 				this.visible = false;
 			},
+			minusDish() {
+				if (this.dishNum > 0) {
+					this.dishNum--;
+					this.$emit('minusDish');
+				}
+			},
+			plusDish() {
+				this.dishNum++;
+				this.$emit('plusDish');
+			}
 		}
 
 	}

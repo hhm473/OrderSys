@@ -20,7 +20,7 @@
 						<a-col :span="10">
 							<a-form-item v-bind="formItemLayout">
 								<a-input v-decorator="[
-									'username',
+									'userId',
 									{
 										rules: [
 											{
@@ -140,17 +140,7 @@
 						<a-col :span="10">
 							<a-form-item v-bind="formItemLayout" has-feedback>
 
-								<a-input v-decorator="[
-			          'confirms',
-			          {
-			            rules: [
-			              {
-			                required: true,
-			                message: '请输入验证码!',
-			              }
-			            ],
-			          },
-						]" @blur="handleConfirmBlur" placeholder='请输入验证码' />
+								<a-input placeholder='请输入验证码' />
 							</a-form-item>
 						</a-col>
 						<a-col :span="9">
@@ -183,7 +173,7 @@
 			</div>
 		</div>
 
-		<a-modal title="提示" :visible="visible" :confirm-loading="confirmLoading" @ok="handleOk" @cancel="handleCancel"
+		<a-modal title="提示" :visible="visible" @ok="handleOk" @cancel="handleCancel"
 			okText="确定" cancelText="取消">
 			<p>{{ ModalText }}</p>
 		</a-modal>
@@ -259,6 +249,9 @@
 			},
 			handleOk(e) {
 				this.visible = false;
+				this.$router.push({
+					path: "/login"
+				})
 			},
 			handleCancel(e) {
 				console.log('Clicked cancel button');
@@ -270,6 +263,21 @@
 				this.form.validateFieldsAndScroll((err, values) => {
 					if (!err) {
 						console.log('Received values of form: ', values);
+						let data = {
+							userId:values.userId,
+							password:values.password,
+							roleId:"",
+							profilePic:"",
+							isLock:""	
+						}
+						console.log('Received values of form: ', data);
+						this.axios.post("http://47.98.238.175:8080/user/add", this.$qs.stringify(values)).then(res => {
+							console.log(res)
+						})
+						.catch(function (error) {
+						  console.log(error);
+						});
+						
 					}
 				});
 			},

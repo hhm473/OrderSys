@@ -64,8 +64,8 @@
 			</div>
 			<div style="padding: 20px;">
 				<div>
-					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 350 }">
-						<a-button slot="edit" slot-scope="text, record" @click="() => toEditDish(record.key)">
+					<a-table :columns="columns" :data-source="data1" bordered :scroll="{y: 350 }">
+						<a-button slot="edit" slot-scope="text, record" @click="() => toEditDish(record)">
 							修改
 						</a-button>
 						<template slot="pic" slot-scope="text, record">
@@ -74,7 +74,7 @@
 							<!-- <a-button>结账</a-button> -->
 						</template>
 						<template slot="delete" slot-scope="text, record">
-							<a-popconfirm v-if="data.length" title="确定删除 ?" @confirm="() => onDelete(record.key)">
+							<a-popconfirm v-if="data1.length" title="确定删除 ?" @confirm="() => onDelete(record)">
 								<a-button>删除</a-button>
 							</a-popconfirm>
 						</template>
@@ -93,13 +93,13 @@
 	import axios from 'axios'
 	const columns = [{
 			title: '编号',
-			dataIndex: 'num',
-			key: 'num',
+			dataIndex: 'dishId',
+			key: 'dishId',
 		},
 		{
 			title: '名称',
-			dataIndex: 'name',
-			key: 'name',
+			dataIndex: 'dishName',
+			key: 'dishName',
 		},
 		{
 			title: '简介',
@@ -146,7 +146,7 @@
 			},
 		}
 	];
-	const data = [{
+	const data1 = [{
 			key: '1',
 			name: 'John Brown',
 			tableNum: "2",
@@ -196,10 +196,9 @@
 	export default {
 		data() {
 			return {
-				data,
+				data1,
 				columns,
 				timeNow: "2021-02-26",
-				totalPrice: 35,
 				tableNum: 2
 			}
 		},
@@ -207,16 +206,8 @@
 			PageHeader,
 		},
 		mounted() {
-			axios({ //格式a
-				method: 'get',
-				url: 'http://localhost:8080/OrderSys/dishes/all'
-			}).then(function(resp) {
-				console.log(resp)
-				console.log(resp.data);
-			}).catch(resp => {
-				console.log(resp)
-				console.log('请求失败：' + resp.status + ',' + resp.statusText);
-			});
+
+			this.getData();
 		},
 		methods: {
 			toAddDish() {
@@ -225,22 +216,58 @@
 				})
 			},
 
-			send() {
-				axios({ //格式a
+			getData: function() {
+				let that = this
+				this.axios({ //格式a
 					method: 'get',
-					url: 'http:/localhost:8080/OrderSys/dishes/all'
-				}).then(function(resp) {
-					console.log(resp.data);
-				}).catch(resp => {
-					console.log('请求失败：' + resp.status + ',' + resp.statusText);
+					url: 'http://47.98.238.175:8080/dishes/all'
+				}).then(function(res) {
+					console.log(res)
+					console.log(res.data);
+					// console.log(this.data1);
+					that.data1 = res.data;
+					// console.log(data);
+				}).catch(res => {
+					console.log(res)
+					console.log('请求失败：' + res.status + ',' + res.statusText);
 				});
 			},
 
-			toEditDish() {
+			toEditDish(record) {
 				this.$router.push({
-					path: "/EditDish"
+					name: "editdish",
+					params: record
 				})
-			}
+			},
+			onDelete(record) {
+				console.log(record);
+				axios.get("http://47.98.238.175:8080/dishes/remove", {
+					params: {
+						'dishid': record.dishId
+					}
+				}).then(function(response) {
+					alert('删除成功');
+				}).catch(function(error) {
+					alert(error);
+				});
+				location.reload();
+
+			},
+
+			handlecook(key) {
+				console.log("进入handlebook")
+				const newData = [...this.data];
+				const target = newData.filter(item => key === item.key)[0];
+				if (target) {
+					if (target.cook === "等待烹饪") {
+						target.cook = "正在烹饪";
+					} else {
+						target.cook = "已烹饪"
+					}
+				}
+			},
+
+
 			// http:/localhost:8080/OrderSys/dishes/add
 		}
 	}

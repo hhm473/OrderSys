@@ -49,19 +49,36 @@
 			} else {
 				this.$data.role = "管理人员"
 			}
-			this.$data.userId = peaple.userId
+			// this.$data.userId = peaple.userId
+			//userId需要在用户表中存在
 		},
 		data() {
 			return {
 				role: "",
-				userId: "",
+				userId: "user1",
 				title: "",
 				content: ""
 			}
 		},
 		methods: {
 			Submit() {
-				console.log(this.$data.title, this.$data.content)
+				let that = this;
+				console.log(
+						"title"+ that.title+
+						"contents"+ that.content+
+						"userId"+that.userId)
+				this.axios.get("http://47.98.238.175:8080/notice/add", {
+					params: {
+						"userId": that.userId,
+						"title": that.title,
+						"contents": that.content,
+					}
+				}).then(function(response) {
+					alert('发布成功！');
+					that.$router.go(-1);
+				}).catch(function(error) {
+					alert(error);
+				});
 			}
 		}
 	}

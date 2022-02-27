@@ -175,37 +175,34 @@
 				if(this.writeCode == this.identifyCode){
 					this.form.validateFields((err, values) => {
 						if (!err) {
-							values.roleId = Number(values.roleId)
-							
-							// let role = {
-							// 	userId: "hhhm",
-							// 	password: "111",
-							// 	roleId: 3,
-							// 	profliePic: "333",
-							// 	isLock: 0
-							// }
-							localStorage.setItem('role', JSON.stringify(values));
-							if (values.roleId === 3) {
-					
-								this.$router.push({
-									path: "/waiterindex"
-								})
-							} else if (values.roleId === 2) {
-								this.$router.push({
-									path: "/ChefIndex"
-								})
-							} else {
-								this.$router.push({
-									path: "/AdministratorIndex"
-								})
-							}
-					
-							// this.$axios.post("http://127.0.0.1:4523/mock/661566/login", values).then(res => {
-							// 	console.log(res);
-							// })
-							// .catch(function (error) {
-							//   console.log(error);
-							// });
+											
+							this.axios(
+							{
+							    method: 'post',
+							    url: 'http://47.98.238.175:8080/user/login',
+							    data: this.$qs.stringify(values)
+							}).then(res => {
+								let values = res.data
+								localStorage.setItem('role', JSON.stringify(values));
+								if (values.roleId === 3) {
+													
+									this.$router.push({
+										path: "/waiterindex"
+									})
+								} else if (values.roleId === 2) {
+									this.$router.push({
+										path: "/ChefIndex"
+									})
+								} else {
+									this.$router.push({
+										path: "/AdministratorIndex"
+									})
+								}
+								
+							})
+							.catch(function (error) {
+							  console.log(error);
+							});
 						}
 					});
 					

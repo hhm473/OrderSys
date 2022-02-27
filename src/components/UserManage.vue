@@ -71,7 +71,7 @@
 	import Dish from './Dish.vue'
 	import PageHeader from './PageHeader.vue'
 	import OrderQingdan from './OrderQingdan.vue'
-
+	import axios from 'axios'
 	const columns = [{
 			title: '编号',
 			dataIndex: 'num',
@@ -170,9 +170,20 @@
 		components: {
 			PageHeader,
 		},
-		methods:{
-			edituser(key){
-				this.$router.push({path:"/AEditUserInfo"})
+		mounted() {
+			axios.get('/user/userinfo')
+			.then(res => {
+				console.log(res);
+			})
+			.catch(err => {
+				console.error(err);
+			})
+		},
+		methods: {
+			edituser(key) {
+				this.$router.push({
+					path: "/AEditUserInfo"
+				})
 			}
 		}
 	}

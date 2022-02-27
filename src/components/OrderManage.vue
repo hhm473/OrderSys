@@ -155,6 +155,29 @@
 		components: {
 			PageHeader,
 		},
+		mounted(){
+			
+		},
+		methods:{
+			
+			getData: function() {
+				let that = this
+				this.axios({ //格式a
+					method: 'get',
+					url: 'http://47.98.238.175:8080/dishes/all'
+				}).then(function(res) {
+					console.log(res)
+					console.log(res.data);
+					// console.log(this.data1);
+					that.data1 = res.data;
+					// console.log(data);
+				}).catch(res => {
+					console.log(res)
+					console.log('请求失败：' + res.status + ',' + res.statusText);
+				});
+			},
+			
+		}
 	}
 </script>
 

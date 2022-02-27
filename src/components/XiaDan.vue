@@ -29,15 +29,8 @@
 			</div>
 			<div style="padding: 20px;">
 				<div>
-					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 150 }">
-						<a-button slot="check" slot-scope="text, record" @click="() => checkcook(record.key)">
-							查看
-						</a-button>
-						<a-tag slot="cook" slot-scope="text, record"
-							:color="record.cook === '已烹饪' ? 'geekblue' : record.cook==='正在烹饪' ? 'volcano' : 'green'"
-							@click="() => handlecook(record.key)">
-							{{ record.cook}}
-						</a-tag>
+					<a-table :columns="columns" :data-source="dishOrder" bordered :scroll="{y: 500 }">
+
 					</a-table>
 				</div>
 				<div style="text-align: center; padding-bottom: 20px;">
@@ -56,23 +49,23 @@
 
 	const columns = [{
 			title: '菜品名称',
-			dataIndex: 'name',
-			key: 'name',
+			dataIndex: 'dishName',
+			key: 'dishName',
 		},
 		{
 			title: '菜品单价',
-			dataIndex: 'priceOne',
-			key: 'table-num',
+			dataIndex: 'price',
+			key: 'price',
 		},
 		{
 			title: '菜品数量',
-			key: 'number',
-			dataIndex: 'number',
+			key: 'dishNum',
+			dataIndex: 'dishNum',
 		},
 		{
 			title: '菜品金额',
-			key: 'cook',
-			dataIndex: 'priceOne',
+			key: 'price',
+			dataIndex: 'price',
 		},
 	];
 
@@ -80,15 +73,22 @@
 		data() {
 			return {
 				columns,
+				dishOrder:[],
 				timeNow: "2021-02-26",
 				totalPrice: 35,
 				tableNum: 2
 			}
 		},
+		mounted() {
+			let that = this;
+			that.dishOrder = this.$route.query;
+			console.log(this.$route.query);
+			console.log('that.datathat.datathat.datathat.datathat.datathat.data',that.dishOrder)
+		},
 		components: {
 			PageHeader,
 		},
-		methods:{
+		methods: {
 			toWaiterindex() {
 				this.$router.push({
 					path: "/WaiterIndex"
