@@ -14,16 +14,7 @@
 			</div>
 			<div class="secondary-head">
 				<div class="time">
-					名称：
-					<a-select default-value="全部菜品" @change="handleKind" style="width: 120px; margin-right:20px;"
-						size="small">
-						<a-select-option v-for="(item, i) in kind" v-bind:key="i" :value="item.dishName">
-							{{item.dishName}}
-						</a-select-option>
-						<a-select-option :value="-1">
-							全部菜品
-						</a-select-option>
-					</a-select>
+					名称：<a-input v-model="dishName" placeholder="请输入名称" maxLength=3></a-input>
 				</div>
 				<div class="table-number">
 					是否推荐：
@@ -41,20 +32,11 @@
 				</div>
 				<div class="table-number">
 					价格：
-					<a-select default-value="全部" style="width: 120px" @change="handlePrice">
-						<a-select-option value="0">
-							1-20
-						</a-select-option>
-						<a-select-option value="1">
-							20-50
-						</a-select-option>
-						<a-select-option value="2">
-							50以上
-						</a-select-option>
-						<a-select-option value="-1">
-							全部
-						</a-select-option>
-					</a-select>
+					<div style="display: flex;">
+
+					</div>
+					<a-input v-model="minPrice" maxLength=3></a-input>——
+					<a-input v-model="maxPrice" maxLength=3></a-input>
 				</div>
 				<div class="total-price">
 					<a-button type="primary" @click="dishSelect">查询</a-button>
@@ -198,10 +180,11 @@
 			return {
 				kind: [],
 				data1,
-				Bdata:[],
+				Bdata: [],
 				dishName: '',
 				tuijian: '',
-				price: '',
+				minPrice: '',
+				maxPrice: '',
 				columns,
 				timeNow: "2021-02-26",
 				tableNum: 2
@@ -216,7 +199,9 @@
 		},
 		methods: {
 			back() {
-				this.$router.push({path:"/administratorindex"});
+				this.$router.push({
+					path: "/administratorindex"
+				});
 			},
 			toAddDish() {
 				this.$router.push({
@@ -241,15 +226,7 @@
 					console.log('请求失败：' + res.status + ',' + res.statusText);
 				});
 			},
-			RequestKind() {
-				this.axios.get("http://47.98.238.175:8080/dishes/all").then(res => {
-						this.kind = res.data
-						console.log(this.kind);
-					})
-					.catch(function(error) {
-						console.log(error);
-					});
-			},
+			
 			toEditDish(record) {
 				this.$router.push({
 					name: "editdish",
@@ -281,39 +258,39 @@
 				this.price = value
 			},
 			dishSelect() {
+				let that = this;
+				this.axios.get("http://47.98.238.175:8080/dishes/querySome", {
+					params: {
+						"dishName": that.dishName,
+						"minPrice": that.minPrice,
+						"maxPrice": that.maxPrice,
+					}
+				}).then(function(res) {
+					// alert('修改成功！');
 
-				if (this._data.dishName != "-1" || this._data.price != "-1") {
-
-					this.data1 = this.Bdata.filter((item, index) => {
-						// console.log(this.tableId, this.orderState);
-						if (this.$data.tableId == "-1" && this.$data.orderState != "-1") {
-							return item.orderState === this.orderState
-						} else if (this.tableId != "-1" && this.orderState == "-1") {
-							return item.tableId == this.tableId
-						}
-						return item.tableId == this.tableId && item.orderState === this.orderState;
-					})
-				} else {
-					this.$data.data = this.$data.Bdata
+					that.data1 = res.data;
+					// that.$router.go(-1);
+				}).catch(function(error) {
+					alert(error);
+				});
+			},
+			
+			handlecook(key) {
+				console.log("进入handlebook")
+				const newData = [...this.data];
+				const target = newData.filter(item => key === item.key)[0];
+				if (target) {
+					if (target.cook === "等待烹饪") {
+						target.cook = "正在烹饪";
+					} else {
+						target.cook = "已烹饪"
+					}
 				}
+			},
 
-			}
+
+			// http:/localhost:8080/OrderSys/dishes/add
 		},
-		handlecook(key) {
-			console.log("进入handlebook")
-			const newData = [...this.data];
-			const target = newData.filter(item => key === item.key)[0];
-			if (target) {
-				if (target.cook === "等待烹饪") {
-					target.cook = "正在烹饪";
-				} else {
-					target.cook = "已烹饪"
-				}
-			}
-		},
-
-
-		// http:/localhost:8080/OrderSys/dishes/add
 	}
 </script>
 
@@ -343,7 +320,7 @@
 	.secondary-head {
 		display: flex;
 		padding: 20px;
-		height: 60px;
+		height: 200px;
 		font-size: 20px;
 		font-weight: bold;
 	}
