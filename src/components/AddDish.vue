@@ -12,7 +12,7 @@
 				</span>
 				>
 				<span class="cata-info">新增菜品</span>
-				<a-button class="btn-back">返回</a-button>
+				<a-button class="btn-back" @click="back">返回</a-button>
 			</div>
 			<a-form :form="form" @submit="handleAddDish">
 				<a-row :gutter="[0,50]">
@@ -33,18 +33,6 @@
 					</a-col>
 					<a-col :span="2">
 						<a-form-item>
-							<!-- 							{
-							            rules: [
-							              {
-							                type: 'number',
-							                message: '请输入数字!',
-							              },
-							              {
-							                required: true,
-							                message: '请输入菜品价格!',
-							              },
-							            ],
-							          }, -->
 							<a-input-number v-decorator="[
 							          'price',
 									  
@@ -94,15 +82,12 @@
 					</a-col>
 					<a-col :span="4">
 						<a-form-item>
-							<a-select v-decorator="['type']" default-value="lucy" style="width: 120px">
-								<a-select-option value="jack">
-									Jack
+							<a-select default-value="0" style="width: 120px" @change="handleChange">
+								<a-select-option value="0">
+									否
 								</a-select-option>
-								<a-select-option value="lucy">
-									Lucy
-								</a-select-option>
-								<a-select-option value="Yiminghe">
-									yiminghe
+								<a-select-option value="1">
+									是
 								</a-select-option>
 							</a-select>
 						</a-form-item>
@@ -136,6 +121,9 @@
 			});
 		},
 		methods: {
+			back() {
+				this.$router.push({path:"/dishmanage"});
+			},
 			handleAddDish() {
 				let that = this;
 				this.form.validateFields((err, values) => {

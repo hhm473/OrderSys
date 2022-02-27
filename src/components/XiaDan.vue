@@ -74,12 +74,18 @@
 			return {
 				columns,
 				dishOrder: [],
+				userId:'',
 				timeNow: "2021-02-26",
 				totalPrice: 35,
 				tableNum: '12'
 			}
 		},
 		mounted() {
+
+			let people = JSON.parse(localStorage.getItem('role'))
+
+			this.$data.userId = people.userId
+
 			let that = this;
 			that.getTime();
 			that.dishOrder = this.$route.query.dishOrder;
@@ -89,11 +95,9 @@
 			that.dishOrder.map((item, index) => {
 				newarr.push(Object.assign(item, {
 					dishPrice: item.dishNum * item.price
-					// dishPrice: 8
 				}))
 			})
 			that.dishOrder = newarr;
-			console.log('that.datathat.datathat.datathat.datathat.datathat.data', that.dishOrder)
 		},
 		components: {
 			PageHeader,
@@ -113,7 +117,7 @@
 				let that = this;
 				let newOrder = {};
 				that.$set(newOrder, "tableId", Number(that.tableNum));
-				that.$set(newOrder, "waiter", that.tableNum);
+				that.$set(newOrder, "waiter", that.userId);
 				that.$set(newOrder, "remarks", "测试");
 				let newarr = [];
 				that.dishOrder.map((item, index) => {
@@ -143,7 +147,19 @@
 
 			},
 			back() {
-				this.$router.go(-1);
+				this.$router.push({
+					path: "/order"
+				});
+				// let that = this;
+				// this.$router.push({
+				// 	// path: "/Xiadan",
+				// 	name: 'order',
+				// 	query: {
+				// 		dishOrder:that.dishOrder,
+				// 		tableNum:that.tableNum,
+				// 		totalPrice:that.totalPrice
+				// 	}
+				// })
 			}
 
 		},

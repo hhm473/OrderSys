@@ -10,7 +10,7 @@
 			<span class="cata-info">
 				<router-link to="/announce" style="color: white;">实时公告发布</router-link>
 			</span>
-			<a-button class="btn-back">返回</a-button>
+			<a-button class="btn-back" @click="back">返回</a-button>
 		</div>
 		<div class="content-wrap">
 			<div class="con-title">
@@ -61,6 +61,9 @@
 			}
 		},
 		methods: {
+			back() {
+				this.$router.go(-1);
+			},
 			Submit() {
 				let that = this;
 				console.log(

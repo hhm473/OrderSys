@@ -45,6 +45,7 @@ const routes = [{
 	},
 	{
 		path: '/order',
+		name: 'order',
 		component: Order,
 	},
 	{
@@ -79,7 +80,7 @@ const routes = [{
 	},
 	{
 		path: '/aedituserinfo',
-		name:'aedituserinfo',
+		name: 'aedituserinfo',
 		component: AEditUserInfo,
 	},
 	{

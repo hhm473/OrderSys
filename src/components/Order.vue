@@ -10,7 +10,7 @@
 				<span class="cata-info">
 					<router-link to="/order" style="color: white;">点菜</router-link>
 				</span>
-				<a-button class="btn-back">返回</a-button>
+				<a-button class="btn-back" @click="back">返回</a-button>
 			</div>
 			<div class="secondary-head">
 				<div class="time">
@@ -82,6 +82,9 @@
 			this.getData();
 			this.getTime();
 
+			// that.dishOrder = this.$route.query.dishOrder;
+			// that.tableNum = this.$route.query.tableNum;
+			// that.totalPrice = this.$route.query.totalPrice;
 			console.log(
 				'console.log(that.dishData);t.dishData);.log(that.dishData); console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);'
 			);
@@ -92,6 +95,9 @@
 
 		},
 		methods: {
+			back() {
+				this.$router.push({path:"/waiterindex"});
+			},
 			ChangeTableNum(value){
 				console.log(value)
 				this.tableNum = value;

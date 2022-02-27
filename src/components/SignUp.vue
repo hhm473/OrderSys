@@ -6,7 +6,9 @@
 
 				<div class="title highlight">欢迎注册</div>
 				<div class="hint">已有账号？ 马上
-					<span class="highlight"><router-link to="/login">登录</router-link></span>
+					<span class="highlight">
+						<router-link to="/login">登录</router-link>
+					</span>
 				</div>
 			</div>
 			<div class="form">
@@ -17,8 +19,8 @@
 								用户名：
 							</div>
 						</a-col>
-						<a-col :span="10">
-							<a-form-item v-bind="formItemLayout">
+						<a-col :span="10" >
+							<a-form-item v-bind="formItemLayout"  >
 								<a-input v-decorator="[
 									'userId',
 									{
@@ -110,23 +112,18 @@
 							</div>
 						</a-col>
 						<a-col :span="10">
-							<a-form-item >
-							      <a-upload
-							        v-decorator="[
-							          'upload',
-							          {
-							            valuePropName: 'fileList',
-							            getValueFromEvent: normFile,
-							          },
-							        ]"
-							        name="logo"
-							        action="/upload.do"
-							        list-type="picture"
-							      >
-							        <a-button> <a-icon type="upload" /> 上传头像 </a-button>
-							      </a-upload>
-							    </a-form-item>
 
+								<a-upload name="avatar" list-type="picture-card" class="avatar-uploader"
+									:show-upload-list="false" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+									:before-upload="beforeUpload" @change="handleChange">
+									<img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+									<div v-else>
+										<a-icon :type="loading ? 'loading' : 'plus'" />
+										<div class="ant-upload-text">
+											上传头像
+										</div>
+									</div>
+								</a-upload>
 
 						</a-col>
 					</a-row>
@@ -151,8 +148,8 @@
 					</a-row>
 
 					<a-form-item v-bind="tailFormItemLayout">
-						<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger" shape="round"
-							@click="showModal" size="large">同意协议并创建账户</a-button>
+						<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
+							shape="round" @click="showModal" size="large">同意协议并创建账户</a-button>
 
 					</a-form-item>
 
@@ -173,8 +170,7 @@
 			</div>
 		</div>
 
-		<a-modal title="提示" :visible="visible" @ok="handleOk" @cancel="handleCancel"
-			okText="确定" cancelText="取消">
+		<a-modal title="提示" :visible="visible" @ok="handleOk" @cancel="handleCancel" okText="确定" cancelText="取消">
 			<p>{{ ModalText }}</p>
 		</a-modal>
 
@@ -185,6 +181,12 @@
 <script>
 	import PageHeader from './PageHeader.vue'
 
+	function getBase64(img, callback) {
+	  const reader = new FileReader();
+	  reader.addEventListener('load', () => callback(reader.result));
+	  reader.readAsDataURL(img);
+	}
+
 	export default {
 		name: 'SignUp',
 		components: {
@@ -192,6 +194,9 @@
 		},
 		data() {
 			return {
+
+				loading: false,
+				imageUrl: '',
 				// 以下代码为点击注册按钮后弹出框相关数据
 				ModalText: '已成功提交注册申请，等待管理员指定身份…………',
 				visible: false,
@@ -238,11 +243,11 @@
 		methods: {
 			// 以下三个方法与弹出框相关
 			normFile(e) {
-			      console.log('Upload event:', e);
-			      if (Array.isArray(e)) {
-			        return e;
-			      }
-			      return e && e.fileList;
+				console.log('Upload event:', e);
+				if (Array.isArray(e)) {
+					return e;
+				}
+				return e && e.fileList;
 			},
 			showModal() {
 				this.visible = true;
@@ -264,11 +269,11 @@
 					if (!err) {
 						console.log('Received values of form: ', values);
 						let data = {
-							userId:values.userId,
-							password:values.password,
-							roleId:"",
-							profilePic:"",
-							isLock:""	
+							userId: values.userId,
+							password: values.password,
+							roleId: "",
+							profilePic: "",
+							isLock: ""
 						}
 						console.log('Received values of form: ', data);
 						this.axios.post("http://47.98.238.175:8080/user/add", this.$qs.stringify(values)).then(res => {
@@ -277,10 +282,37 @@
 						.catch(function (error) {
 						  console.log(error);
 						});
-						
+
 					}
 				});
 			},
+
+			handleChange(info) {
+				console.log(info);
+				if (info.file.status === 'uploading') {
+					this.loading = true;
+					return;
+				}
+				if (info.file.status === 'done') {
+					// Get this url from response in real world.
+					getBase64(info.file.originFileObj, imageUrl => {
+						this.imageUrl = imageUrl;
+						this.loading = false;
+					});
+				}
+			},
+			beforeUpload(file) {
+				const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+				if (!isJpgOrPng) {
+					this.$message.error('You can only upload JPG file!');
+				}
+				const isLt2M = file.size / 1024 / 1024 < 8;
+				if (!isLt2M) {
+					this.$message.error('Image must smaller than 2MB!');
+				}
+				return isJpgOrPng && isLt2M;
+			},
+
 			handleConfirmBlur(e) {
 				const value = e.target.value;
 				this.confirmDirty = this.confirmDirty || !!value;
@@ -316,6 +348,20 @@
 </script>
 
 <style scoped>
+	.avatar-uploader > .ant-upload {
+	  width: 128px;
+	  height: 128px;
+	}
+	.ant-upload-select-picture-card i {
+	  font-size: 32px;
+	  color: #999;
+	}
+	
+	.ant-upload-select-picture-card .ant-upload-text {
+	  margin-top: 8px;
+	  color: #666;
+	}
+	
 	.body {
 		margin-top: 100px;
 		margin-left: 15%;

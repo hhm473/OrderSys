@@ -14,7 +14,7 @@
 			<span class="cata-info">
 				<router-link to="/aedituserinfo" style="color: white;">编辑用户信息</router-link>
 			</span>
-			<a-button class="btn-back">返回</a-button>
+			<a-button class="btn-back" @click="back">返回</a-button>
 		</div>
 
 		<div class="body">
@@ -40,12 +40,9 @@
 											required: true,
 											message: '请输入密码!',
 										},
-										{
-											validator: validateToNextPassword,
-										},
 									],
 									},
-									]" type="password" placeholder='请输入密码' />
+									]" placeholder='请输入密码' />
 
 							</a-form-item>
 						</a-col>
@@ -202,14 +199,14 @@
 			form.setFieldsValue({
 				['roleIdEdit']: String(initData.roleId)
 			});
-		
-			
+
+
 			form.setFieldsValue({
 				['isLock']: String(initData.isLock)
 			});
 			that.userIdEdit = initData.userId;
 			that.profilePicEdit = initData.profilePic;
-			
+
 
 		},
 		data() {
@@ -239,6 +236,9 @@
 			});
 		},
 		methods: {
+			back() {
+				this.$router.go(-1);
+			},
 			handleSubmit() {
 				let that = this;
 				this.form.validateFields((err, values) => {
@@ -251,19 +251,18 @@
 							roleId: Number(values.roleIdEdit),
 							isLock: Number(values.isLock)
 						}
-						
-						this.axios(
-						{
-						    method: 'post',
-						    url: 'http://47.98.238.175:8080/user/modify',
-						    data: this.$qs.stringify(user)
-						})
 
-						.then(function(response) {
-							alert('修改成功！');
-						}).catch(function(error) {
-							alert(error);
-						});
+						this.axios({
+								method: 'post',
+								url: 'http://47.98.238.175:8080/user/modify',
+								data: this.$qs.stringify(user)
+							})
+
+							.then(function(response) {
+								alert('修改成功！');
+							}).catch(function(error) {
+								alert(error);
+							});
 					}
 				});
 			},
@@ -277,23 +276,6 @@
 			handleConfirmBlur(e) {
 				const value = e.target.value;
 				this.confirmDirty = this.confirmDirty || !!value;
-			},
-			compareToFirstPassword(rule, value, callback) {
-				const form = this.form;
-				if (value && value !== form.getFieldValue('password')) {
-					callback('Two passwords that you enter is inconsistent!');
-				} else {
-					callback();
-				}
-			},
-			validateToNextPassword(rule, value, callback) {
-				const form = this.form;
-				if (value && this.confirmDirty) {
-					form.validateFields(['confirm'], {
-						force: true
-					});
-				}
-				callback();
 			},
 			handleWebsiteChange(value) {
 				let autoCompleteResult;

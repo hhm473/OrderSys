@@ -10,53 +10,54 @@
 				<span class="cata-info">
 					<router-link to="/dishmanage" style="color: white;">菜品管理</router-link>
 				</span>
-				<a-button class="btn-back">返回</a-button>
+				<a-button class="btn-back" @click="back">返回</a-button>
 			</div>
 			<div class="secondary-head">
 				<div class="time">
 					名称：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="全部菜品" @change="handleKind" style="width: 120px; margin-right:20px;"
+						size="small">
+						<a-select-option v-for="(item, i) in kind" v-bind:key="i" :value="item.dishName">
+							{{item.dishName}}
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
-						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option :value="-1">
+							全部菜品
 						</a-select-option>
 					</a-select>
 				</div>
 				<div class="table-number">
 					是否推荐：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="全部" style="width: 120px" @change="handleTuijian">
+						<a-select-option value="1">
+							是
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
+						<a-select-option value="0">
+							否
 						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option value="-1">
+							全部
 						</a-select-option>
 					</a-select>
 				</div>
 				<div class="table-number">
 					价格：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="全部" style="width: 120px" @change="handlePrice">
+						<a-select-option value="0">
+							1-20
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
+						<a-select-option value="1">
+							20-50
 						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option value="2">
+							50以上
+						</a-select-option>
+						<a-select-option value="-1">
+							全部
 						</a-select-option>
 					</a-select>
 				</div>
 				<div class="total-price">
-					<a-button type="primary">查询</a-button>
+					<a-button type="primary" @click="dishSelect">查询</a-button>
 				</div>
 				<div class="total-price">
 					<a-button type="primary" @click="toAddDish">新增菜品</a-button>
@@ -195,7 +196,12 @@
 	export default {
 		data() {
 			return {
+				kind: [],
 				data1,
+				Bdata:[],
+				dishName: '',
+				tuijian: '',
+				price: '',
 				columns,
 				timeNow: "2021-02-26",
 				tableNum: 2
@@ -206,8 +212,12 @@
 		},
 		mounted() {
 			this.getData();
+			this.RequestKind();
 		},
 		methods: {
+			back() {
+				this.$router.push({path:"/administratorindex"});
+			},
 			toAddDish() {
 				this.$router.push({
 					path: "/AddDish"
@@ -224,13 +234,22 @@
 					console.log(res.data);
 					// console.log(this.data1);
 					that.data1 = res.data;
+					that.Bdata = that.data1;
 					// console.log(data);
 				}).catch(res => {
 					console.log(res)
 					console.log('请求失败：' + res.status + ',' + res.statusText);
 				});
 			},
-
+			RequestKind() {
+				this.axios.get("http://47.98.238.175:8080/dishes/all").then(res => {
+						this.kind = res.data
+						console.log(this.kind);
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			},
 			toEditDish(record) {
 				this.$router.push({
 					name: "editdish",
@@ -252,22 +271,49 @@
 
 			},
 
-			handlecook(key) {
-				console.log("进入handlebook")
-				const newData = [...this.data];
-				const target = newData.filter(item => key === item.key)[0];
-				if (target) {
-					if (target.cook === "等待烹饪") {
-						target.cook = "正在烹饪";
-					} else {
-						target.cook = "已烹饪"
-					}
-				}
+			handleKind(value) {
+				this.dishName = value
 			},
+			handleTuijian(value) {
+				this.tuijian = value
+			},
+			handlePrice(value) {
+				this.price = value
+			},
+			dishSelect() {
+
+				if (this._data.dishName != "-1" || this._data.price != "-1") {
+
+					this.data1 = this.Bdata.filter((item, index) => {
+						// console.log(this.tableId, this.orderState);
+						if (this.$data.tableId == "-1" && this.$data.orderState != "-1") {
+							return item.orderState === this.orderState
+						} else if (this.tableId != "-1" && this.orderState == "-1") {
+							return item.tableId == this.tableId
+						}
+						return item.tableId == this.tableId && item.orderState === this.orderState;
+					})
+				} else {
+					this.$data.data = this.$data.Bdata
+				}
+
+			}
+		},
+		handlecook(key) {
+			console.log("进入handlebook")
+			const newData = [...this.data];
+			const target = newData.filter(item => key === item.key)[0];
+			if (target) {
+				if (target.cook === "等待烹饪") {
+					target.cook = "正在烹饪";
+				} else {
+					target.cook = "已烹饪"
+				}
+			}
+		},
 
 
-			// http:/localhost:8080/OrderSys/dishes/add
-		}
+		// http:/localhost:8080/OrderSys/dishes/add
 	}
 </script>
 

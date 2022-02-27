@@ -10,7 +10,7 @@
 				<span class="cata-info">
 					<router-link to="/ordermanage" style="color: white;">订单管理</router-link>
 				</span>
-				<a-button class="btn-back">返回</a-button>
+				<a-button class="btn-back" @click="back">返回</a-button>
 			</div>
 			<div class="secondary-head">
 				<div class="time">
@@ -124,6 +124,9 @@
 			this.getOrder()
 		},
 		methods: {
+			back() {
+				this.$router.push({path:"/administratorindex"});
+			},
 			getOrder(){
 				this.axios.get("http://47.98.238.175:8080/queryOrder").then(res => {				
 					this.data = res.data.map((item,i) => {
@@ -136,7 +139,7 @@
 						 }
 						item.newOrder.cook = cook
 						
-						if (item.dish_state == 0) {
+						if (item.newOrder.dishState == 0) {
 							item.newOrder.orderState = "未完成";
 						}
 						else{

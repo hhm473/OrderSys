@@ -124,7 +124,6 @@
 
 		mounted: function() {
 			let peaple = JSON.parse(localStorage.getItem('role'))
-			console.log(peaple)
 			if (peaple.roleId == 3) {
 				this.$data.role = "服务员"
 			}
@@ -136,7 +135,7 @@
 			}
 			this.$data.userId = peaple.userId
 			
-			this.RequestData(this.dishName,this.count,this.dishState)
+			this.RequestData(this.dishName,this.tableId,this.dishState)
 			this.RequestKind()
 		},
 		data() {
@@ -144,7 +143,7 @@
 				data,
 				columns,
 				dishName:"",
-				count:"",
+				tableId:"",
 				dishState:"",
 				kind:[],
 				
@@ -174,7 +173,6 @@
 				console.log("进入handlebook")
 				const newData = [...this.data];
 				const target = newData.filter(item => key === item.key)[0];
-				console.log(target);
 				if (target) {
 					if (target.dish_state === "未烹饪") {
 						target.dish_state = "正在烹饪";
@@ -187,10 +185,10 @@
 				}
 			},
 			
-			RequestData(dishName,count,dishState){
+			RequestData(dishName,tableId,dishState){
 				let selet = {
 					dishName,
-					count,
+					tableId,
 					dishState
 				}
 				console.log(selet);
@@ -249,7 +247,7 @@
 				this.dishName = value
 			},
 			handleScount(value){
-				this.count = value
+				this.tableId = value
 			},
 			handleState(value){
 				this.dishState = value
@@ -257,16 +255,16 @@
 			
 			postSelect(){
 				
-				if(this.dishName ==="-1"){
+				if(this.dishName == "-1"){
 					this.dishName =""
 				}
-				if(this.count ==="-1"){
-					this.count =""
+				if(this.tableId == "-1"){
+					this.tableId =""
 				}
-				if(this.dishState ==="-1"){
+				if(this.dishState == "-1"){
 					this.dishState =""
 				}
-				this.RequestData(this.dishName,this.count,this.dishState)
+				this.RequestData(this.dishName,this.tableId,this.dishState)
 			}
 		}
 	}

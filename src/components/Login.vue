@@ -54,7 +54,7 @@
 						</a-form-item>
 					</a-col>
 				</a-row>
-				<a-row style="height: 90px;">
+				<!-- <a-row style="height: 90px;">
 					<a-col :span="6">
 						<div class="username">身份选择：</div>
 					</a-col>
@@ -74,7 +74,7 @@
 							</a-select>
 						</a-form-item>
 					</a-col>
-				</a-row>
+				</a-row> -->
 				<a-row style="height: 90px;">
 					<a-col :span="6">
 						<div class="username">验证码：</div>
@@ -182,22 +182,28 @@
 							    url: 'http://47.98.238.175:8080/user/login',
 							    data: this.$qs.stringify(values)
 							}).then(res => {
-								let values = res.data
-								localStorage.setItem('role', JSON.stringify(values));
-								if (values.roleId === 3) {
-													
-									this.$router.push({
-										path: "/waiterindex"
-									})
-								} else if (values.roleId === 2) {
-									this.$router.push({
-										path: "/ChefIndex"
-									})
-								} else {
-									this.$router.push({
-										path: "/AdministratorIndex"
-									})
-								}
+								
+								if(!res.data){
+									alert("密码错误！请重新输入。")
+									this.makeCode(this.identifyCodes, 4);
+								}else{
+									let values = res.data
+									localStorage.setItem('role', JSON.stringify(values));
+									if (values.roleId === 3) {
+														
+										this.$router.push({
+											path: "/waiterindex"
+										})
+									} else if (values.roleId === 2) {
+										this.$router.push({
+											path: "/ChefIndex"
+										})
+									} else {
+										this.$router.push({
+											path: "/AdministratorIndex"
+										})
+									}
+								}								
 								
 							})
 							.catch(function (error) {

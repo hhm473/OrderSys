@@ -10,12 +10,12 @@
 				<span class="cata-info">
 					<router-link to="/usermanage" style="color: white;">用户管理</router-link>
 				</span>
-				<a-button class="btn-back">返回</a-button>
+				<a-button class="btn-back" @click="back">返回</a-button>
 			</div>
 			<div class="secondary-head">
 				<div class="time">
 					身份：
-					<a-select default-value="2" style="width: 120px" @change="handleChange">
+					<a-select default-value="-1" style="width: 120px" @change="handleIdentity">
 						<a-select-option value="1">
 							管理员
 						</a-select-option>
@@ -25,21 +25,27 @@
 						<a-select-option value="3">
 							服务人员
 						</a-select-option>
+						<a-select-option value="-1">
+							全部
+						</a-select-option>
 					</a-select>
 				</div>
 				<div class="table-number">
 					是否被锁定：
-					<a-select default-value="2" style="width: 120px" @change="handleChange">
+					<a-select default-value="-1" style="width: 120px" @change="handleLock">
 						<a-select-option value="1">
 							是
 						</a-select-option>
-						<a-select-option value="2">
+						<a-select-option value="0">
 							否
+						</a-select-option>
+						<a-select-option value="-1">
+							全部
 						</a-select-option>
 					</a-select>
 				</div>
 				<div class="total-price">
-					<a-button type="primary">查询</a-button>
+					<a-button type="primary" @click="UserSelect">查询</a-button>
 				</div>
 			</div>
 			<div style="padding: 20px;">
@@ -48,7 +54,6 @@
 
 						<template slot="num" slot-scope="text, record,index">
 							{{index+1}}
-							<!-- <a-button>结账</a-button> -->
 						</template>
 
 						<template slot="isLock" slot-scope="text, record">
@@ -58,7 +63,7 @@
 						<template slot="roleId" slot-scope="text, record">
 							{{record.roleId=='1'?'管理员':record.roleId=='2'?'后厨人员':'服务人员'}}
 						</template>
-						
+
 						<template slot="profilePic" slot-scope="text, record">
 							<img src="../assets/logo.png" style="height: 20px" />
 							{{record.profilePic}}
@@ -132,10 +137,10 @@
 		data() {
 			return {
 				userData: [],
+				BuserData: [],
 				columns,
-				timeNow: "2021-02-26",
-				totalPrice: 35,
-				tableNum: 2
+				isLockSel: '-1',
+				IdentitySel: '-1',
 			}
 		},
 		components: {
@@ -145,6 +150,9 @@
 			this.getData();
 		},
 		methods: {
+			back() {
+				this.$router.push({path:"/administratorindex"});
+			},
 			getData: function() {
 				let that = this
 				this.axios({ //格式a
@@ -155,18 +163,42 @@
 					console.log(res.data);
 					// console.log(this.data1);
 					that.userData = res.data;
+					that.BuserData = that.userData;
 					// console.log(data);
 				}).catch(res => {
 					console.log(res)
 					console.log('请求失败：' + res.status + ',' + res.statusText);
 				});
 			},
-			
 			toEditUser(record) {
 				this.$router.push({
 					name: "aedituserinfo",
 					params: record
 				})
+			},
+			handleLock(value) {
+				this.isLockSel = value
+			},
+			handleIdentity(value) {
+				this.IdentitySel = value
+			},
+			UserSelect() {
+				if (this.isLockSel != "-1" || this.IdentitySel != "-1") {
+
+					this.userData = this.BuserData.filter((item, index) => {
+						console.log(this.isLockSel, this.IdentitySel);
+						console.log(typeof(this.isLockSel), typeof(this.IdentitySel));
+						if (this.isLockSel == "-1" && this.$data.IdentitySel != "-1") {
+							return item.roleId == this.IdentitySel
+						} else if (this.isLockSel != "-1" && this.IdentitySel == "-1") {
+							return item.isLock == Number(this.isLockSel)
+						}
+						return item.isLock == Number(this.isLockSel) && item.roleId == this.IdentitySel;
+					})
+				} else {
+					this.userData = this.BuserData
+					console.log(this.userData)
+				}
 			},
 		}
 	}

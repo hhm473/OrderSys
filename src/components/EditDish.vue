@@ -2,7 +2,7 @@
 	<div>
 		<page-header></page-header>
 		<div class="body">
-			this is the news page.the transform param is {{this.$route.params}}
+			<!-- this is the news page.the transform param is {{this.$route.params}} -->
 			<div class="catalog">
 
 				<span class="cata-info">
@@ -14,7 +14,7 @@
 				</span>
 				>
 				<span class="cata-info">修改菜品</span>
-				<a-button class="btn-back">返回</a-button>
+				<a-button class="btn-back" @click="back">返回</a-button>
 			</div>
 			<a-row :gutter="[0,50]">
 				<a-col :span="4">
@@ -76,15 +76,12 @@
 					</div>
 				</a-col>
 				<a-col :span="4">
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="0" style="width: 120px" @change="handleChange">
+						<a-select-option value="0">
+							否
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
-						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option value="1">
+							是
 						</a-select-option>
 					</a-select>
 				</a-col>
@@ -92,8 +89,6 @@
 
 			<div style="text-align: center;">
 				<a-button type="primary" size="large" @click="dishEdit">提交</a-button>
-
-				<a-button size="large" style="margin-left: 30px;" @click="back">返回</a-button>
 			</div>
 			<div style="text-align: center;">
 			</div>
@@ -133,6 +128,9 @@
 			that.type = that.initData.type;
 		},
 		methods: {
+			back() {
+				this.$router.push({path:"/dishmanage"});
+			},
 			dishEdit() {
 				let that = this;
 				this.axios.get("http://47.98.238.175:8080/dishes/edit", {
@@ -152,9 +150,6 @@
 					alert(error);
 				});
 			},
-			back() {
-				this.$router.go(-1);
-			}
 		}
 	}
 </script>

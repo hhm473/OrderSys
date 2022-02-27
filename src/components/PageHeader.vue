@@ -2,7 +2,7 @@
 	<div class="all-wrap">
 		<div class="sys-wrap">
 			<div class="img-wrap"><img
-					src="http://s3plus.meituan.net/v1/mss_55947e464b144ac4b…8afb82d/waimai-i-production/img/logo.aa43b090.png" />
+					src="../assets/img/logo.jpg" />
 			</div>
 			<div class="title">重庆中软-到店点餐系统</div>
 		</div>
