@@ -15,41 +15,50 @@
 			<div class="secondary-head">
 				<div class="time">
 					桌号：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="全部桌号" @change="handleScount" style="width: 120px; margin-right:20px;" size="small">
+						<a-select-option value="1">
+							1
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
+						<a-select-option value="2">
+							2
 						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option value="3">
+							3
+						</a-select-option>
+						<a-select-option value="4">
+							4
+						</a-select-option>
+						<a-select-option value="5">
+							5
+						</a-select-option>
+						<a-select-option value="-1">
+							全部桌号
 						</a-select-option>
 					</a-select>
 				</div>
 				<div class="table-number">
 					状态：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="全部订单" @change="handleState" style="width: 120px; margin-right:60px;" size="small">
+						<a-select-option value="未完成">
+							未完成
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
+						<a-select-option value="已完成">
+							已完成
 						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option value="-1">
+							全部订单
 						</a-select-option>
 					</a-select>
 				</div>
 				<div class="total-price">
-					<a-button type="primary">查询</a-button>
+					<a-button type="primary" @click="FindOrder">查询</a-button>
 				</div>
 			</div>
 			<div style="padding: 20px;">
 				<div>
 					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 350 }">
-						
-						
+
+
 					</a-table>
 				</div>
 			</div>
@@ -62,21 +71,21 @@
 	import Dish from './Dish.vue'
 	import PageHeader from './PageHeader.vue'
 	import OrderQingdan from './OrderQingdan.vue'
-	
+
 	const columns = [{
 			title: '编号',
-			dataIndex: 'num',
-			key: 'num',
+			dataIndex: 'orderId',
+			key: 'orderId',
 		},
 		{
-			title: '桌号',
-			dataIndex: 'tableNum',
-			key: 'table-num',
+			title: '菜品桌号',
+			dataIndex: 'tableId',
+			key: 'tableId',
 		},
 		{
 			title: '下单时间',
-			key: 'number',
-			dataIndex: 'number',
+			dataIndex: 'orderTime',
+			key: 'orderTime',
 		},
 		{
 			title: '菜品列表',
@@ -85,98 +94,93 @@
 		},
 		{
 			title: '总金额',
-			key: 'cook',
-			dataIndex: 'cook',
+			key: 'totalPrice',
+			dataIndex: 'totalPrice',
 		},
 		{
 			title: '订单状态',
-			key: 'cook',
-			dataIndex: 'cook',
+			key: 'orderState',
+			dataIndex: 'orderState',
 		},
 	];
-	const data = [{
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		},{
-			key: '6',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		},{
-			key: '7',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		},{
-			key: '8',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		},{
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		},
-		{
-			key: '2',
-			name: 'Jim Green',
-			age: 42,
-			address: 'London No. 1 Lake Park',
-			cook: "已烹饪"
-		},
-		{
-			key: '3',
-			name: 'Joe Black',
-			age: 32,
-			address: 'Sidney No. 1 Lake Park',
-			cook: "等待烹饪"
-		},
-	];
-	
-	
+	const data = [];
+
+
 	export default {
 		data() {
 			return {
 				data,
 				columns,
-				timeNow: "2021-02-26",
-				totalPrice: 35,
-				tableNum: 2
+				tableId:"-1",
+				orderState:"-1",
+				Bdata:""
 			}
 		},
 		components: {
 			PageHeader,
 		},
-		mounted(){
+		mounted: function() {
 			
+			this.getOrder()
 		},
-		methods:{
-			
-			getData: function() {
-				let that = this
-				this.axios({ //格式a
-					method: 'get',
-					url: 'http://47.98.238.175:8080/dishes/all'
-				}).then(function(res) {
-					console.log(res)
-					console.log(res.data);
-					// console.log(this.data1);
-					that.data1 = res.data;
-					// console.log(data);
-				}).catch(res => {
-					console.log(res)
-					console.log('请求失败：' + res.status + ',' + res.statusText);
+		methods: {
+			getOrder(){
+				this.axios.get("http://47.98.238.175:8080/queryOrder").then(res => {				
+					this.data = res.data.map((item,i) => {
+						item.newOrder.key = i
+						let cook=""
+						 if(item.dishOrders.length > 0){
+							item.dishOrders.forEach((ritem,ri) => {
+								cook +=  item.dishes[ri].dishName+"*"+ritem.count +"  "
+							})
+						 }
+						item.newOrder.cook = cook
+						
+						if (item.dish_state == 0) {
+							item.newOrder.orderState = "未完成";
+						}
+						else{
+							item.newOrder.orderState = "已完成"
+						}
+
+						delete	item.newOrder.waiter,
+						delete	item.newOrder.remarks
+						return item.newOrder
+					}) 
+					
+					this.Bdata = this.data
+				})
+				.catch(function (error) {
+				  console.log(error);
 				});
 			},
 			
+			handleScount(value){
+				console.log(value);
+				this.tableId = value
+			},
+			handleState(value){
+				console.log(value);
+				this.orderState = value
+			},
+			
+			FindOrder(){
+				if(this._data.tableId != "-1" || this._data.orderState != "-1"){
+
+					this.data = this.Bdata.filter((item, index) => {
+						console.log(this.tableId,this.orderState);
+						if(this.$data.tableId == "-1" && this.$data.orderState != "-1"){
+							return item.orderState === this.orderState
+						} else if(this.tableId != "-1" && this.orderState == "-1"){
+							return item.tableId == this.tableId
+						}
+						return item.tableId == this.tableId && item.orderState === this.orderState;
+					})
+				} else{
+					this.$data.data = this.$data.Bdata
+				}
+				
+			}
 		}
 	}
 </script>

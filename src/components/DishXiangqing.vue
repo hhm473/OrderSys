@@ -26,10 +26,7 @@
 					<div class="jianjie">{{detail}}</div>
 				</a-col>
 			</a-row>
-<!-- 
-			<div style="text-align: center; padding-bottom: 20px;">
-				<a-button>返回</a-button>
-			</div> -->
+
 		</div>
 	</div>
 </template>

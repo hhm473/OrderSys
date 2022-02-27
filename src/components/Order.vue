@@ -2,14 +2,6 @@
 	<div>
 		<page-header></page-header>
 		<div class="body">
-			<!-- 			<div v-if="false">				
-			{{dishData1}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			{{dishData[0].dishNum}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			{{dishData1}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			</div> -->
-<!-- 			{{dishData}}
-			<button @click="add"></button>
-			<button @click="edit"></button> -->
 			<div class="catalog">
 				<span class="cata-info">
 					<router-link to="/waiterindex" style="color: white;">服务员首页</router-link>
@@ -26,15 +18,15 @@
 				</div>
 				<div class="table-number">
 					桌号：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="1" style="width: 120px" @change="ChangeTableNum">
+						<a-select-option value="1">
+							1
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
+						<a-select-option value="2">
+							2
 						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option value="3">
+							3
 						</a-select-option>
 					</a-select>
 				</div>
@@ -45,29 +37,18 @@
 			</div>
 			<div>
 				<a-row>
-					<a-col :span="8" style="height: 300px;">
+					<a-col :span="8" style="height: 500px;">
 						<OrderQingdan :list="dishOrder" :totalPrice="dishData1"></OrderQingdan>
 					</a-col>
-					<div>
-
-						<a-col :span="8" v-for="(item, index) in dishData" :key="index">
-							<div>
-								<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price"
-									:detail="item.detail" :dishNum="item.dishNum" @minusDish="minusDish(index)"
-									@plusDish="plusDish(index)">
-								</Dish>
-							</div>
-						</a-col>
-					</div>
-
-					<!-- <van-row type="flex" justify="space-around" class="info_0" v-for="(item,index) in listTemp"
-						:key="index">
-						<van-col span="6" class="info_4" v-for="(cell,i) in item" :key="i">
-							<span v-if="cell.s_CurrencyName">待缴官费金额({{cell.s_CurrencyName}})</span>
-							<p>{{cell.totalFee}}</p>
-						</van-col>
-					</van-row> -->
-
+					<a-col :span="15" style="height: 500px;overflow: scroll;display:flex; flex-wrap:wrap;">
+						<div v-for="(item, index) in dishData" :key="index"
+							style="margin-right: 100px;margin-bottom: 20px;">
+							<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price"
+								:detail="item.detail" :dishNum="item.dishNum" @minusDish="minusDish(index)"
+								@plusDish="plusDish(index)">
+							</Dish>
+						</div>
+					</a-col>
 				</a-row>
 			</div>
 		</div>
@@ -79,84 +60,12 @@
 	import Dish from './Dish.vue'
 	import PageHeader from './PageHeader.vue'
 	import OrderQingdan from './OrderQingdan.vue'
-	const dishData = [{
-		"dishId": 2,
-		"dishName": "馒头",
-		"price": 6.0,
-		"intro": "馒头",
-		"detail": "白面馒头好好吃好好吃好好吃",
-		"type": "荤菜",
-		"dishPic": null
-	}, {
-		"dishId": 3,
-		"dishName": "饺子",
-		"price": 10.0,
-		"intro": "饺子",
-		"detail": "韭菜饺子好好吃好好吃",
-		"type": "素菜",
-		"dishPic": null
-	}, {
-		"dishId": 4,
-		"dishName": "烧麦",
-		"price": 1.5,
-		"intro": "简介",
-		"detail": "详情",
-		"type": "荤菜",
-		"dishPic": null
-	}, {
-		"dishId": 5,
-		"dishName": "青菜",
-		"price": 1.0,
-		"intro": "青菜",
-		"detail": "新鲜青菜",
-		"type": "素菜",
-		"dishPic": null
-	}, {
-		"dishId": 17,
-		"dishName": "肉",
-		"price": 10.0,
-		"intro": "猪肉",
-		"detail": "新鲜猪肉",
-		"type": "荤菜",
-		"dishPic": null
-	}, {
-		"dishId": 22,
-		"dishName": "肥肉",
-		"price": 12.0,
-		"intro": "猪肉",
-		"detail": "新鲜猪肉",
-		"type": "荤菜",
-		"dishPic": null
-	}, {
-		"dishId": 24,
-		"dishName": "fish",
-		"price": 30.0,
-		"intro": "烤鱼",
-		"detail": "新鲜的鱼",
-		"type": "Yiminghe",
-		"dishPic": null
-	}, {
-		"dishId": 25,
-		"dishName": "鱼",
-		"price": 30.0,
-		"intro": "烤鱼",
-		"detail": "新鲜的鱼",
-		"type": "Yiminghe",
-		"dishPic": null
-	}, {
-		"dishId": 26,
-		"dishName": "炒饭",
-		"price": 12.0,
-		"intro": "炒的饭",
-		"detail": "会复活复活",
-		"type": "jack",
-		"dishPic": null
-	}];
-
+	
 	export default {
 		data() {
 			return {
-				dishData,
+				dishData:[],
+				tableNum:'1',
 				dishOrder: [],
 				dishData1: 1,
 				timeNow: "2021-02-26",
@@ -170,16 +79,9 @@
 		},
 		mounted() {
 			let that = this;
-			// this.getData();
+			this.getData();
 			this.getTime();
 
-			let newarr = [];
-			that.dishData.map((item, index) => {
-				newarr.push(Object.assign(item, {
-					dishNum: 0
-				}))
-			})
-			that.dishData = newarr;
 			console.log(
 				'console.log(that.dishData);t.dishData);.log(that.dishData); console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);'
 			);
@@ -187,39 +89,34 @@
 
 		},
 		computed: {
-			listTemp() {
-				let index = 0;
-				let count = 2; //两个一组
-				let arrTemp = [];
-				let dishData = this.dishData;
-				for (let i = 0; i < this.dishData.length; i++) {
-					index = parseInt(i / count);
-					if (arrTemp.length <= index) {
-						arrTemp.push([]);
-					}
-					arrTemp[index].push(dishData[i])
-				}
-				console.log('arrTemparrTemparrTemparrTemparrTemparrTemparrTemparrTemp')
-				console.log(arrTemp)
-				return arrTemp
-			}
+
 		},
 		methods: {
-			add() {
-				this.dishData1++;
-				this.dishData[0].dishNum++;
+			ChangeTableNum(value){
+				console.log(value)
+				this.tableNum = value;
 			},
-
-			edit() {
-				this.dishData.pop()
+			ComputetotalPrice() {
+				let that = this;
+				let total = 0
+				for (let i = 0; i < that.dishOrder.length; i++) {
+					let item = that.dishOrder[i];
+					total = total + item.price * item.dishNum;
+				}
+				console.log(total);
+				that.totalPrice = total;
 			},
 			toXiadan() {
 				let that = this;
 				console.log(that.dishOrder);
 				this.$router.push({
 					// path: "/Xiadan",
-					name:'xiadan',
-					query: that.dishOrder
+					name: 'xiadan',
+					query: {
+						dishOrder:that.dishOrder,
+						tableNum:that.tableNum,
+						totalPrice:that.totalPrice
+					}
 				})
 			},
 			getTime() {
@@ -239,6 +136,7 @@
 					this.dishOrder.pop(this.dishData[index])
 				}
 				this.dishData1--;
+				this.ComputetotalPrice();
 				console.log(this.dishData)
 			},
 			plusDish(index) {
@@ -248,6 +146,7 @@
 				}
 				this.dishData[index].dishNum++;
 
+				this.ComputetotalPrice();
 				this.dishData1++;
 				// this.dishData[0].dishNum++;
 				console.log(this.dishData)
@@ -263,11 +162,10 @@
 					// console.log(this.data1);
 					that.dishData = res.data;
 
-
 					let newarr = [];
 					that.dishData.map((item, index) => {
 						newarr.push(Object.assign(item, {
-							number: 0
+							dishNum: 0
 						}))
 					})
 					that.dishData = newarr;

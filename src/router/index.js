@@ -79,6 +79,7 @@ const routes = [{
 	},
 	{
 		path: '/aedituserinfo',
+		name:'aedituserinfo',
 		component: AEditUserInfo,
 	},
 	{

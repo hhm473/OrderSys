@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
-		
+
 		<div class="catalog">
 			<span class="cata-info">
 				<router-link to="/administratorindex" style="color: white;">管理员首页</router-link>
@@ -16,7 +16,7 @@
 			</span>
 			<a-button class="btn-back">返回</a-button>
 		</div>
-		
+
 		<div class="body">
 			<div style="display: flex;">
 				<div class="title highlight">管理员修改个人信息</div>
@@ -55,44 +55,44 @@
 							</div>
 						</a-col>
 					</a-row>
-					
+
 					<a-row :gutter="8">
 						<a-col :span="4">
 							<div class="input-item">身份选择：</div>
 						</a-col>
-						
+
 						<a-col :span="10">
-							<a-form-item  has-feedback>
-							<a-select  v-decorator="['prefix']">
-								<a-select-option value="1">
-									管理员
-								</a-select-option>
-								<a-select-option value="2">
-									后厨
-								</a-select-option>
-								<a-select-option value="3">
-									服务员
-								</a-select-option>
-							</a-select>
+							<a-form-item has-feedback>
+								<a-select v-decorator="['roleIdEdit']">
+									<a-select-option value="1">
+										管理员
+									</a-select-option>
+									<a-select-option value="2">
+										后厨
+									</a-select-option>
+									<a-select-option value="3">
+										服务员
+									</a-select-option>
+								</a-select>
 							</a-form-item>
 						</a-col>
 					</a-row>
-					
+
 					<a-row :gutter="8">
 						<a-col :span="4">
 							<div class="input-item">是否被锁定：</div>
 						</a-col>
-						
+
 						<a-col :span="10">
-							<a-form-item  has-feedback>
-							<a-select  v-decorator="['islock']">
-								<a-select-option value="1">
-									是
-								</a-select-option>
-								<a-select-option value="2">
-									否
-								</a-select-option>
-							</a-select>
+							<a-form-item has-feedback>
+								<a-select v-decorator="['isLock']">
+									<a-select-option value="1">
+										是
+									</a-select-option>
+									<a-select-option value="0">
+										否
+									</a-select-option>
+								</a-select>
 							</a-form-item>
 						</a-col>
 					</a-row>
@@ -104,22 +104,19 @@
 							</div>
 						</a-col>
 						<a-col :span="10">
-							<a-form-item >
-							      <a-upload
-							        v-decorator="[
+							<a-form-item>
+								<a-upload v-decorator="[
 							          'upload',
 							          {
 							            valuePropName: 'fileList',
 							            getValueFromEvent: normFile,
 							          },
-							        ]"
-							        name="logo"
-							        action="/upload.do"
-							        list-type="picture"
-							      >
-							        <a-button> <a-icon type="upload" /> 上传头像 </a-button>
-							      </a-upload>
-							    </a-form-item>
+							        ]" name="logo" action="/upload.do" list-type="picture">
+									<a-button>
+										<a-icon type="upload" /> 上传头像
+									</a-button>
+								</a-upload>
+							</a-form-item>
 
 
 						</a-col>
@@ -132,7 +129,7 @@
 							</div>
 						</a-col>
 						<a-col :span="10">
-							<a-form-item  has-feedback>
+							<a-form-item has-feedback>
 
 								<a-input v-decorator="[
 			          'confirms',
@@ -154,9 +151,8 @@
 						</a-col>
 					</a-row>
 					<a-form-item v-bind="tailFormItemLayout">
-						<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger" shape="round"
-							@click="showModal" size="large">确认修改</a-button>
-					
+						<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
+							shape="round" size="large">确认修改</a-button>
 					</a-form-item>
 				</a-form>
 			</div>
@@ -171,6 +167,7 @@
 <script>
 	import PageHeader from './PageHeader.vue'
 
+	import axios from 'axios'
 	export default {
 		name: 'SignUp',
 		components: {
@@ -180,23 +177,46 @@
 			let peaple = JSON.parse(localStorage.getItem('role'))
 			if (peaple.roleId == 1) {
 				this.$data.role = "服务员"
-			}
-			else if(peaple.roleId == 2) {
+			} else if (peaple.roleId == 2) {
 				this.$data.role = "后厨人员"
-			}
-			else{
+			} else {
 				this.$data.role = "管理人员"
 			}
 			this.$data.userId = peaple.userId
+
+			let that = this;
+
+			let initData = that.$route.params;
+			that.dishId = initData.dishId;
+
+			console.log(initData)
+			console.log(initData.password)
+			const form = this.form;
+
+			form.setFieldsValue({
+				['password']: initData.password
+			});
+
+			// let roleId = initData.roleId == 1 ? '管理员' : initData.roleId == '2' ? '后厨人员' : '服务人员';
+			// let isLock = initData.isLock == 1 ? '是' : '否';
+			form.setFieldsValue({
+				['roleIdEdit']: String(initData.roleId)
+			});
+		
+			
+			form.setFieldsValue({
+				['isLock']: String(initData.isLock)
+			});
+			that.userIdEdit = initData.userId;
+			that.profilePicEdit = initData.profilePic;
+			
+
 		},
 		data() {
 			return {
-				role: "",
-				userId: "",
-				// 以下代码为点击注册按钮后弹出框相关数据
-				ModalText: '已成功提交注册申请，等待管理员指定身份…………',
-				visible: false,
-
+				roleEdit: "",
+				userIdEdit: "",
+				profilePicEdit: "",
 				confirmDirty: false,
 				autoCompleteResult: [],
 				tailFormItemLayout: {
@@ -219,32 +239,40 @@
 			});
 		},
 		methods: {
-			// 以下三个方法与弹出框相关
-			normFile(e) {
-			      console.log('Upload event:', e);
-			      if (Array.isArray(e)) {
-			        return e;
-			      }
-			      return e && e.fileList;
-			},
-			showModal() {
-				this.visible = true;
-			},
-			handleOk(e) {
-				this.visible = false;
-			},
-			handleCancel(e) {
-				console.log('Clicked cancel button');
-				this.visible = false;
-			},
-
-			handleSubmit(e) {
-				e.preventDefault();
-				this.form.validateFieldsAndScroll((err, values) => {
+			handleSubmit() {
+				let that = this;
+				this.form.validateFields((err, values) => {
 					if (!err) {
-						console.log('Received values of form: ', values);
+						console.log(values)
+						let user = {
+							userId: that.userIdEdit,
+							password: values.password,
+							profilePic: that.profilePicEdit,
+							roleId: Number(values.roleIdEdit),
+							isLock: Number(values.isLock)
+						}
+						
+						this.axios(
+						{
+						    method: 'post',
+						    url: 'http://47.98.238.175:8080/user/modify',
+						    data: this.$qs.stringify(user)
+						})
+
+						.then(function(response) {
+							alert('修改成功！');
+						}).catch(function(error) {
+							alert(error);
+						});
 					}
 				});
+			},
+			normFile(e) {
+				console.log('Upload event:', e);
+				if (Array.isArray(e)) {
+					return e;
+				}
+				return e && e.fileList;
 			},
 			handleConfirmBlur(e) {
 				const value = e.target.value;
@@ -281,7 +309,6 @@
 </script>
 
 <style scoped>
-	
 	.catalog {
 		margin-top: 100px;
 		height: 50px;
@@ -289,15 +316,16 @@
 		line-height: 30px;
 		padding: 10px 20px 10px 20px;
 	}
-	
+
 	.cata-info {
 		background-color: #A4ADB3;
 		color: white;
 	}
-	
+
 	.btn-back {
 		float: right;
 	}
+
 	.body {
 		margin-top: 100px;
 		margin-left: 15%;

@@ -14,10 +14,10 @@
 							传菜推送信息
 						</div>
 						<a-table :columns="columnsDish" :data-source="dataDish" bordered :scroll="{y: 150 }">
-							<a-tag slot="deliver" slot-scope="text, record"
-								:color="record.deliver === '已推送' ? 'geekblue' : record.deliver==='正在推送' ? 'volcano' : 'green'"
+							<a-tag slot="dish_state" slot-scope="text, record"
+								:color="record.dish_state === '已传菜' ? 'geekblue': 'green'"
 								@click="() => handledeliver(record.key)">
-								{{ record.deliver}}
+								{{ record.dish_state}}
 							</a-tag>
 						</a-table>
 					</div>
@@ -50,41 +50,41 @@
 <script scoped>
 	const columnsDish = [{
 			title: '菜品名称',
-			dataIndex: 'name',
-			key: 'name',
+			dataIndex: 'dish_name',
+			key: 'dish_name',
 		},
 		{
 			title: '菜品桌号',
-			dataIndex: 'tableNum',
-			key: 'table-num',
+			dataIndex: 'table_id',
+			key: 'table_id',
 		},
 		{
 			title: '菜品数量',
-			key: 'number',
-			dataIndex: 'number',
+			key: 'count',
+			dataIndex: 'count',
 		},
 		{
-			title: '菜品状态',
-			key: 'deliver',
-			dataIndex: 'deliver',
+			title: '传送状态',
+			key: 'dish_state',
+			dataIndex: 'dish_state',
 			scopedSlots: {
-				customRender: 'deliver'
+				customRender: 'dish_state'
 			},
 		},
 	];
 	const columnsOrder = [{
 			title: '菜品桌号',
-			dataIndex: 'tableNum',
-			key: 'table-num',
+			dataIndex: 'tableId',
+			key: 'tableId',
 		},
 		{
 			title: '下单时间',
 			dataIndex: 'orderTime',
-			key: 'order-time',
+			key: 'orderTime',
 		},
 		{
 			title: '总金额',
-			key: 'total-price',
+			key: 'totalPrice',
 			dataIndex: 'totalPrice',
 		},
 		{
@@ -103,98 +103,8 @@
 		},
 	];
 
-	const dataDish = [{
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '6',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '7',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '8',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		},
-		{
-			key: '2',
-			name: 'Jim Green',
-			age: 42,
-			address: 'London No. 1 Lake Park',
-			deliver: "已推送"
-		},
-		{
-			key: '3',
-			name: 'Joe Black',
-			age: 32,
-			address: 'Sidney No. 1 Lake Park',
-			deliver: "等待推送"
-		},
-	];
-	const dataOrder = [{
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '6',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '7',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '8',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		},
-		{
-			key: '2',
-			name: 'Jim Green',
-			age: 42,
-			address: 'London No. 1 Lake Park',
-			deliver: "已推送"
-		},
-		{
-			key: '3',
-			name: 'Joe Black',
-			age: 32,
-			address: 'Sidney No. 1 Lake Park',
-			deliver: "等待推送"
-		},
-	];
+	const dataDish = [];
+	const dataOrder = [];
 	import PageHeader from './PageHeader.vue'
 	import CallBoard from './CallBoard.vue'
 	export default {
@@ -214,6 +124,10 @@
 				this.$data.role = "管理人员"
 			}
 			this.$data.userId = peaple.userId
+			
+			
+			this.getDishInfo()
+			this.getOrder()
 		},
 		data() {
 			return {
@@ -223,42 +137,101 @@
 				columnsDish,
 				role: "",
 				userId: "",
-				anunlist: [{
-						title: "打扫卫生",
-						notice_id: "1",
-						user_id: "",
-						contents: "做卫生",
-						send_time: "2022-02-24 09:58:55"
-
-					},
-					{
-						title: "开会通知",
-						notice_id: "2",
-						user_id: "",
-						contents: "今天晚上8点半在办公室开会",
-						send_time: "2022-02-24 09:58:55"
-
-					}
-				]
+				anunlist: []
 			}
 		},
 		methods: {
 			handledeliver(key) {
-				console.log("进入handlebook")
 				const newData = [...this.dataDish];
 				const target = newData.filter(item => key === item.key)[0];
 				if (target) {
-					if (target.deliver === "等待推送") {
-						target.deliver = "正在推送";
-					} else {
-						target.deliver = "已推送"
-					}
+					if (target.dish_state === "等待传菜") {
+						target.dish_state = "已传菜"
+						this.RequestChangeState(target.order_id,target.dish_id)
+					} 
 				}
 			},
 			toOrder() {
 				this.$router.push({
 					path: "/Order"
 				})
+			},
+			
+			getDishInfo(){
+				this.axios.get("http://47.98.238.175:8080/dishOrder/sendDishInfo").then(res => {
+					let dataDish = res.data
+					console.log(dataDish)
+					this.dataDish = dataDish.map((item,i) => {
+						item.key = i						
+						item.dish_state = "等待传菜"
+						return item
+					})
+				})
+				.catch(function (error) {
+				  console.log(error);
+				});
+			},
+			
+			RequestChangeState(orderId,dishId){
+				
+				console.log(orderId,dishId);
+				this.axios.get("http://47.98.238.175:8080/dishOrder/update",
+				{
+					params: {
+						orderId,
+						dishId
+						}
+				}).then(res => {
+					console.log(res);
+				})
+				.catch(function (error) {
+				  console.log(error);
+				});
+			},
+			
+			getOrder(){
+				this.axios.get("http://47.98.238.175:8080/queryOrder",
+				{
+					params: {
+						orderState:0
+						}
+				}).then(res => {
+					this.dataOrder = res.data.map((item,i) => {
+						item.newOrder.key = i
+						delete	item.newOrder.waiter,
+						delete	item.newOrder.remarks
+						return item.newOrder
+					}) 
+					
+					console.log(this.dataOrder);
+				})
+				.catch(function (error) {
+				  console.log(error);
+				});
+			},
+			
+			onDelete(key){
+				const newData = [...this.dataOrder];
+				const target = newData.filter(item => key === item.key)[0];
+				if (target) {
+						this.CheckOut(target.orderId)
+						this.dataOrder.splice(this.dataOrder.findIndex(item=>item.key==key),1)
+				}
+			},
+			
+			CheckOut(orderid){
+				this.axios.get("http://47.98.238.175:8080/checkout",
+				{
+					params: {
+						orderid
+						}
+				}).then(res => {
+					
+					console.log(res);
+				})
+				.catch(function (error) {
+				  console.log(error);
+				});
 			}
 		}
 	}

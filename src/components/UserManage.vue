@@ -15,29 +15,26 @@
 			<div class="secondary-head">
 				<div class="time">
 					身份：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="2" style="width: 120px" @change="handleChange">
+						<a-select-option value="1">
+							管理员
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
+						<a-select-option value="2">
+							后厨人员
 						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option value="3">
+							服务人员
 						</a-select-option>
 					</a-select>
 				</div>
 				<div class="table-number">
 					是否被锁定：
-					<a-select default-value="lucy" style="width: 120px" @change="handleChange">
-						<a-select-option value="jack">
-							Jack
+					<a-select default-value="2" style="width: 120px" @change="handleChange">
+						<a-select-option value="1">
+							是
 						</a-select-option>
-						<a-select-option value="lucy">
-							Lucy
-						</a-select-option>
-						<a-select-option value="Yiminghe">
-							yiminghe
+						<a-select-option value="2">
+							否
 						</a-select-option>
 					</a-select>
 				</div>
@@ -47,15 +44,27 @@
 			</div>
 			<div style="padding: 20px;">
 				<div>
-					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 350 }">
+					<a-table :columns="columns" :data-source="userData" bordered :scroll="{y: 350 }">
 
-						<template slot="pic" slot-scope="text, record">
-							<img src="../assets/logo.png" style="height: 20px" />
-							{{record.ipc}}
+						<template slot="num" slot-scope="text, record,index">
+							{{index+1}}
 							<!-- <a-button>结账</a-button> -->
 						</template>
 
-						<a-button slot="operation" slot-scope="text, record" @click="() => edituser(record.key)">
+						<template slot="isLock" slot-scope="text, record">
+							{{record.isLock==1?'是':'否'}}
+						</template>
+
+						<template slot="roleId" slot-scope="text, record">
+							{{record.roleId=='1'?'管理员':record.roleId=='2'?'后厨人员':'服务人员'}}
+						</template>
+						
+						<template slot="profilePic" slot-scope="text, record">
+							<img src="../assets/logo.png" style="height: 20px" />
+							{{record.profilePic}}
+						</template>
+
+						<a-button slot="operation" slot-scope="text, record" @click="() => toEditUser(record)">
 							修改
 						</a-button>
 
@@ -76,29 +85,38 @@
 			title: '编号',
 			dataIndex: 'num',
 			key: 'num',
+			scopedSlots: {
+				customRender: 'num'
+			},
 		},
 		{
 			title: '用户名',
-			dataIndex: 'name',
-			key: 'name',
+			dataIndex: 'userId',
+			key: 'userId',
 		},
 		{
 			title: '头像',
-			key: 'pic',
-			dataIndex: 'pic',
+			key: 'profilePic',
+			dataIndex: 'profilePic',
 			scopedSlots: {
-				customRender: 'pic'
+				customRender: 'profilePic'
 			},
 		},
 		{
 			title: '身份',
-			key: 'type',
-			dataIndex: 'type',
+			key: 'roleId',
+			dataIndex: 'roleId',
+			scopedSlots: {
+				customRender: 'roleId'
+			},
 		},
 		{
 			title: '是否被锁定',
-			key: 'lock',
-			dataIndex: 'lock',
+			key: 'isLock',
+			dataIndex: 'isLock',
+			scopedSlots: {
+				customRender: 'isLock'
+			},
 		},
 		{
 			title: '操作',
@@ -109,58 +127,11 @@
 			},
 		},
 	];
-	const data = [{
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		}, {
-			key: '6',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		}, {
-			key: '7',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		}, {
-			key: '8',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		}, {
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			cook: "等待烹饪"
-		},
-		{
-			key: '2',
-			name: 'Jim Green',
-			age: 42,
-			address: 'London No. 1 Lake Park',
-			cook: "已烹饪"
-		},
-		{
-			key: '3',
-			name: 'Joe Black',
-			age: 32,
-			address: 'Sidney No. 1 Lake Park',
-			cook: "等待烹饪"
-		},
-	];
-
 
 	export default {
 		data() {
 			return {
-				data,
+				userData: [],
 				columns,
 				timeNow: "2021-02-26",
 				totalPrice: 35,
@@ -171,20 +142,32 @@
 			PageHeader,
 		},
 		mounted() {
-			axios.get('/user/userinfo')
-			.then(res => {
-				console.log(res);
-			})
-			.catch(err => {
-				console.error(err);
-			})
+			this.getData();
 		},
 		methods: {
-			edituser(key) {
+			getData: function() {
+				let that = this
+				this.axios({ //格式a
+					method: 'get',
+					url: 'http://47.98.238.175:8080/user/queryAll'
+				}).then(function(res) {
+					console.log(res)
+					console.log(res.data);
+					// console.log(this.data1);
+					that.userData = res.data;
+					// console.log(data);
+				}).catch(res => {
+					console.log(res)
+					console.log('请求失败：' + res.status + ',' + res.statusText);
+				});
+			},
+			
+			toEditUser(record) {
 				this.$router.push({
-					path: "/AEditUserInfo"
+					name: "aedituserinfo",
+					params: record
 				})
-			}
+			},
 		}
 	}
 </script>

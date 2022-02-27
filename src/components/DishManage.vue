@@ -71,7 +71,6 @@
 						<template slot="pic" slot-scope="text, record">
 							<img src="../assets/logo.png" style="height: 20px" />
 							{{record.ipc}}
-							<!-- <a-button>结账</a-button> -->
 						</template>
 						<template slot="delete" slot-scope="text, record">
 							<a-popconfirm v-if="data1.length" title="确定删除 ?" @confirm="() => onDelete(record)">
@@ -206,7 +205,6 @@
 			PageHeader,
 		},
 		mounted() {
-
 			this.getData();
 		},
 		methods: {
