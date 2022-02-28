@@ -1,17 +1,6 @@
 <template>
-	<div>
-		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
-
-		<div class="catalog">
-			<span class="cata-info">
-				<router-link to="/administratorindex" style="color: white;">管理员首页</router-link>
-			</span>
-			>
-			<span class="cata-info">
-				<router-link to="/announce" style="color: white;">实时公告发布</router-link>
-			</span>
-			<a-button class="btn-back" @click="back">返回</a-button>
-		</div>
+	<div class="body">
+		<div class="title">发布实时公告</div>
 		<div class="content-wrap">
 			<div class="con-title">
 				<div class="title-text">标题:</div>
@@ -25,18 +14,15 @@
 					<textarea v-model="content"></textarea>
 				</div>
 			</div>
-			<a-button type="primary" @click="Submit">提交</a-button>
+			<div style="width: 100%;"><a-button type="primary" @click="Submit" style="margin: auto; ">提交</a-button></div>
+			
 		</div>
 	</div>
 </template>
 
 <script>
-	import PageHeader from './PageHeader.vue'
 	export default {
 		name: 'AdministratorIndex',
-		components: {
-			PageHeader,
-		},
 
 		mounted: function() {
 
@@ -88,54 +74,26 @@
 </script>
 
 <style>
-	.catalog {
-		margin-top: 100px;
+	.body{
+		padding-top: 10px;
+		width: 100%;
+		background-color: rgba(255,255,255,0.5);
+	}
+	.body .title {
+		width: 270px;
 		height: 50px;
-		font-size: 20px;
-		line-height: 30px;
-		padding: 10px 20px 10px 20px;
-	}
-
-	.cata-info {
-		background-color: #A4ADB3;
-		color: white;
-	}
-
-	.btn-back {
-		float: right;
-	}
-
-	.content {
-		display: flex;
-		margin-top: 20px;
-		justify-content: space-around;
-
-	}
-
-	.left-select {
-		width: 30%;
-		height: 600px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-		align-items: center;
-		background-color: white;
-	}
-
-	.left-select div {
-		height: 50px;
-		border-radius: 10px;
-		background-color: #CFD8DC;
-		width: 200px;
 		line-height: 50px;
+		border-radius: 25px;
+		font-size: 24px;
+		font-weight: bold;
 		text-align: center;
+		margin:20px auto;
+		background-color: rgba(255,255,255,0.7);
 	}
 
 	.content-wrap {
 		margin: auto;
-		margin-top: 20px;
-		width: 800px;
-		background-color: white;
+		width: 80%;
 		padding: 20px;
 	}
 
@@ -159,7 +117,7 @@
 
 	.con-title .title-input input {
 		height: 50px;
-		width: 550px;
+		width: 800px;
 		font-size: 20px;
 	}
 
@@ -181,8 +139,18 @@
 	}
 
 	.con-content .content-input textarea {
-		width: 550px;
+		width: 800px;
 		height: 350px;
 		font-size: 20px;
+		resize:none;
+	}
+	
+	input, textarea{
+		border-radius: 5px;
+		border-style: none;
+	}
+	
+	input:focus, textarea:focus { 
+		outline: none; 
 	}
 </style>

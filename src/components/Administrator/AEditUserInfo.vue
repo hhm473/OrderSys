@@ -1,26 +1,9 @@
 <template>
 	<div>
-		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
-
-		<div class="catalog">
-			<span class="cata-info">
-				<router-link to="/administratorindex" style="color: white;">管理员首页</router-link>
-			</span>
-			>
-			<span class="cata-info">
-				<router-link to="/usermanage" style="color: white;">用户管理</router-link>
-			</span>
-			>
-			<span class="cata-info">
-				<router-link to="/aedituserinfo" style="color: white;">编辑用户信息</router-link>
-			</span>
-			<a-button class="btn-back" @click="back">返回</a-button>
-		</div>
 
 		<div class="body">
-			<div style="display: flex;">
-				<div class="title highlight">管理员修改个人信息</div>
-			</div>
+			
+				<div class="title">管理员修改个人信息</div>
 			<div class="form">
 				<a-form :form="form" @submit="handleSubmit">
 
@@ -162,24 +145,12 @@
 </template>
 
 <script>
-	import PageHeader from './PageHeader.vue'
 
 	import axios from 'axios'
 	export default {
-		name: 'SignUp',
-		components: {
-			PageHeader
-		},
+		name: 'AEditUserInfo',
+
 		mounted: function() {
-			let peaple = JSON.parse(localStorage.getItem('role'))
-			if (peaple.roleId == 1) {
-				this.$data.role = "服务员"
-			} else if (peaple.roleId == 2) {
-				this.$data.role = "后厨人员"
-			} else {
-				this.$data.role = "管理人员"
-			}
-			this.$data.userId = peaple.userId
 
 			let that = this;
 
@@ -291,44 +262,26 @@
 </script>
 
 <style scoped>
-	.catalog {
-		margin-top: 100px;
+
+	.body{
+		padding-top: 10px;
+		width: 100%;
+		background-color: rgba(255,255,255,0.5);
+	}
+	.body .title {
+		width: 400px;
 		height: 50px;
-		font-size: 20px;
-		line-height: 30px;
-		padding: 10px 20px 10px 20px;
-	}
-
-	.cata-info {
-		background-color: #A4ADB3;
-		color: white;
-	}
-
-	.btn-back {
-		float: right;
-	}
-
-	.body {
-		margin-top: 100px;
-		margin-left: 15%;
-		margin-right: 15%;
-		width: 70%;
-		background-color: white;
-	}
-
-	.highlight {
-		color: #FE742B;
+		line-height: 50px;
+		border-radius: 25px;
+		font-size: 24px;
+		font-weight: bold;
+		text-align: center;
+		margin:20px auto;
+		background-color: rgba(255,255,255,0.7);
 	}
 
 	.form {
 		padding: 20px;
-	}
-
-	.body .title {
-		font-size: 30px;
-		font-weight: bold;
-		padding-left: 60px;
-		padding-top: 20px;
 	}
 
 	.body .hint {

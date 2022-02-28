@@ -9,7 +9,7 @@
 		
 		<div v-if="isLogin" class="user-info">
 			<div class="welcome">欢迎回来，{{userType}}&nbsp;&nbsp;&nbsp;&nbsp;{{userName}}</div>
-			<img v-on:click="ShowButton" v-if="!isShowButton" style="width: 50px; height: 50px;" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+			<img v-on:click="ShowButton" v-if="!isShowButton" src="https://img.yzcdn.cn/vant/cat.jpeg" />
 			<div class="user-buton" v-if="isShowButton">
 				<a-button style="width: 70px; font-size: 10px;" @click="EditUserInfo" type="primary" size="small">修改信息</a-button>
 				<a-button style="width: 70px; font-size: 10px;" @click="Quit" type="primary" size="small">退出登录</a-button>
@@ -73,13 +73,13 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		height: 90px;
+		height: 70px;
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		border-bottom: #BBBBBB;
-		box-shadow: 2px 2px 2px #616161;
+		box-shadow: 3px 3px 5px #e6e6e6;
 		background-color: white;
 	}
 	.sys-wrap{
@@ -88,14 +88,15 @@
 	}
 
 	.all-wrap .img-wrap {
-		height: 60px;
-		width: 60px;
+		height: 50px;
+		width: 70px;
 		margin-left: 10px;
 	}
 
 	.all-wrap .title {
 		margin-left: 10px;
-		font-size: 34px;
+		padding-left: 0;
+		font-size: 30px;
 		font-weight: bold;
 	}
 
@@ -105,10 +106,15 @@
 		display: flex;
 		justify-content: center;
 	}
+	.user-info img{
+		width: 50px; 
+		height: 50px;
+		border-radius: 25px;
+	}
 
 	.user-info .welcome {
 		text-align: center;
-		font-size: 20px;
+		font-size: 18px;
 		width: 400px;
 		padding-top: 10px;
 	}

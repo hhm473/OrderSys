@@ -1,20 +1,10 @@
 <template>
 	<div>
-		<page-header></page-header>
 		<div class="body">
-			<div class="catalog">
-				<span class="cata-info">
-					<router-link to="/administratorindex" style="color: white;">管理员首页</router-link>
-				</span>
-				>
-				<span class="cata-info">
-					<router-link to="/dishmanage" style="color: white;">菜品管理</router-link>
-				</span>
-				<a-button class="btn-back" @click="back">返回</a-button>
-			</div>
+			<div class="title">菜品管理</div>
 			<div class="secondary-head">
 				<div class="time">
-					名称：<a-input v-model="dishName" placeholder="请输入名称" maxLength=3></a-input>
+					<div>名称：</div><a-input v-model="dishName" placeholder="请输入名称" maxLength=3 style="width: 150px;"></a-input>
 				</div>
 				<div class="table-number">
 					是否推荐：
@@ -32,11 +22,9 @@
 				</div>
 				<div class="table-number">
 					价格：
-					<div style="display: flex;">
-
-					</div>
-					<a-input v-model="minPrice" maxLength=3></a-input>——
-					<a-input v-model="maxPrice" maxLength=3></a-input>
+					<div><a-input type="number" v-model="minPrice" maxLength=3 placeholder="最小价格"></a-input></div> -
+					<div><a-input type="number" v-model="maxPrice" maxLength=3 placeholder="最大价格"></a-input></div>
+					
 				</div>
 				<div class="total-price">
 					<a-button type="primary" @click="dishSelect">查询</a-button>
@@ -47,12 +35,12 @@
 			</div>
 			<div style="padding: 20px;">
 				<div>
-					<a-table :columns="columns" :data-source="data1" bordered :scroll="{y: 350 }">
+					<a-table :columns="columns" :data-source="data1" bordered :scroll="{y: 450 }">
 						<a-button slot="edit" slot-scope="text, record" @click="() => toEditDish(record)">
 							修改
 						</a-button>
 						<template slot="pic" slot-scope="text, record">
-							<img src="../assets/logo.png" style="height: 20px" />
+							<img src="../../assets/logo.png" style="height: 20px" />
 							{{record.ipc}}
 						</template>
 						<template slot="delete" slot-scope="text, record">
@@ -64,14 +52,13 @@
 				</div>
 			</div>
 		</div>
-		<div style="width: 100%;height: 200px;"></div>、
+
 	</div>
 </template>
 
 <script>
-	import Dish from './Dish.vue'
-	import PageHeader from './PageHeader.vue'
-	import OrderQingdan from './OrderQingdan.vue'
+	import Dish from '../Dish.vue'
+	import OrderQingdan from '../OrderQingdan.vue'
 	import axios from 'axios'
 	const columns = [{
 			title: '编号',
@@ -128,52 +115,7 @@
 			},
 		}
 	];
-	const data1 = [{
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '6',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '7',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '8',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		}, {
-			key: '1',
-			name: 'John Brown',
-			tableNum: "2",
-			number: '1',
-			deliver: "等待推送"
-		},
-		{
-			key: '2',
-			name: 'Jim Green',
-			age: 42,
-			address: 'London No. 1 Lake Park',
-			deliver: "已推送"
-		},
-		{
-			key: '3',
-			name: 'Joe Black',
-			age: 32,
-			address: 'Sidney No. 1 Lake Park',
-			deliver: "等待推送"
-		},
-	];
+	const data1 = [];
 
 	export default {
 		data() {
@@ -189,9 +131,6 @@
 				timeNow: "2021-02-26",
 				tableNum: 2
 			}
-		},
-		components: {
-			PageHeader,
 		},
 		mounted() {
 			this.getData();
@@ -288,49 +227,52 @@
 				}
 			},
 
-
-			// http:/localhost:8080/OrderSys/dishes/add
 		},
 	}
 </script>
 
 <style scoped>
 	.body {
-		margin-top: 100px;
+		padding-top: 10px;
+		background-color: rgba(255,255,255,0.5);
 		width: 100%;
-		background-color: white;
 	}
-
-	.catalog {
+	
+	.body .title {
+		width: 270px;
 		height: 50px;
-		font-size: 20px;
-		line-height: 30px;
-		padding: 10px 20px 10px 20px;
-	}
-
-	.cata-info {
-		background-color: #A4ADB3;
-		color: white;
-	}
-
-	.btn-back {
-		float: right;
+		line-height: 50px;
+		border-radius: 25px;
+		font-size: 24px;
+		font-weight: bold;
+		text-align: center;
+		margin:20px auto;
+		background-color: rgba(255,255,255,0.7);
 	}
 
 	.secondary-head {
 		display: flex;
 		padding: 20px;
-		height: 200px;
+		height: 60px;
 		font-size: 20px;
 		font-weight: bold;
 	}
 
 	.time {
 		margin-right: 50px;
+		width: 250px;
+		display: flex;
+		justify-content: center;
 	}
 
 	.table-number {
 		margin-right: 50px;
+		width: 250px;
+		display: flex;
+		justify-content: space-around;
+	}
+	.table-number div{
+		width: 80px;
 	}
 
 	.total-price {

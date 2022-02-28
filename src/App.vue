@@ -22,6 +22,6 @@
 		background-size: cover;
 
 		height: 100%;
-		overflow: scroll;
+		overflow: hidden;
 	}
 </style>

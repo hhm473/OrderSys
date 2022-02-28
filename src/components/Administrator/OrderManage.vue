@@ -1,17 +1,7 @@
 <template>
 	<div>
-		<page-header></page-header>
 		<div class="body">
-			<div class="catalog">
-				<span class="cata-info">
-					<router-link to="/administratorindex" style="color: white;">管理员首页</router-link>
-				</span>
-				>
-				<span class="cata-info">
-					<router-link to="/ordermanage" style="color: white;">订单管理</router-link>
-				</span>
-				<a-button class="btn-back" @click="back">返回</a-button>
-			</div>
+			<div class="title">订单管理</div>
 			<div class="secondary-head">
 				<div class="time">
 					桌号：
@@ -56,21 +46,19 @@
 			</div>
 			<div style="padding: 20px;">
 				<div>
-					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 350 }">
+					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 450 }">
 
 
 					</a-table>
 				</div>
 			</div>
 		</div>
-		<div style="width: 100%;height: 200px;"></div>、
 	</div>
 </template>
 
 <script>
-	import Dish from './Dish.vue'
-	import PageHeader from './PageHeader.vue'
-	import OrderQingdan from './OrderQingdan.vue'
+	import Dish from '../Dish.vue'
+	import OrderQingdan from '../OrderQingdan.vue'
 
 	const columns = [{
 			title: '编号',
@@ -116,9 +104,7 @@
 				Bdata:""
 			}
 		},
-		components: {
-			PageHeader,
-		},
+
 		mounted: function() {
 			
 			this.getOrder()
@@ -190,25 +176,20 @@
 
 <style scoped>
 	.body {
-		margin-top: 100px;
 		width: 100%;
-		background-color: white;
+		background-color: rgba(255,255,255,0.5);
+		padding-top: 10px;
 	}
-
-	.catalog {
+	.body .title {
+		width: 270px;
 		height: 50px;
-		font-size: 20px;
-		line-height: 30px;
-		padding: 10px 20px 10px 20px;
-	}
-
-	.cata-info {
-		background-color: #A4ADB3;
-		color: white;
-	}
-
-	.btn-back {
-		float: right;
+		line-height: 50px;
+		border-radius: 25px;
+		font-size: 24px;
+		font-weight: bold;
+		text-align: center;
+		margin:20px auto;
+		background-color: rgba(255,255,255,0.7);
 	}
 
 	.secondary-head {

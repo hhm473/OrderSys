@@ -1,20 +1,9 @@
 <template>
 	<div>
-		<page-header></page-header>
 		<div class="body">
 			<!-- this is the news page.the transform param is {{this.$route.params}} -->
-			<div class="catalog">
-
-				<span class="cata-info">
-					<router-link to="/administratorindex" style="color: white;">管理员首页</router-link>
-				</span>
-				>
-				<span class="cata-info">
-					<router-link to="/dishmanage" style="color: white;">菜品管理</router-link>
-				</span>
-				>
-				<span class="cata-info">修改菜品</span>
-				<a-button class="btn-back" @click="back">返回</a-button>
+			<div class="title">
+				修改菜品
 			</div>
 			<a-row :gutter="[0,50]">
 				<a-col :span="4">
@@ -87,9 +76,12 @@
 				</a-col>
 			</a-row>
 
-			<div style="text-align: center;">
-				<a-button type="primary" size="large" @click="dishEdit">提交</a-button>
-			</div>
+			<a-form-item>
+				<div class="button-wrap" >
+					<a-button type="primary" @click="dishEdit" size="large" >提交</a-button>
+					<a-button type="primary" size="large" @click="comeBack">返回</a-button>
+				</div>
+			</a-form-item>
 			<div style="text-align: center;">
 			</div>
 		</div>
@@ -99,13 +91,10 @@
 </template>
 
 <script>
-	import PageHeader from './PageHeader.vue'
 
 	export default {
-		name: 'SignUp',
-		components: {
-			PageHeader
-		},
+		name: 'EditDish',
+
 		data() {
 			return {
 				initData: "",
@@ -120,6 +109,7 @@
 		mounted() {
 			let that = this;
 			that.initData = this.$route.params;
+			console.log(that.initData)
 			that.dishId = that.initData.dishId;
 			that.dishName = that.initData.dishName;
 			that.price = that.initData.price;
@@ -150,30 +140,31 @@
 					alert(error);
 				});
 			},
+			
+			comeBack(){
+				this.$router.go(-1)
+			}
+			
 		}
 	}
 </script>
 
 <style scoped>
-	.body {
-		margin-top: 100px;
+	.body{
+		padding-top: 10px;
 		width: 100%;
+		background-color: rgba(255,255,255,0.5);
 	}
-
-	.catalog {
+	.body .title {
+		width: 270px;
 		height: 50px;
-		font-size: 20px;
-		line-height: 30px;
-		padding: 10px 20px 10px 20px;
-	}
-
-	.cata-info {
-		background-color: #A4ADB3;
-		color: white;
-	}
-
-	.btn-back {
-		float: right;
+		line-height: 50px;
+		border-radius: 25px;
+		font-size: 24px;
+		font-weight: bold;
+		text-align: center;
+		margin:20px auto;
+		background-color: rgba(255,255,255,0.7);
 	}
 
 	.highlight {
@@ -184,12 +175,6 @@
 		padding-top: 20px;
 	}
 
-	.body .title {
-		font-size: 30px;
-		font-weight: bold;
-		padding-left: 60px;
-		padding-top: 20px;
-	}
 
 	.body .hint {
 		font-size: 10px;
@@ -198,8 +183,9 @@
 	}
 
 	.input-item {
-		font-size: 15px;
-		margin: 10px 0 0 100px;
+		font-size: 18px;
+		font-weight: bold;
+		margin: 10px 0 0 60px;
 	}
 
 	.input-hint {
@@ -210,5 +196,13 @@
 
 	.ant-col-sm-16 {
 		width: 100% !important;
+	}
+	
+	.button-wrap{
+		margin: auto;
+		width: 200px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 </style>

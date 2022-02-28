@@ -7,14 +7,15 @@ import ChefIndex from '../components/ChefIndex.vue'
 import WaiterIndex from '../components/WaiterIndex.vue'
 import Order from '../components/Order.vue'
 import XiaDan from '../components/XiaDan.vue'
-import OrderManage from '../components/OrderManage.vue'
-import DishManage from '../components/DishManage.vue'
-import UserManage from '../components/UserManage.vue'
-import EditDish from '../components/EditDish.vue'
-import AddDish from '../components/AddDish.vue'
-import Announce from '../components/Announce.vue'
-import AEditUserInfo from '../components/AEditUserInfo.vue'
-import AdministratorIndex from '../components/AdministratorIndex.vue'
+import OrderManage from '../components/Administrator/OrderManage.vue'
+import DishManage from '../components/Administrator/DishManage.vue'
+import UserManage from '../components/Administrator/UserManage.vue'
+import EditDish from '../components/Administrator/EditDish.vue'
+import AddDish from '../components/Administrator/AddDish.vue'
+import Announce from '../components/Administrator/Announce.vue'
+import AEditUserInfo from '../components/Administrator/AEditUserInfo.vue'
+import AdministratorIndex from '../components/Administrator/AdministratorIndex.vue'
+import Registeration from '../components/Administrator/Registeration.vue'
 
 
 Vue.use(VueRouter)
@@ -53,39 +54,51 @@ const routes = [{
 		name: 'xiadan',
 		component: XiaDan,
 	},
-	{
-		path: '/ordermanage',
-		component: OrderManage,
-	},
-	{
-		path: '/dishmanage',
-		component: DishManage,
-	},
-	{
-		path: '/usermanage',
-		component: UserManage,
-	},
-	{
-		path: '/editdish',
-		name: 'editdish',
-		component: EditDish,
-	},
-	{
-		path: '/adddish',
-		component: AddDish,
-	},
-	{
-		path: '/announce',
-		component: Announce,
-	},
-	{
-		path: '/aedituserinfo',
-		name: 'aedituserinfo',
-		component: AEditUserInfo,
-	},
+	
 	{
 		path: '/administratorindex',
 		component: AdministratorIndex,
+		children: [
+			{
+			    path: '/',
+			    redirect: '/registeration'
+			},
+			{
+			path: '/registeration',
+			name: 'registeration',
+			component: Registeration
+			},
+			{
+				path: '/ordermanage',
+				component: OrderManage,
+			},
+			{
+				path: '/dishmanage',
+				component: DishManage,
+			},
+			{
+				path: '/usermanage',
+				component: UserManage,
+			},
+			{
+				path: '/adddish',
+				component: AddDish,
+			},
+			{
+				path: '/announce',
+				component: Announce,
+			},
+			{
+				path: '/aedituserinfo',
+				name: 'aedituserinfo',
+				component: AEditUserInfo,
+			},
+			{
+				path: '/editdish',
+				name: 'editdish',
+				component: EditDish,
+			},
+		]
 	},
 
 ]

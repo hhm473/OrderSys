@@ -51,7 +51,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.board-wrap {
 		width: 90%;
 		margin: auto;

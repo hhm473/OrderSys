@@ -1,19 +1,20 @@
 <template>
 	<div>
 		<page-header></page-header>
-		<div class="login-wrap">
-			<div class="header-title">
-				用户名登录
-			</div>
-			<a-form :form="form" @submit="handleSubmit">
-				<a-row style="height: 90px;">
-					<a-col :span="6">
-						<div class="username">用户名：</div>
-					</a-col>
+		<div class="touming">
+			<div class="login-wrap">
+				<div class="header-title">
+					用户名登录
+				</div>
+				<a-form :form="form" @submit="handleSubmit">
+					<a-row style="height: 90px;">
+						<a-col :span="6">
+							<div class="username">用户名：</div>
+						</a-col>
 
-					<a-col :span="16">
-						<a-form-item has-feedback>
-							<a-input v-decorator="[
+						<a-col :span="16">
+							<a-form-item has-feedback>
+								<a-input v-decorator="[
 								'userId',
 								{
 								rules: [
@@ -27,17 +28,17 @@
 								],
 								},
 							]" placeholder="请输入用户名" style="height: 50px; border-radius: 50px; padding-left: 15px;" />
-						</a-form-item>
-					</a-col>
-				</a-row>
-				<a-row style="height: 90px;">
-					<a-col :span="6">
-						<div class="username">密码：</div>
-					</a-col>
+							</a-form-item>
+						</a-col>
+					</a-row>
+					<a-row style="height: 90px;">
+						<a-col :span="6">
+							<div class="username">密码：</div>
+						</a-col>
 
-					<a-col :span="16">
-						<a-form-item has-feedback>
-							<a-input v-decorator="[
+						<a-col :span="16">
+							<a-form-item has-feedback>
+								<a-input v-decorator="[
 								'password',
 								{
 								rules: [
@@ -51,61 +52,62 @@
 								],
 								},
 							]" placeholder="请输入密码" type="password" style="height: 50px; border-radius: 50px; padding-left: 15px;" />
-						</a-form-item>
-					</a-col>
-				</a-row>
-				<!-- <a-row style="height: 90px;">
-					<a-col :span="6">
-						<div class="username">身份选择：</div>
-					</a-col>
+							</a-form-item>
+						</a-col>
+					</a-row>
+					<a-row style="height: 90px;">
+						<a-col :span="6">
+							<div class="username">身份选择：</div>
+						</a-col>
 
-					<a-col :span="10">
-						<a-form-item has-feedback>
-							<a-select v-decorator="['roleId']">
-								<a-select-option value="1">
-									管理员
-								</a-select-option>
-								<a-select-option value="2">
-									后厨
-								</a-select-option>
-								<a-select-option value="3">
-									服务员
-								</a-select-option>
-							</a-select>
-						</a-form-item>
-					</a-col>
-				</a-row> -->
-				<a-row style="height: 90px;">
-					<a-col :span="6">
-						<div class="username">验证码：</div>
-					</a-col>
+						<a-col :span="10">
+							<a-form-item has-feedback>
+								<a-select v-decorator="['roleId']">
+									<a-select-option value="1">
+										管理员
+									</a-select-option>
+									<a-select-option value="2">
+										后厨
+									</a-select-option>
+									<a-select-option value="3">
+										服务员
+									</a-select-option>
+								</a-select>
+							</a-form-item>
+						</a-col>
+					</a-row>
+					<a-row style="height: 90px;">
+						<a-col :span="6">
+							<div class="username">验证码：</div>
+						</a-col>
 
-					<a-col :span="8">
-						<a-form-item has-feedback>
-							<a-input v-model="writeCode" style="height: 50px; border-radius: 50px; padding-left: 15px;" />
-						</a-form-item>
-					</a-col>
-					<a-col :span="5">
-						<div class="codeimg" @click="makeCode(identifyCodes, 4)">
-							<s-identify :identifyCode="identifyCode"></s-identify>
-						</div>
-					</a-col>
+						<a-col :span="8">
+							<a-form-item has-feedback>
+								<a-input v-model="writeCode"
+									style="height: 50px; border-radius: 50px; padding-left: 15px;" />
+							</a-form-item>
+						</a-col>
+						<a-col :span="5">
+							<div class="codeimg" @click="makeCode(identifyCodes, 4)">
+								<s-identify :identifyCode="identifyCode"></s-identify>
+							</div>
+						</a-col>
 
-				</a-row>
+					</a-row>
 
+					<a-button html-type="submit" style="color: white; background-color: #FE742B;" size="large"
+						type="danger" shape="round">
+						登录
+					</a-button>
 
+					<a-row style="font-size: 16px; font-weight: bold; margin-top: 20px;">
+						<a-col :span="15"> 没有账号？<router-link to="/signup">注册</router-link>
+						</a-col>
+						<a-col :span="5"> 忘记密码</a-col>
+					</a-row>
+				</a-form>
+			</div>
 
-				<a-button html-type="submit" style="color: white; background-color: #FE742B;" size="large" type="danger"
-					shape="round">
-					登录
-				</a-button>
-
-				<a-row style="font-size: 16px; font-weight: bold; margin-top: 20px;">
-					<a-col :span="15"> 没有账号？<router-link to="/signup">注册</router-link>
-					</a-col>
-					<a-col :span="5"> 忘记密码</a-col>
-				</a-row>
-			</a-form>
 		</div>
 	</div>
 </template>
@@ -127,7 +129,7 @@
 
 				identifyCodes: "1234567890",
 				identifyCode: "",
-				writeCode:""
+				writeCode: ""
 			};
 		},
 
@@ -171,55 +173,51 @@
 			},
 
 			handleSubmit(e) {
-				
-				if(this.writeCode == this.identifyCode){
+
+				if (this.writeCode == this.identifyCode) {
 					this.form.validateFields((err, values) => {
 						if (!err) {
-											
-							this.axios(
-							{
-							    method: 'post',
-							    url: 'http://47.98.238.175:8080/user/login',
-							    data: this.$qs.stringify(values)
-							}).then(res => {
-								
-								if(!res.data){
-									alert("密码错误！请重新输入。")
-									this.makeCode(this.identifyCodes, 4);
-								}else{
-									let values = res.data
-									localStorage.setItem('role', JSON.stringify(values));
-									if (values.roleId === 3) {
-														
-										this.$router.push({
-											path: "/waiterindex"
-										})
-									} else if (values.roleId === 2) {
-										this.$router.push({
-											path: "/ChefIndex"
-										})
+							this.axios({
+									method: 'post',
+									url: 'http://47.98.238.175:8080/user/login',
+									data: this.$qs.stringify(values)
+								}).then(res => {
+									if (!res.data) {
+										alert("密码错误！请重新输入。")
+										this.makeCode(this.identifyCodes, 4);
 									} else {
-										this.$router.push({
-											path: "/AdministratorIndex"
-										})
+										let values = res.data
+										localStorage.setItem('role', JSON.stringify(values));
+										if (values.roleId === 3) {
+
+											this.$router.push({
+												path: "/waiterindex"
+											})
+										} else if (values.roleId === 2) {
+											this.$router.push({
+												path: "/ChefIndex"
+											})
+										} else {
+											this.$router.push({
+												path: "/AdministratorIndex"
+											})
+										}
 									}
-								}								
-								
-							})
-							.catch(function (error) {
-							  console.log(error);
-							});
+								})
+								.catch(function(error) {
+									console.log(error);
+								});
 						}
 					});
-					
-				}else{
+
+				} else {
 					alert(
 						"验证码错误"
 					)
 					this.makeCode(this.identifyCodes, 4);
 				}
-				
-				
+
+
 			},
 
 
@@ -228,13 +226,23 @@
 </script>
 
 <style scoped>
+	.touming {
+		height: 620px;
+		width: 620px;
+		border-radius: 20px;
+		margin: auto;
+		margin-top: 120px;
+		padding-top: 10px;
+		background-color: rgba(255,255,255,0.6);
+	}
+
 	.login-wrap {
 		background-color: white;
 		height: 600px;
 		width: 600px;
 		padding: 30px 80px;
 		margin: auto;
-		margin-top: 120px;
+		border-radius: 20px;
 	}
 
 	.header-title {

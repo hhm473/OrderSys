@@ -1,27 +1,28 @@
 <template>
 	<div>
 		<page-header></page-header>
-		<div class="body">
-			<div style="display: flex;">
+		<div class="touming">
+			<div class="body">
+				<div style="display: flex;">
 
-				<div class="title highlight">欢迎注册</div>
-				<div class="hint">已有账号？ 马上
-					<span class="highlight">
-						<router-link to="/login">登录</router-link>
-					</span>
+					<div class="title highlight">欢迎注册</div>
+					<div class="hint">已有账号？ 马上
+						<span class="highlight">
+							<router-link to="/login">登录</router-link>
+						</span>
+					</div>
 				</div>
-			</div>
-			<div class="form">
-				<a-form :form="form" @submit="handleSubmit">
-					<a-row :gutter="8">
-						<a-col :span="4">
-							<div class="input-item">
-								用户名：
-							</div>
-						</a-col>
-						<a-col :span="10" >
-							<a-form-item v-bind="formItemLayout"  >
-								<a-input v-decorator="[
+				<div class="form">
+					<a-form :form="form" @submit="handleSubmit">
+						<a-row :gutter="8">
+							<a-col :span="5">
+								<div class="input-item">
+									用户名：
+								</div>
+							</a-col>
+							<a-col :span="9">
+								<a-form-item v-bind="formItemLayout">
+									<a-input v-decorator="[
 									'userId',
 									{
 										rules: [
@@ -31,25 +32,25 @@
 											},
 										],
 									},
-								]" placeholder='请输入用户名' />
-							</a-form-item>
-						</a-col>
-						<a-col :span="9">
-							<div class="input-hint">
-								支持字母、数字、“-” “_”的组合，0-30个字符，支持中文
-							</div>
-						</a-col>
-					</a-row>
+								]" placeholder='请输入用户名' class="input-kuang" />
+								</a-form-item>
+							</a-col>
+							<a-col :span="6">
+								<div class="input-hint">
+									支持字母、数字、“-” “_”的组合，0-30个字符，支持中文
+								</div>
+							</a-col>
+						</a-row>
 
-					<a-row :gutter="8">
-						<a-col :span="4">
-							<div class="input-item">
-								设置密码：
-							</div>
-						</a-col>
-						<a-col :span="10">
-							<a-form-item v-bind="formItemLayout" has-feedback>
-								<a-input v-decorator="[
+						<a-row :gutter="8">
+							<a-col :span="5">
+								<div class="input-item">
+									设置密码：
+								</div>
+							</a-col>
+							<a-col :span="9">
+								<a-form-item v-bind="formItemLayout" has-feedback>
+									<a-input v-decorator="[
 									'password',
 									{
 										rules: [
@@ -62,27 +63,27 @@
 										},
 									],
 									},
-									]" type="password" placeholder='请输入密码' />
+									]" type="password" placeholder='请输入密码' class="input-kuang" />
 
-							</a-form-item>
-						</a-col>
-						<a-col :span="9">
-							<div class="input-hint">
-								建议使用字母、数字和符号两种及以上的组合，0-18个字符
-							</div>
-						</a-col>
-					</a-row>
+								</a-form-item>
+							</a-col>
+							<a-col :span="9">
+								<div class="input-hint">
+									建议使用字母、数字和符号两种及以上的组合，0-18个字符
+								</div>
+							</a-col>
+						</a-row>
 
-					<a-row :gutter="8">
-						<a-col :span="4">
-							<div class="input-item">
-								确认密码：
-							</div>
-						</a-col>
-						<a-col :span="10">
-							<a-form-item v-bind="formItemLayout" has-feedback>
+						<a-row>
+							<a-col :span="5">
+								<div class="input-item">
+									确认密码：
+								</div>
+							</a-col>
+							<a-col :span="9">
+								<a-form-item v-bind="formItemLayout" has-feedback>
 
-								<a-input v-decorator="[
+									<a-input v-decorator="[
 			          'confirm',
 			          {
 			            rules: [
@@ -95,23 +96,23 @@
 			              },
 			            ],
 			          },
-						]" type="password" @blur="handleConfirmBlur" placeholder='请再次输入密码' />
-							</a-form-item>
-						</a-col>
-						<a-col :span="9">
-							<div class="input-hint">
-								建议使用字母、数字和符号两种及以上的组合，0-18个字符
-							</div>
-						</a-col>
-					</a-row>
+						]" type="password" @blur="handleConfirmBlur" placeholder='请再次输入密码' class="input-kuang" />
+								</a-form-item>
+							</a-col>
+							<a-col :span="9">
+								<div class="input-hint">
+									建议使用字母、数字和符号两种及以上的组合，0-18个字符
+								</div>
+							</a-col>
+						</a-row>
 
-					<a-row :gutter="8">
-						<a-col :span="4">
-							<div class="input-item">
-								用户头像：
-							</div>
-						</a-col>
-						<a-col :span="10">
+						<a-row :gutter="8">
+							<a-col :span="5">
+								<div class="input-item">
+									用户头像：
+								</div>
+							</a-col>
+							<a-col :span="8">
 
 								<a-upload name="avatar" list-type="picture-card" class="avatar-uploader"
 									:show-upload-list="false" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
@@ -125,49 +126,37 @@
 									</div>
 								</a-upload>
 
-						</a-col>
-					</a-row>
+							</a-col>
+						</a-row>
 
-					<a-row :gutter="8">
-						<a-col :span="4">
-							<div class="input-item">
-								验证码：
-							</div>
-						</a-col>
-						<a-col :span="10">
-							<a-form-item v-bind="formItemLayout" has-feedback>
+						<a-row :gutter="8">
+							<a-col :span="5">
+								<div class="input-item">
+									验证码：
+								</div>
+							</a-col>
+							<a-col :span="5">
+								<a-form-item v-bind="formItemLayout" has-feedback>
+									<a-input
+										style="height: 50px; border-radius: 50px; padding-left: 15px; width: 200px;" />
+								</a-form-item>
+							</a-col>
+							<a-col :span="9">
+								<div class="codeimg" @click="makeCode(identifyCodes, 4)">
+									<s-identify :identifyCode="identifyCode"></s-identify>
+								</div>
+							</a-col>
+						</a-row>
 
-								<a-input placeholder='请输入验证码' />
-							</a-form-item>
-						</a-col>
-						<a-col :span="9">
-							<div style="padding-top:4px;">
-								<a-button>获取验证码</a-button>
-							</div>
-						</a-col>
-					</a-row>
+						<a-form-item v-bind="tailFormItemLayout">
+							<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
+								shape="round" @click="showModal" size="large">创建账户</a-button>
 
-					<a-form-item v-bind="tailFormItemLayout">
-						<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
-							shape="round" @click="showModal" size="large">同意协议并创建账户</a-button>
-
-					</a-form-item>
-
-					<a-form-item v-bind="tailFormItemLayout">
-						<a-checkbox v-decorator="['agreement', { valuePropName: 'checked' }]">
-							已阅读并同意【
-							<a href="" class="highlight">
-								用户服务协议
-							</a>
-							】和【
-							<a href="" class="highlight">
-								隐私政策
-							</a>
-							】
-						</a-checkbox>
-					</a-form-item>
-				</a-form>
+						</a-form-item>
+					</a-form>
+				</div>
 			</div>
+
 		</div>
 
 		<a-modal title="提示" :visible="visible" @ok="handleOk" @cancel="handleCancel" okText="确定" cancelText="取消">
@@ -180,17 +169,19 @@
 
 <script>
 	import PageHeader from './PageHeader.vue'
+	import SIdentify from './Identify'
 
 	function getBase64(img, callback) {
-	  const reader = new FileReader();
-	  reader.addEventListener('load', () => callback(reader.result));
-	  reader.readAsDataURL(img);
+		const reader = new FileReader();
+		reader.addEventListener('load', () => callback(reader.result));
+		reader.readAsDataURL(img);
 	}
 
 	export default {
 		name: 'SignUp',
 		components: {
-			PageHeader
+			PageHeader,
+			SIdentify
 		},
 		data() {
 			return {
@@ -276,12 +267,13 @@
 							isLock: ""
 						}
 						console.log('Received values of form: ', data);
-						this.axios.post("http://47.98.238.175:8080/user/add", this.$qs.stringify(values)).then(res => {
-							console.log(res)
-						})
-						.catch(function (error) {
-						  console.log(error);
-						});
+						this.axios.post("http://47.98.238.175:8080/user/add", this.$qs.stringify(values)).then(
+								res => {
+									console.log(res)
+								})
+							.catch(function(error) {
+								console.log(error);
+							});
 
 					}
 				});
@@ -343,56 +335,87 @@
 				}
 				this.autoCompleteResult = autoCompleteResult;
 			},
+
+			randomNum(min, max) {
+				return Math.floor(Math.random() * (max - min) + min);
+			},
+			refreshCode() {
+				this.identifyCode = "";
+				this.makeCode(this.identifyCodes, 4);
+			},
+			makeCode(o, l) {
+				this.identifyCode = "";
+				for (let i = 0; i < l; i++) {
+					this.identifyCode += this.identifyCodes[
+						this.randomNum(0, this.identifyCodes.length)
+					];
+				}
+				console.log(this.identifyCode);
+			},
 		},
 	};
 </script>
 
 <style scoped>
-	.avatar-uploader > .ant-upload {
-	  width: 128px;
-	  height: 128px;
+
+	.touming {
+		height: 650px;
+		width: 1220px;
+		border-radius: 20px;
+		margin: auto;
+		margin-top: 100px;
+		padding-top: 10px;
+		background-color: rgba(255,255,255,0.6);
 	}
-	.ant-upload-select-picture-card i {
-	  font-size: 32px;
-	  color: #999;
-	}
-	
-	.ant-upload-select-picture-card .ant-upload-text {
-	  margin-top: 8px;
-	  color: #666;
-	}
-	
+
 	.body {
 		margin-top: 100px;
-		margin-left: 15%;
-		margin-right: 15%;
-		width: 70%;
+		margin: auto;
 		background-color: white;
+		height: 630px;
+		width: 1200px;
+		padding: 30px 80px;
+		border-radius: 20px;
 	}
 
 	.highlight {
 		color: #FE742B;
 	}
 
+	.input-kuang {
+		height: 50px;
+		border-radius: 50px;
+		width: 350px;
+		padding-left: 15px;
+	}
+
 	.form {
 		padding-top: 20px;
 	}
 
+	.codeimg {
+		margin: 5px;
+		height: 40px;
+		width: 80px;
+	}
+
 	.body .title {
-		font-size: 30px;
+		font-size: 36px;
 		font-weight: bold;
 		padding-left: 60px;
 		padding-top: 20px;
 	}
 
 	.body .hint {
-		font-size: 10px;
+		font-size: 16px;
 		padding-left: 20px;
 		padding-top: 40px;
+		font-weight: bold;
 	}
 
 	.input-item {
-		font-size: 15px;
+		font-size: 20px;
+		font-weight: bold;
 		margin: 10px 0 0 100px;
 	}
 
