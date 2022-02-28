@@ -2,7 +2,7 @@
 	<div class="all-wrap">
 		<div class="sys-wrap">
 			<div class="img-wrap"><img
-					src="../assets/img/logo.jpg" />
+					src="../assets/img/logo.png" />
 			</div>
 			<div class="title">重庆中软-到店点餐系统</div>
 		</div>
@@ -20,7 +20,7 @@
 
 <script>
 	export default {
-		name: 'Login',
+		name: 'PageHeader',
 		props: {
 			'isLogin': {
 				type: Boolean,

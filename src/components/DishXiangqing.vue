@@ -33,7 +33,7 @@
 
 <script>
 	export default {
-		name: 'Login',
+		name: 'DishXiangqing',
 		props: {
 			'dishPic': {
 				type: String,

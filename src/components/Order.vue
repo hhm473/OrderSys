@@ -115,6 +115,7 @@
 			toXiadan() {
 				let that = this;
 				console.log(that.dishOrder);
+				// localStorage.setItem('dishOrder', JSON.stringify(values));
 				this.$router.push({
 					// path: "/Xiadan",
 					name: 'xiadan',

@@ -37,7 +37,7 @@
 	import DishXiangqing from './DishXiangqing.vue'
 
 	export default {
-		name: 'Login',
+		name: 'Dish',
 
 		components: {
 			DishXiangqing,

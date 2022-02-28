@@ -21,7 +21,7 @@ Vue.use(VueRouter)
 
 const routes = [{
 		path: '/',
-		redirect: '/ordermanage'
+		redirect: '/login'
 	},
 	{
 		path: '/login',
