@@ -5,28 +5,16 @@
 				<img :src="dishPic" />
 			</div>
 			<div>
-				<div class="name">{{dishName}}</div>
-				<div class="price">价格：&nbsp;&nbsp;&nbsp;{{price}}元</div>
+				<div style="display: flex;">
+
+					<div class="name">{{dishName}}</div>
+					<div v-if="tuijian" class="tuijian">推荐</div>
+				</div>
+				<div class="price">{{price}}元</div>
 			</div>
 		</div>
 		<div>
-			<a-row>
-				<a-col :span="8">
-					菜品简介：
-				</a-col>
-				<a-col :span="16">
-					<div class="jianjie">{{intro}}</div>
-				</a-col>
-			</a-row>
-			<a-row>
-				<a-col :span="8">
-					菜品详情：
-				</a-col>
-				<a-col :span="16">
-					<div class="jianjie">{{detail}}</div>
-				</a-col>
-			</a-row>
-
+			<div class="jianjie">{{detail}}</div>
 		</div>
 	</div>
 </template>
@@ -46,9 +34,9 @@
 			'price': {
 				type: Number,
 			},
-			'intro': {
-				type: String,
-				// default: "肉丝+胡罗卜+笋丝"
+			'tuijian': {
+				type: Boolean,
+				default: true
 			},
 			'detail': {
 				type: String,
@@ -88,7 +76,7 @@
 	}
 
 	.xq-wrap {
-		border: 1px solid #A4ADB3;
+		/* border: 1px solid #A4ADB3; */
 		height: 300px;
 		width: 450px;
 		align-items: center;
@@ -96,29 +84,31 @@
 	}
 
 	.xq-wrap .img-wrap {
-		height: 110px;
-		width: 110px;
-		margin: 0 20px 0 10px;
+		height: 150px;
+		width: 150px;
+		margin: 0 70px 0 10px;
 	}
 
 	.name {
-		font-size: 1.5em;
+		font-size: 2em;
 	}
 
 	.tuijian {
-		font-size: 0.75em;
+		font-size: 1em;
 		color: red;
 		padding-left: 8px;
 	}
 
 	.jianjie {
-		font-size: 0.75em;
-		padding: 8px 0 8px 0;
+		font-size: 1.3em;
+		padding: 20px 0 0px 0;
+		text-indent: 2em;
+		line-height: 35px;
 	}
 
 	.price {
-		font-size: 1.5em;
-		padding-right: 50px;
+		font-size: 1.8em;
+		padding: 60px 0 0 40px;
 	}
 
 	.number {

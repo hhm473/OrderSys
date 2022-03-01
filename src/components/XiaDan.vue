@@ -1,42 +1,43 @@
 <template>
 	<div>
 		<page-header></page-header>
-		<div class="body">
-			<div class="catalog">
-				<span class="cata-info">
-					<router-link to="/waiterindex" style="color: white;">服务员首页</router-link>
-				</span>
-				>
-				<span class="cata-info">
-					<router-link to="/order" style="color: white;">点菜</router-link>
-				</span>
-				>
-				<span class="cata-info">
-					<router-link to="/xiadan" style="color: white;">下单</router-link>
-				</span>
-				<a-button class="btn-back" @click="back">返回</a-button>
-			</div>
-			<div class="secondary-head">
-				<div class="time">
-					时间：{{timeNow}}
+		<div class="cata">
+			<div style="display: flex; float: left;">
+				<div class="cata-item" @click="toWaiterIndex">
+					首页
 				</div>
-				<div class="table-number">
-					桌号： {{ tableNum }}
+				<div class="cata-item" @click="toOrder">
+					点菜
 				</div>
-				<div class="total-price">
-					总金额：{{totalPrice}}
+				<div class="cata-item">
+					下单
 				</div>
 			</div>
-			<div style="padding: 20px;">
+			<img src="../assets/img/back.png" @click="back" class="img-back">
+		</div>
+		<div class="content">
+			<div style="display: flex;">
+				<div class="secondary-head">
+					<div class="time">
+						时间：{{timeNow}}
+					</div>
+					<div class="table-number">
+						桌号： {{ tableNum }}
+					</div>
+					<div class="total-price">
+						总金额：{{totalPrice}} 元
+					</div>
+				</div>
 				<div>
-					<a-table :columns="columns" :data-source="dishOrder" bordered :scroll="{y: 500 }">
-
-					</a-table>
-				</div>
-				<div style="text-align: center; padding-bottom: 20px;">
-					<a-button type="primary" size="large" @click="ConfirmOrder">确认下单</a-button>
+					<a-button type="primary" size="large" @click="ConfirmOrder"
+						style="height:50px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">
+						确认下单</a-button>
 				</div>
 			</div>
+
+			<a-table class="table" :columns="columns" :data-source="dishOrder" bordered :scroll="{y: 350 }">
+
+			</a-table>
 		</div>
 		<div style="width: 100%;height: 200px;"></div>、
 	</div>
@@ -74,7 +75,7 @@
 			return {
 				columns,
 				dishOrder: [],
-				userId:'',
+				userId: '',
 				timeNow: "2021-02-26",
 				totalPrice: 35,
 				tableNum: '12'
@@ -146,20 +147,21 @@
 
 
 			},
+
+			toWaiterIndex() {
+				this.$router.push({
+					path: "/waiterindex"
+				})
+			},
+			toOrder() {
+				this.$router.push({
+					path: "/order"
+				});
+			},
 			back() {
 				this.$router.push({
 					path: "/order"
 				});
-				// let that = this;
-				// this.$router.push({
-				// 	// path: "/Xiadan",
-				// 	name: 'order',
-				// 	query: {
-				// 		dishOrder:that.dishOrder,
-				// 		tableNum:that.tableNum,
-				// 		totalPrice:that.totalPrice
-				// 	}
-				// })
 			}
 
 		},
@@ -167,45 +169,87 @@
 </script>
 
 <style scoped>
-	.body {
-		margin-top: 100px;
-		width: 100%;
-		background-color: white;
+	.content {
+		height: 630px;
+		width: 98%;
+		border-radius: 20px;
+		margin: auto;
+		margin-top: 10px;
+		padding-top: 15px;
+		/* display: flex; */
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
-	.catalog {
-		height: 50px;
+	.cata {
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 80px;
+		height: 40px;
+		width: 98%;
+		/* background-color: white; */
 		font-size: 20px;
-		line-height: 30px;
-		padding: 10px 20px 10px 20px;
+		padding: 0 0 10px 0px;
 	}
 
-	.cata-info {
-		background-color: #A4ADB3;
-		color: white;
+	.cata-item {
+		width: 100px;
+		background-color: #FBECDE;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		margin-right: 20px;
+		border-radius: 15px 15px 0 0;
 	}
 
-	.btn-back {
+	.cata-item:hover {
+		cursor: pointer
+	}
+
+	.img-back {
 		float: right;
+		height: 40px;
+	}
+
+	.img-back:hover {
+		cursor: pointer
 	}
 
 	.secondary-head {
 		display: flex;
-		padding: 20px;
 		height: 60px;
+		line-height: 60px;
+		padding-left: 20px;
 		font-size: 20px;
 		font-weight: bold;
+		width: 80%;
+		/* margin: auto; */
+		margin-left: 1%;
+		border-radius: 20px;
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
+
 	.time {
-		margin-right: 50px;
+		margin-right: 300px;
 	}
 
 	.table-number {
-		margin-right: 50px;
+		margin-right: 350px;
 	}
 
 	.total-price {
 		margin-right: 50px;
+	}
+
+	.table {
+		width: 98%;
+		margin: auto;
+		border-radius: 25px;
+		margin-top: 20px;
+		padding: 10px;
+		margin-bottom: 10px;
+		background-color: rgba(255, 255, 255, 0.6);
+		height: 500px;
+		overflow: auto;
 	}
 </style>

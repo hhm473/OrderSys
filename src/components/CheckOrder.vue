@@ -6,34 +6,26 @@
 				<div class="cata-item" @click="toWaiterIndex">
 					首页
 				</div>
+				<div class="cata-item">
+					点菜
+				</div>
 			</div>
+			<img src="../assets/img/back.png" @click="back" class="img-back">
 		</div>
 		<div class="content">
-			<div class="left-select">
-				<CallBoard></CallBoard>
-			</div>
-			<div class="right">
-				<div class="tm-table">
-					<div class="table-title">
-						传菜推送信息
-					</div>
-					<a-table class="table" :columns="columnsDish" :data-source="dataDish" bordered :scroll="{y: 300 }">
-						<a-tag slot="dish_state" slot-scope="text, record"
-							:color="record.dish_state === '已传菜' ? 'geekblue': 'green'"
-							@click="() => handledeliver(record.key)">
-							{{ record.dish_state}}
-						</a-tag>
-					</a-table>
+			<div>
+				<div class="table-title">
+					正在进行中的订单
 				</div>
+				<a-table class="table" :columns="columnsOrder" :data-source="dataOrder" bordered :scroll="{y: 350 }">
+					<template slot="pay" slot-scope="text, record">
+						<a-popconfirm v-if="dataOrder.length" title="确定结账 ?" @confirm="() => onDelete(record.key)">
+							<a-button>结账</a-button>
+						</a-popconfirm>
+					</template>
 
-				<div style="text-align: center; margin: 20px;">
-					<a-button size="large" shape="round" type="danger" @click="toCheckOrder"
-						style="height:60px; font-size: 23px; width: 250px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-right: 100px;">
-						查看订单 / 结账</a-button>
-					<a-button size="large" shape="round" type="danger" @click="toOrder"
-						style="height:60px; font-size: 23px; width: 250px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF;">
-						前往点菜</a-button>
-				</div>
+				</a-table>
+
 			</div>
 		</div>
 	</div>
@@ -81,10 +73,9 @@
 		},
 		{
 			title: '订单详情',
-			key: 'check',
-			scopedSlots: {
-				customRender: 'check'
-			},
+			key: 'cook',
+			dataIndex: 'cook',
+			// width:500,
 		},
 		{
 			title: '结账',
@@ -95,14 +86,12 @@
 		},
 	];
 
-	const dataDish = [];
+	const dataOrder = [];
 	import PageHeader from './PageHeader.vue'
-	import CallBoard from './CallBoard.vue'
 	export default {
 		name: 'SignUp',
 		components: {
 			PageHeader,
-			CallBoard
 		},
 
 		mounted: function() {
@@ -116,11 +105,11 @@
 			}
 			this.$data.userId = peaple.userId
 
-			this.getDishInfo()
+			this.getOrder()
 		},
 		data() {
 			return {
-				dataDish,
+				dataOrder,
 				columnsOrder,
 				columnsDish,
 				role: "",
@@ -138,31 +127,17 @@
 					}
 				}
 			},
-			toOrder() {
+			toWaiterIndex() {
 				this.$router.push({
-					path: "/order"
+					path: "/waiterindex"
 				})
+			},
+			back() {
+				this.$router.push({
+					path: "/waiterindex"
+				});
 			},
 
-			toCheckOrder() {
-				this.$router.push({
-					path: "/checkorder"
-				})
-			},
-			getDishInfo() {
-				this.axios.get("http://47.98.238.175:8080/dishOrder/sendDishInfo").then(res => {
-						let dataDish = res.data
-						console.log(dataDish)
-						this.dataDish = dataDish.map((item, i) => {
-							item.key = i
-							item.dish_state = "等待传菜"
-							return item
-						})
-					})
-					.catch(function(error) {
-						console.log(error);
-					});
-			},
 
 			RequestChangeState(orderId, dishId) {
 
@@ -180,11 +155,56 @@
 					});
 			},
 
-			toWaiterIndex() {
-				this.$router.push({
-					path: "/waiterindex"
-				})
+			getOrder() {
+				this.axios.get("http://47.98.238.175:8080/queryOrder", {
+						params: {
+							orderState: 0
+						}
+					}).then(res => {
+						this.dataOrder = res.data.map((item, i) => {
+							item.newOrder.key = i
+							let cook = ""
+							if (item.dishOrders.length > 0) {
+								item.dishOrders.forEach((ritem, ri) => {
+									cook += item.dishes[ri].dishName + "*" + ritem.count + "  "
+								})
+							}
+							item.newOrder.cook = cook
+
+							delete item.newOrder.waiter,
+								delete item.newOrder.remarks
+							return item.newOrder
+						})
+
+						console.log(this.dataOrder);
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
 			},
+
+			onDelete(key) {
+				const newData = [...this.dataOrder];
+				const target = newData.filter(item => key === item.key)[0];
+				if (target) {
+					this.CheckOut(target.orderId)
+					this.dataOrder.splice(this.dataOrder.findIndex(item => item.key == key), 1)
+				}
+			},
+
+			CheckOut(orderid) {
+				this.axios.get("http://47.98.238.175:8080/checkout", {
+						params: {
+							orderid
+						}
+					}).then(res => {
+
+						console.log(res);
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			}
 		}
 	}
 </script>
@@ -210,8 +230,8 @@
 		background-color: #FBECDE;
 		height: 40px;
 		line-height: 40px;
-		margin-right: 20px;
 		text-align: center;
+		margin-right: 20px;
 		border-radius: 15px 15px 0 0;
 	}
 
@@ -219,45 +239,42 @@
 		cursor: pointer
 	}
 
-	.content {
-		display: flex;
-		/* justify-content: space-around; */
+	.img-back {
+		float: right;
+		height: 40px;
+	}
 
-		/* height: 630px; */
+	.img-back:hover {
+		cursor: pointer
+	}
+
+	.content {
+		height: 620px;
 		width: 98%;
 		border-radius: 20px;
 		margin: auto;
-		/* margin-top: 100px; */
-		padding-top: 10px;
-		/* background-color: rgba(255, 255, 255, 0.6); */
-	}
-
-	.tm-table {
-		width: 90%;
-		height: 550px;
-		margin: auto;
-		border-radius: 20px;
-		padding-top: 10px;
-		background-color: rgba(255, 255, 255, 0.5);
+		margin-top: 10px;
+		padding-top: 15px;
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
 	.left-select {
 		width: 30%;
-		height: 600px;
+		height: 650px;
 		/* background-color: white; */
 	}
 
-	.right {
-		width: 70%;
-		margin-right: 10px;
-		height: 650px;
-		/* background-color: white; */
+	.btn-order {
+		width: 300px;
+		background-color: #FDA03F;
+		border: #FDA03F 1px solid;
+		color: #FFFFFF;
 	}
 
 	.table-title {
 		font-size: 30px;
 		font-weight: bold;
-		width: 97%;
+		width: 98%;
 		height: 70px;
 		margin: auto;
 		border-radius: 25px;
@@ -267,14 +284,14 @@
 	}
 
 	.table {
-		width: 97%;
+		width: 98%;
 		margin: auto;
 		border-radius: 25px;
 		margin-top: 20px;
 		padding: 10px;
 		margin-bottom: 10px;
 		background-color: rgba(255, 255, 255, 0.6);
-		height: 430px;
+		height: 490px;
 		overflow: auto;
 	}
 </style>

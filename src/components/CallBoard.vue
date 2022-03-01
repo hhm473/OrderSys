@@ -5,14 +5,14 @@
 			实时公告
 		</div>
 		<div class="item-wrap">
-<!-- customStyle自定义样式 -->
+			<!-- customStyle自定义样式 -->
 			<a-collapse v-for="(item, i) in lists" v-bind:key="i">
 				<a-collapse-panel :key="i" :header="item.title" :style="customStyle">
 					<p>{{ item.contents }}</p>
 					<p>{{ item.sendTime }}</p>
 				</a-collapse-panel>
 			</a-collapse>
-<!-- 找了一个ant的组件把下面的代码替换了 -->
+			<!-- 找了一个ant的组件把下面的代码替换了 -->
 			<!-- <div v-for="(item, i) in lists" v-bind:key="i"
 				v-bind:class="item.isShow == false? 'citem': 'citem itemplus'" @click="changeShow(i)">
 				<div class="header-wrap">
@@ -66,7 +66,7 @@
 	.board-wrap {
 		width: 90%;
 		height: 650px;
-		margin: auto;
+		/* margin: auto; */
 		border-radius: 20px;
 		padding-top: 10px;
 		background-color: rgba(255, 255, 255, 0.5);

@@ -21,13 +21,14 @@
 			</div>
 		</div>
 		<!-- -->
-		<a-modal :visible="visible" closable="false" @ok="closeDetail">
+		<a-modal :visible="visible" :closable=false>
 			<template slot="footer">
-				<a-button key="submit" type="primary" :loading="loading" @click="closeDetail">
-					确定
+				<a-button key="submit" type="primary" :loading="loading" @click="closeDetail"
+						style="height:30px; font-size: 15px; width: 60px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">
+					返回
 				</a-button>
 			</template>
-			<dish-xiangqing :dishPic="dishPic" :dishName="dishName" :intro="intro" :detail="detail" :price="price">
+			<dish-xiangqing :dishPic="dishPic" :dishName="dishName" :detail="detail" :price="price">
 			</dish-xiangqing>
 		</a-modal>
 	</div>
@@ -105,9 +106,11 @@
 	}
 
 	.all-wrap {
-		border: 1px solid #A4ADB3;
+		/* border: 1px solid #A4ADB3; */
+		border-radius: 20px;
 		height: 150px;
-		width: 350px;
+		width: 450px;
+		/* width: 70%; */
 		display: flex;
 		align-items: center;
 		background-color: white;
@@ -120,7 +123,7 @@
 	}
 
 	.name {
-		font-size: 1.5em;
+		font-size: 2.2em;
 	}
 
 	.tuijian {
@@ -130,16 +133,16 @@
 	}
 
 	.jianjie {
-		font-size: 0.75em;
+		font-size: 1.2em;
 		padding: 8px 0 8px 0;
 	}
 
 	.price {
 		font-size: 1.5em;
-		padding-right: 50px;
+		padding-right: 150px;
 	}
 
 	.number {
-		padding: 0 15px 0 15px;
+		padding: 0 20px 0 20px;
 	}
 </style>

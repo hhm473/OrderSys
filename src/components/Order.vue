@@ -1,55 +1,59 @@
 <template>
 	<div>
 		<page-header></page-header>
-		<div class="body">
-			<div class="catalog">
-				<span class="cata-info">
-					<router-link to="/waiterindex" style="color: white;">服务员首页</router-link>
-				</span>
-				>
-				<span class="cata-info">
-					<router-link to="/order" style="color: white;">点菜</router-link>
-				</span>
-				<a-button class="btn-back" @click="back">返回</a-button>
+		<div class="cata">
+			<div style="display: flex; float: left;">
+				<div class="cata-item" @click="toWaiterIndex">
+					首页
+				</div>
+				<div class="cata-item">
+					点菜
+				</div>
 			</div>
-			<div class="secondary-head">
-				<div class="time">
-					时间：{{timeNow}}
-				</div>
-				<div class="table-number">
-					桌号：
-					<a-select default-value="1" style="width: 120px" @change="ChangeTableNum">
-						<a-select-option value="1">
-							1
-						</a-select-option>
-						<a-select-option value="2">
-							2
-						</a-select-option>
-						<a-select-option value="3">
-							3
-						</a-select-option>
-					</a-select>
-				</div>
-				<div class="total-price">
-					总金额：{{totalPrice}}
-				</div>
-				<a-button class="btn-back" type="primary" @click="toXiadan">下单</a-button>
+			<img src="../assets/img/back.png" @click="back" class="img-back">
+		</div>
+		<div class="content">
+
+			<div class="left-select">
+				<OrderQingdan :list="dishOrder" :totalPrice="dishData1"></OrderQingdan>
 			</div>
-			<div>
-				<a-row>
-					<a-col :span="8" style="height: 500px;">
-						<OrderQingdan :list="dishOrder" :totalPrice="dishData1"></OrderQingdan>
-					</a-col>
-					<a-col :span="15" style="height: 500px;overflow: scroll;display:flex; flex-wrap:wrap;">
-						<div v-for="(item, index) in dishData" :key="index"
-							style="margin-right: 100px;margin-bottom: 20px;">
-							<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price"
-								:detail="item.detail" :dishNum="item.dishNum" @minusDish="minusDish(index)"
-								@plusDish="plusDish(index)">
-							</Dish>
+			<div class="right">
+				<div style="display: flex;">
+					<div class="secondary-head">
+						<div class="time">
+							时间：{{timeNow}}
 						</div>
-					</a-col>
-				</a-row>
+						<div class="table-number">
+							桌号：
+							<a-select default-value="1" style="width: 120px" @change="ChangeTableNum">
+								<a-select-option value="1">
+									1
+								</a-select-option>
+								<a-select-option value="2">
+									2
+								</a-select-option>
+								<a-select-option value="3">
+									3
+								</a-select-option>
+							</a-select>
+						</div>
+						<div class="total-price">
+							总金额：{{totalPrice}} 元
+						</div>
+					</div>
+					<a-button class="btn-back" type="primary" @click="toXiadan"
+						style="height:60px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">
+						下单</a-button>
+				</div>
+
+				<div style="height: 500px;overflow: scroll;display:flex; flex-wrap:wrap; margin-top: 20px;">
+					<div v-for="(item, index) in dishData" :key="index"
+						style="margin-right: 80px;margin-bottom: 20px;">
+						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :detail="item.detail"
+							:dishNum="item.dishNum" @minusDish="minusDish(index)" @plusDish="plusDish(index)">
+						</Dish>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div style="width: 100%;height: 200px;"></div>、
@@ -60,15 +64,15 @@
 	import Dish from './Dish.vue'
 	import PageHeader from './PageHeader.vue'
 	import OrderQingdan from './OrderQingdan.vue'
-	
+
 	export default {
 		data() {
 			return {
-				dishData:[],
-				tableNum:'1',
+				dishData: [],
+				tableNum: '1',
 				dishOrder: [],
 				dishData1: 1,
-				timeNow: "2021-02-26",
+				timeNow: "",
 				totalPrice: 0
 			}
 		},
@@ -95,10 +99,7 @@
 
 		},
 		methods: {
-			back() {
-				this.$router.push({path:"/waiterindex"});
-			},
-			ChangeTableNum(value){
+			ChangeTableNum(value) {
 				console.log(value)
 				this.tableNum = value;
 			},
@@ -120,9 +121,9 @@
 					// path: "/Xiadan",
 					name: 'xiadan',
 					query: {
-						dishOrder:that.dishOrder,
-						tableNum:that.tableNum,
-						totalPrice:that.totalPrice
+						dishOrder: that.dishOrder,
+						tableNum: that.tableNum,
+						totalPrice: that.totalPrice
 					}
 				})
 			},
@@ -134,7 +135,7 @@
 				let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
 				let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
 				this.timeNow = yy + '/' + mm + '/' + dd + ' ' + hh + ':' + mf + ':' + ss;
-				// console.log(this.timeNow)
+				console.log(this.timeNow)
 			},
 			minusDish(index) {
 				console.log("item.dishNum++;之前的item.dishNum++;", this.dishData)
@@ -186,39 +187,89 @@
 					console.log('请求失败：' + res.status + ',' + res.statusText);
 				});
 			},
+			toWaiterIndex() {
+				this.$router.push({
+					path: "/waiterindex"
+				})
+			},
+			back() {
+				this.$router.push({
+					path: "/waiterindex"
+				});
+			},
 		}
 	}
 </script>
 
 <style scoped>
-	.body {
-		margin-top: 100px;
-		width: 100%;
-		background-color: white;
+	.content {
+		height: 630px;
+		width: 98%;
+		border-radius: 20px;
+		margin: auto;
+		margin-top: 10px;
+		padding-top: 10px;
+		display: flex;
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
-	.catalog {
-		height: 50px;
+	.cata {
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 80px;
+		height: 40px;
+		width: 98%;
+		/* background-color: white; */
 		font-size: 20px;
-		line-height: 30px;
-		padding: 10px 20px 10px 20px;
+		padding: 0 0 10px 0px;
 	}
 
-	.cata-info {
-		background-color: #A4ADB3;
-		color: white;
+	.cata-item {
+		width: 100px;
+		background-color: #FBECDE;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		margin-right: 20px;
+		border-radius: 15px 15px 0 0;
 	}
 
-	.btn-back {
+	.cata-item:hover {
+		cursor: pointer
+	}
+
+	.img-back {
 		float: right;
+		height: 40px;
+	}
+	
+	.left-select {
+		width: 30%;
+		height: 600px;
+		/* background-color: white; */
+	}
+
+	.right {
+		width: 70%;
+		margin-right: 10px;
+		height: 650px;
+		/* background-color: white; */
+	}
+
+
+	.img-back:hover {
+		cursor: pointer
 	}
 
 	.secondary-head {
 		display: flex;
-		padding: 20px;
 		height: 60px;
+		line-height: 60px;
+		padding-left: 20px;
 		font-size: 20px;
 		font-weight: bold;
+		border-radius: 20px;
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
 	.time {

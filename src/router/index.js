@@ -16,6 +16,7 @@ import Announce from '../components/Administrator/Announce.vue'
 import AEditUserInfo from '../components/Administrator/AEditUserInfo.vue'
 import AdministratorIndex from '../components/Administrator/AdministratorIndex.vue'
 import Registeration from '../components/Administrator/Registeration.vue'
+import CheckOrder from '../components/CheckOrder.vue'
 
 
 Vue.use(VueRouter)
@@ -53,6 +54,11 @@ const routes = [{
 		path: '/xiadan',
 		name: 'xiadan',
 		component: XiaDan,
+	},
+	{
+		path: '/checkorder',
+		name: 'checkorder',
+		component: CheckOrder,
 	},
 	
 	{

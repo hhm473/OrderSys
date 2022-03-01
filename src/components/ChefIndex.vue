@@ -1,72 +1,84 @@
 <template>
 	<div>
 		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
-
+		<div class="cata">
+			<div style="display: flex; float: left;">
+				<div class="cata-item" @click="toWaiterIndex">
+					首页
+				</div>
+			</div>
+		</div>
 		<div class="content">
 			<div class="left-select">
 				<CallBoard></CallBoard>
 			</div>
-			<div class="left-table">
-				<div class="title">
-					订单信息
-				</div>
-				<div class="selector">
-					<a-select default-value="全部菜品" @change="handleKind" style="width: 120px; margin-right:20px;"
-						size="small">
-						<a-select-option v-for="(item, i) in kind" v-bind:key="i" :value="item.dishName">
-							{{item.dishName}}
-						</a-select-option>
-						<a-select-option :value="-1">
-							全部菜品
-						</a-select-option>
-					</a-select>
-					<a-select default-value="全部桌号" @change="handleScount" style="width: 120px; margin-right:20px;"
-						size="small">
-						<a-select-option value="1">
-							1
-						</a-select-option>
-						<a-select-option value="2">
-							2
-						</a-select-option>
-						<a-select-option value="3">
-							3
-						</a-select-option>
-						<a-select-option value="4">
-							4
-						</a-select-option>
-						<a-select-option value="5">
-							5
-						</a-select-option>
-						<a-select-option value="-1">
-							全部桌号
-						</a-select-option>
-					</a-select>
-					<a-select default-value="全部烹制状态" @change="handleState" style="width: 120px; margin-right:60px;"
-						size="small">
-						<a-select-option value="0">
-							未烹饪
-						</a-select-option>
-						<a-select-option value="1">
-							正在烹饪
-						</a-select-option>
-						<a-select-option value="2">
-							已烹饪
-						</a-select-option>
-						<a-select-option value="-1">
-							全部烹制状态
-						</a-select-option>
-					</a-select>
-					<a-button @click="postSelect">确定</a-button>
-				</div>
-				<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 300 }">
-					<a-tag slot="dish_state" slot-scope="text, record"
-						:color="record.dish_state === '已烹饪' ? 'geekblue' : record.dish_state==='正在烹饪' ? 'volcano' : 'green'"
-						@click="() => handlecook(record.key)">
+			<div class="right">
+				<div class="tm-table">
+					<div class="table-title">
+						订单信息
+					</div>
+					<div class="selector">
+						名称：
+						<a-select default-value="全部菜品" @change="handleKind" style="width: 120px; margin-right:20px;"
+							size="small">
+							<a-select-option v-for="(item, i) in kind" v-bind:key="i" :value="item.dishName">
+								{{item.dishName}}
+							</a-select-option>
+							<a-select-option :value="-1">
+								全部菜品
+							</a-select-option>
+						</a-select>
+						桌号：
+						<a-select default-value="全部桌号" @change="handleScount" style="width: 120px; margin-right:20px;"
+							size="small">
+							<a-select-option value="1">
+								1
+							</a-select-option>
+							<a-select-option value="2">
+								2
+							</a-select-option>
+							<a-select-option value="3">
+								3
+							</a-select-option>
+							<a-select-option value="4">
+								4
+							</a-select-option>
+							<a-select-option value="5">
+								5
+							</a-select-option>
+							<a-select-option value="-1">
+								全部桌号
+							</a-select-option>
+						</a-select>
+						烹制状态：
+						<a-select default-value="全部烹制状态" @change="handleState" style="width: 120px; margin-right:60px;"
+							size="small">
+							<a-select-option value="0">
+								未烹饪
+							</a-select-option>
+							<a-select-option value="1">
+								正在烹饪
+							</a-select-option>
+							<a-select-option value="2">
+								已烹饪
+							</a-select-option>
+							<a-select-option value="-1">
+								全部烹制状态
+							</a-select-option>
+						</a-select>
+						<a-button @click="postSelect" 
+						style="height:30px; font-size: 15px; width: 100px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">查询菜品</a-button>
+					</div>
+					<a-table class="table" :columns="columns" :data-source="data" bordered :scroll="{y: 340 }">
+						<a-tag slot="dish_state" slot-scope="text, record"
+							:color="record.dish_state === '已烹饪' ? 'geekblue' : record.dish_state==='正在烹饪' ? 'volcano' : 'green'"
+							@click="() => handlecook(record.key)">
 
-						{{ record.dish_state}}
-						<!-- {{record}} -->
-					</a-tag>
-				</a-table>
+							{{ record.dish_state}}
+							<!-- {{record}} -->
+						</a-tag>
+					</a-table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -248,19 +260,82 @@
 
 <style scoped>
 	.selector {
-		padding: 10px 0 10px 0;
+		padding: 10px 0 10px 20px;
+		font-weight: bold;
+		font-size: 1.2em;
+	}
+
+	.cata {
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 80px;
+		height: 40px;
+		width: 98%;
+		/* background-color: white; */
+		font-size: 20px;
+		padding: 0 0 10px 0px;
+	}
+
+	.cata-item {
+		width: 100px;
+		background-color: #FBECDE;
+		height: 40px;
+		line-height: 40px;
+		margin-right: 20px;
+		text-align: center;
+		border-radius: 15px 15px 0 0;
+	}
+
+	.cata-item:hover {
+		cursor: pointer
 	}
 
 	.content {
 		display: flex;
-		margin-top: 100px;
-		justify-content: space-around;
+		/* justify-content: space-around; */
+
+		/* height: 630px; */
+		width: 98%;
+		border-radius: 20px;
+		margin: auto;
+		/* margin-top: 100px; */
+		padding-top: 10px;
+		/* background-color: rgba(255, 255, 255, 0.6); */
+	}
+
+	.right {
+		width: 70%;
+		margin-right: 10px;
+		height: 650px;
+		/* background-color: white; */
+
+	}
+
+	.tm-table {
+		width: 90%;
+		height: 650px;
+		margin: auto;
+		border-radius: 20px;
+		padding-top: 10px;
+		background-color: rgba(255, 255, 255, 0.5);
+	}
+
+	.table-title {
+		font-size: 30px;
+		font-weight: bold;
+		width: 97%;
+		height: 70px;
+		margin: auto;
+		border-radius: 25px;
+		line-height: 70px;
+		text-align: center;
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
 	.left-select {
 		width: 30%;
 		height: 600px;
-		background-color: white;
+		/* background-color: white; */
 	}
 
 	.left-table {
@@ -268,12 +343,22 @@
 		width: 60%;
 		margin-right: 10px;
 		height: 600px;
-		background-color: white;
+		/* background-color: white; */
 	}
 
 	.title {
 		font-size: 30px;
 		font-weight: bold;
 		padding-left: 60px;
+	}
+	.table {
+		width: 97%;
+		margin: auto;
+		border-radius: 25px;
+		padding: 10px;
+		margin-bottom: 10px;
+		background-color: rgba(255, 255, 255, 0.6);
+		height: 480px;
+		overflow: auto;
 	}
 </style>

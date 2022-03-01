@@ -22,9 +22,6 @@
 									required: true,
 									message: '用户名不能为空!',
 									},
-									{
-									validator: validateToNextPassword,
-									},
 								],
 								},
 							]" placeholder="请输入用户名" style="height: 50px; border-radius: 50px; padding-left: 15px;" />
@@ -46,36 +43,13 @@
 									required: true,
 									message: '用户密码不能为空',
 									},
-									{
-									validator: validateToNextPassword,
-									},
 								],
 								},
 							]" placeholder="请输入密码" type="password" style="height: 50px; border-radius: 50px; padding-left: 15px;" />
 							</a-form-item>
 						</a-col>
 					</a-row>
-					<a-row style="height: 90px;">
-						<a-col :span="6">
-							<div class="username">身份选择：</div>
-						</a-col>
-
-						<a-col :span="10">
-							<a-form-item has-feedback>
-								<a-select v-decorator="['roleId']">
-									<a-select-option value="1">
-										管理员
-									</a-select-option>
-									<a-select-option value="2">
-										后厨
-									</a-select-option>
-									<a-select-option value="3">
-										服务员
-									</a-select-option>
-								</a-select>
-							</a-form-item>
-						</a-col>
-					</a-row>
+					
 					<a-row style="height: 90px;">
 						<a-col :span="6">
 							<div class="username">验证码：</div>
@@ -145,16 +119,6 @@
 		},
 		methods: {
 
-			validateToNextPassword(rule, value, callback) {
-				const form = this.form;
-				if (value && this.confirmDirty) {
-					form.validateFields(['confirm'], {
-						force: true
-					});
-				}
-				callback();
-			},
-
 			randomNum(min, max) {
 				return Math.floor(Math.random() * (max - min) + min);
 			},
@@ -173,6 +137,7 @@
 			},
 
 			handleSubmit(e) {
+				console.log(this.form);
 
 				if (this.writeCode == this.identifyCode) {
 					this.form.validateFields((err, values) => {
@@ -183,7 +148,13 @@
 									data: this.$qs.stringify(values)
 								}).then(res => {
 									if (!res.data) {
-										alert("密码错误！请重新输入。")
+										this.form.setFields({
+										  password: {
+										    value: values.password,
+										    errors: [new Error('密码错误！请重新输入！')],
+										  },
+										});
+										
 										this.makeCode(this.identifyCodes, 4);
 									} else {
 										let values = res.data
@@ -211,9 +182,8 @@
 					});
 
 				} else {
-					alert(
-						"验证码错误"
-					)
+					console.log(this.$message);
+					this.$message.error('验证码错误!');
 					this.makeCode(this.identifyCodes, 4);
 				}
 

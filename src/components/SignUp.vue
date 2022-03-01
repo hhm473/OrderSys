@@ -3,7 +3,7 @@
 		<page-header></page-header>
 		<div class="touming">
 			<div class="body">
-				<div style="display: flex;">
+				<div style="display: flex; align-items: center;">
 
 					<div class="title highlight">欢迎注册</div>
 					<div class="hint">已有账号？ 马上
@@ -117,11 +117,11 @@
 								<a-upload name="avatar" list-type="picture-card" class="avatar-uploader"
 									:show-upload-list="false" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
 									:before-upload="beforeUpload" @change="handleChange">
-									<img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+									<img style="height: 85px; width: 85px;" v-if="imageUrl" :src="imageUrl" alt="avatar" />
 									<div v-else>
 										<a-icon :type="loading ? 'loading' : 'plus'" />
 										<div class="ant-upload-text">
-											上传头像
+											Upload
 										</div>
 									</div>
 								</a-upload>
@@ -137,7 +137,7 @@
 							</a-col>
 							<a-col :span="5">
 								<a-form-item v-bind="formItemLayout" has-feedback>
-									<a-input
+									<a-input v-model="writeCode"
 										style="height: 50px; border-radius: 50px; padding-left: 15px; width: 200px;" />
 								</a-form-item>
 							</a-col>
@@ -185,6 +185,9 @@
 		},
 		data() {
 			return {
+				identifyCodes: "1234567890",
+				identifyCode: "",
+				writeCode: "",
 
 				loading: false,
 				imageUrl: '',
@@ -255,7 +258,7 @@
 			},
 
 			handleSubmit(e) {
-				e.preventDefault();
+				if (this.writeCode == this.identifyCode) {
 				this.form.validateFieldsAndScroll((err, values) => {
 					if (!err) {
 						console.log('Received values of form: ', values);
@@ -277,10 +280,13 @@
 
 					}
 				});
+				} else {
+					this.$message.error('验证码错误!');
+					this.makeCode(this.identifyCodes, 4);
+				}
 			},
 
 			handleChange(info) {
-				console.log(info);
 				if (info.file.status === 'uploading') {
 					this.loading = true;
 					return;
@@ -291,6 +297,19 @@
 						this.imageUrl = imageUrl;
 						this.loading = false;
 					});
+					const formData = new FormData()
+					
+					formData.append('photo', info.file.originFileObj)
+					this.axios.post("http://47.98.238.175:8080/user/uploadFile", formData,{
+					  headers:{
+					    'Content-Type':'multipart/form-data'
+					  }
+					})
+					  .then(res => {
+					    console.log(res)
+					  }).catch(err => {
+					  console.log(err)
+					})
 				}
 			},
 			beforeUpload(file) {
@@ -298,7 +317,7 @@
 				if (!isJpgOrPng) {
 					this.$message.error('You can only upload JPG file!');
 				}
-				const isLt2M = file.size / 1024 / 1024 < 8;
+				const isLt2M = file.size / 1024 / 1024 < 2;
 				if (!isLt2M) {
 					this.$message.error('Image must smaller than 2MB!');
 				}
@@ -357,7 +376,6 @@
 </script>
 
 <style scoped>
-
 	.touming {
 		height: 650px;
 		width: 1220px;
@@ -365,11 +383,10 @@
 		margin: auto;
 		margin-top: 100px;
 		padding-top: 10px;
-		background-color: rgba(255,255,255,0.6);
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
 	.body {
-		margin-top: 100px;
 		margin: auto;
 		background-color: white;
 		height: 630px;
@@ -403,13 +420,12 @@
 		font-size: 36px;
 		font-weight: bold;
 		padding-left: 60px;
-		padding-top: 20px;
+		margin: 0;
 	}
 
 	.body .hint {
 		font-size: 16px;
 		padding-left: 20px;
-		padding-top: 40px;
 		font-weight: bold;
 	}
 

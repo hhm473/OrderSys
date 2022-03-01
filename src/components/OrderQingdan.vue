@@ -3,7 +3,7 @@
 		<div class="big-title">
 			已购菜品
 		</div>
-		<a-table :columns="columns" :data-source="list" bordered :scroll="{y: 700 }">
+		<a-table class="table" :columns="columns" :data-source="list" bordered :scroll="{y: 700 }">
 
 		</a-table>
 		<div v-show="false">
@@ -55,42 +55,30 @@
 	.board-wrap {
 		width: 90%;
 		margin: auto;
+		height: 650px;
 	}
 
 	.big-title {
-		width: 100%;
-		height: 70px;
-		font-size: 30px;
+		width: 95%;
+		height: 60px;
+		margin: auto;
+		border-radius: 25px;
+		font-size: 23px;
 		font-weight: bold;
-		line-height: 70px;
+		line-height: 60px;
 		text-align: center;
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
-	.item {
-		width: 100%;
-		height: 50px;
-		border-radius: 3px;
-		background-color: #CFD8DC;
-		overflow: hidden;
-		padding: 3px 5px;
-		font-size: 20px;
-		font-weight: bold;
-		margin-top: 10px;
-		line-height: 50px;
-		cursor: pointer;
-	}
-
-	.item div:first-child {
-		float: left;
-	}
-
-	.item div:last-child {
-		float: right;
-		font-weight: 500;
-		color: #707070;
-	}
-
-	.item-wrap {
-		border-top: 2px solid #616161;
+	.table {
+		width: 95%;
+		margin: auto;
+		border-radius: 25px;
+		margin-top: 20px;
+		padding: 10px;
+		margin-bottom: 10px;
+		background-color: rgba(255, 255, 255, 0.6);
+		height: 500px;
+		overflow: auto;
 	}
 </style>
