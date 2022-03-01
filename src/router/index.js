@@ -18,7 +18,6 @@ import AdministratorIndex from '../components/Administrator/AdministratorIndex.v
 import Registeration from '../components/Administrator/Registeration.vue'
 import CheckOrder from '../components/CheckOrder.vue'
 
-
 Vue.use(VueRouter)
 
 const routes = [{
@@ -36,43 +35,63 @@ const routes = [{
 	{
 		path: '/waiterindex',
 		component: WaiterIndex,
+		meta: {
+			requireAuth: true, // 判断是否需要登录
+		},
 	},
 	{
 		path: '/chefindex',
 		component: ChefIndex,
+		meta: {
+			requireAuth: true, // 判断是否需要登录
+		},
 	},
 	{
 		path: '/edituserinfo',
 		component: EditUserInfo,
+		meta: {
+			requireAuth: true, // 判断是否需要登录
+		},
 	},
 	{
 		path: '/order',
 		name: 'order',
 		component: Order,
+		meta: {
+			requireAuth: true, // 判断是否需要登录
+		},
 	},
 	{
 		path: '/xiadan',
 		name: 'xiadan',
 		component: XiaDan,
+		meta: {
+			requireAuth: true, // 判断是否需要登录
+		},
 	},
 	{
 		path: '/checkorder',
 		name: 'checkorder',
 		component: CheckOrder,
+		meta: {
+			requireAuth: true, // 判断是否需要登录
+		},
 	},
-	
+
 	{
 		path: '/administratorindex',
 		component: AdministratorIndex,
-		children: [
-			{
-			    path: '/',
-			    redirect: '/registeration'
+		meta: {
+			requireAuth: true, // 判断是否需要登录
+		},
+		children: [{
+				path: '/',
+				redirect: '/registeration'
 			},
 			{
-			path: '/registeration',
-			name: 'registeration',
-			component: Registeration
+				path: '/registeration',
+				name: 'registeration',
+				component: Registeration
 			},
 			{
 				path: '/ordermanage',

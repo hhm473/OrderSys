@@ -142,7 +142,7 @@
 				let that = this
 				this.axios({ //格式a
 					method: 'get',
-					url: 'http://47.98.238.175:8080/user/queryAll'
+					url: 'http://47.98.238.175:8080/user/query'
 				}).then(function(res) {
 					console.log(res)
 					console.log(res.data);

@@ -8,7 +8,7 @@
 		</div>
 		
 		<div v-if="isLogin" class="user-info">
-			<div class="welcome">欢迎回来，{{userType}}&nbsp;&nbsp;&nbsp;&nbsp;{{userName}}</div>
+			<div class="welcome">欢迎回来，{{role}}&nbsp;&nbsp;&nbsp;&nbsp;{{userId}}</div>
 			<img v-on:click="ShowButton" v-if="!isShowButton" src="https://img.yzcdn.cn/vant/cat.jpeg" />
 			<div class="user-buton" v-if="isShowButton">
 				<a-button style="width: 70px; font-size: 10px;" @click="EditUserInfo" type="primary" size="small">修改信息</a-button>
@@ -21,25 +21,34 @@
 <script>
 	export default {
 		name: 'PageHeader',
-		props: {
-			'isLogin': {
-				type: Boolean,
-				default: false
-			},
-			'userType': String,
-			'userName': String,
-			'userPic': {
-				type: String,
-				default: "https://img.yzcdn.cn/vant/cat.jpeg"
-			},
-		},
 		
 		data() {
 			return {
-				isShowButton:false
+				isShowButton:false,
+				isLogin:false,
+				role:"",
+				userId:""
 			};
 		},
-		
+		mounted: function() {
+			
+			let people = JSON.parse(localStorage.getItem('role'))
+				if(people){
+					this.isLogin = true
+					if (people.roleId == 3) {
+						this.$data.role = "服务员"
+					} else if (people.roleId == 2) {
+						this.$data.role = "后厨人员"
+					} else {
+						this.$data.role = "管理人员"
+					}
+					this.$data.userId = people.userId
+				}else{
+					this.isLogin = false
+				}
+			
+
+		},
 		methods: {
 			ShowButton(){
 				this.$data.isShowButton = true

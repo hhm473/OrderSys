@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
+		<page-header></page-header>
 		<div class="cata">
 			<div style="display: flex; float: left;">
 				<div class="cata-item" @click="toWaiterIndex">
@@ -106,16 +106,6 @@
 		},
 
 		mounted: function() {
-			let peaple = JSON.parse(localStorage.getItem('role'))
-			if (peaple.roleId == 3) {
-				this.$data.role = "服务员"
-			} else if (peaple.roleId == 2) {
-				this.$data.role = "后厨人员"
-			} else {
-				this.$data.role = "管理人员"
-			}
-			this.$data.userId = peaple.userId
-
 			this.getDishInfo()
 		},
 		data() {

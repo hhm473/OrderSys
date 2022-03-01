@@ -103,7 +103,7 @@
 
 				identifyCodes: "1234567890",
 				identifyCode: "",
-				writeCode: ""
+				writeCode: "",
 			};
 		},
 
@@ -186,8 +186,6 @@
 					this.$message.error('验证码错误!');
 					this.makeCode(this.identifyCodes, 4);
 				}
-
-
 			},
 
 

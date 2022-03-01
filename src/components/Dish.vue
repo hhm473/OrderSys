@@ -3,16 +3,15 @@
 		<div class="img-wrap">
 			<img :src="dishPic" @click="showDetail" />
 		</div>
-		<div>
-			<div style="display: flex;">
+		<div class="content-wrap">
+			
+			<div class="name">{{dishName}} <div v-if="tuijian" class="tuijian">推荐</div></div>
+			
 
-				<div class="name">{{dishName}}</div>
-				<div v-if="tuijian" class="tuijian">推荐</div>
-			</div>
 			<div class="jianjie">{{intro}}</div>
-			<div style="display: flex;">
+			<div style="display: flex; align-items: center;justify-content: space-between;">
 				<div class="price">{{price}}元</div>
-				<div style="padding-top: 10px; display: flex;">
+				<div style=" display: flex; align-items: center;">
 
 					<a-button size="small" icon="minus" @click="minusDish" />
 					<div class="number">{{dishNum}}</div>
@@ -28,7 +27,7 @@
 					返回
 				</a-button>
 			</template>
-			<dish-xiangqing :dishPic="dishPic" :dishName="dishName" :detail="detail" :price="price">
+			<dish-xiangqing :dishPic="dishPic" :dishName="dishName" :detail="detail" :price="price" :tuijian="tuijian">
 			</dish-xiangqing>
 		</a-modal>
 	</div>
@@ -67,7 +66,7 @@
 			},
 			'dishNum': {
 				type: Number,
-				// default: 0
+				 default: 10
 			},
 		},
 
@@ -109,7 +108,7 @@
 		/* border: 1px solid #A4ADB3; */
 		border-radius: 20px;
 		height: 150px;
-		width: 450px;
+		width: 100%;
 		/* width: 70%; */
 		display: flex;
 		align-items: center;
@@ -117,32 +116,44 @@
 	}
 
 	.all-wrap .img-wrap {
-		height: 110px;
-		width: 110px;
-		margin: 0 20px 0 10px;
+		padding-left: 10px;
+		height: 120px;
+		flex: 1;
+	}
+	
+	.content-wrap{
+		padding: 10px;
+		flex: 1;
+		display: flex;
+		justify-content: space-around;
+		flex-direction: column;
+		
 	}
 
 	.name {
-		font-size: 2.2em;
+		font-size: 1.8em;
+		position: relative;
 	}
 
 	.tuijian {
-		font-size: 0.75em;
+		position: absolute;
+		top: 0;
+		left: 60px;
+		font-size: 0.50em;
 		color: red;
 		padding-left: 8px;
 	}
 
 	.jianjie {
-		font-size: 1.2em;
+		font-size: 1.0em;
 		padding: 8px 0 8px 0;
 	}
 
 	.price {
 		font-size: 1.5em;
-		padding-right: 150px;
 	}
 
 	.number {
-		padding: 0 20px 0 20px;
+		padding: 0 10px 0 10px;
 	}
 </style>

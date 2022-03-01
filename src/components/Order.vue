@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<page-header></page-header>
+		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
 		<div class="cata">
 			<div style="display: flex; float: left;">
 				<div class="cata-item" @click="toWaiterIndex">
@@ -46,10 +46,11 @@
 						下单</a-button>
 				</div>
 
-				<div style="height: 500px;overflow: scroll;display:flex; flex-wrap:wrap; margin-top: 20px;">
+				<div style="height: 500px;overflow: scroll;display:flex; justify-content: space-around; flex-wrap:wrap; margin-top: 20px;">
+					<!-- <div v-for="(item, index) in data" :key="index" -->
 					<div v-for="(item, index) in dishData" :key="index"
-						style="margin-right: 80px;margin-bottom: 20px;">
-						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :detail="item.detail"
+						style="margin-bottom: 20px; width: 30%;">
+						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :detail="item.detail" :tuijian="item.isrec"
 							:dishNum="item.dishNum" @minusDish="minusDish(index)" @plusDish="plusDish(index)">
 						</Dish>
 					</div>
@@ -65,9 +66,11 @@
 	import PageHeader from './PageHeader.vue'
 	import OrderQingdan from './OrderQingdan.vue'
 
+	const data=[{"dishId":2,"dishName":"馒头","price":10.0,"intro":"馒头","detail":"馒头，古称“蛮头” [2]  ，别称“馍”“馍馍”“蒸馍”，为“包子”的本称 [3]  ，中国传统面食之一，是一种用发酵的面蒸成的食品。馒头以小麦面粉为主要原料，是中国人日常主食之一。","type":"荤菜","dishPic":null,"isrec":0},{"dishId":3,"dishName":"饺子","price":10.0,"intro":"饺子","detail":"韭菜饺子好好吃好好吃","type":"素菜","dishPic":null,"isrec":0},{"dishId":4,"dishName":"烧麦","price":1.5,"intro":"简介","detail":"详情","type":"荤菜","dishPic":null,"isrec":1},{"dishId":5,"dishName":"青菜","price":1.0,"intro":"青菜","detail":"新鲜青菜","type":"素菜","dishPic":null,"isrec":0},{"dishId":17,"dishName":"肉","price":10.0,"intro":"猪肉","detail":"新鲜猪肉","type":"荤菜","dishPic":null,"isrec":0},{"dishId":22,"dishName":"肥肉","price":12.0,"intro":"猪肉","detail":"新鲜猪肉","type":"荤菜","dishPic":null,"isrec":0},{"dishId":25,"dishName":"鱼","price":30.0,"intro":"烤鱼","detail":"新鲜的鱼","type":"Yiminghe","dishPic":null,"isrec":0},{"dishId":26,"dishName":"炒饭","price":12.0,"intro":"炒的饭","detail":"会复活复活","type":"jack","dishPic":null,"isrec":0},{"dishId":30,"dishName":"肉","price":10.0,"intro":"猪肉","detail":"新鲜猪肉","type":"荤菜","dishPic":null,"isrec":0},{"dishId":31,"dishName":"肉","price":10.0,"intro":"猪肉","detail":"新鲜猪肉","type":"荤菜","dishPic":null,"isrec":0},{"dishId":32,"dishName":"肉","price":10.0,"intro":"猪肉","detail":"新鲜猪肉","type":"荤菜","dishPic":null,"isrec":0},{"dishId":33,"dishName":"肉","price":10.0,"intro":"猪肉","detail":"新鲜猪肉","type":"荤菜","dishPic":null,"isrec":0},{"dishId":34,"dishName":"肉","price":10.0,"intro":"猪肉","detail":"新鲜猪肉","type":"荤菜","dishPic":null,"isrec":0},{"dishId":35,"dishName":"肉","price":10.0,"intro":"猪肉","detail":"新鲜猪肉","type":"荤菜","dishPic":null,"isrec":0}];
 	export default {
 		data() {
 			return {
+				data,
 				dishData: [],
 				tableNum: '1',
 				dishOrder: [],
@@ -86,12 +89,6 @@
 			this.getData();
 			this.getTime();
 
-			// that.dishOrder = this.$route.query.dishOrder;
-			// that.tableNum = this.$route.query.tableNum;
-			// that.totalPrice = this.$route.query.totalPrice;
-			console.log(
-				'console.log(that.dishData);t.dishData);.log(that.dishData); console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);'
-			);
 			console.log(that.dishData);
 
 		},
@@ -266,6 +263,7 @@
 		height: 60px;
 		line-height: 60px;
 		padding-left: 20px;
+		margin-left: 20px;
 		font-size: 20px;
 		font-weight: bold;
 		border-radius: 20px;
