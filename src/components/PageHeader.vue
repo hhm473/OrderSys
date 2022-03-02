@@ -64,6 +64,7 @@
 				this.$router.push({path:"/edituserinfo"})
 			},
 			Quit(){
+				localStorage.removeItem('role');
 				this.$router.push({path:"/login"})
 			}
 		}

@@ -119,10 +119,12 @@
 						axios.get("http://47.98.238.175:8080/dishes/add", {
 							params: values
 						}).then(function(response) {
-							alert('添加成功！');
+							// alert('添加成功！');
+							that.$message.success('添加成功！');
 							that.$router.go(-1);
 						}).catch(function(error) {
-							alert(error);
+							// alert(error);
+							that.$message.error(error);
 						});
 					}
 				});

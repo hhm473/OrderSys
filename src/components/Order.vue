@@ -46,10 +46,10 @@
 						下单</a-button>
 				</div>
 
-				<div style="height: 500px;overflow: scroll;display:flex; justify-content: space-around; flex-wrap:wrap; margin-top: 20px;">
-					<!-- <div v-for="(item, index) in data" :key="index" -->
-					<div v-for="(item, index) in dishData" :key="index"
-						style="margin-bottom: 20px; width: 30%;">
+				<div style="height: 500px;overflow: scroll;display:flex; justify-content: left; flex-wrap:wrap; margin-top: 20px;">
+					<!-- <div v-for="(item, index) in dishData" :key="index" -->
+					<div v-for="(item, index) in data" :key="index"
+						style="margin-bottom: 20px; width: 30%; margin-left: 30px;">
 						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :detail="item.detail" :tuijian="item.isrec"
 							:dishNum="item.dishNum" @minusDish="minusDish(index)" @plusDish="plusDish(index)">
 						</Dish>

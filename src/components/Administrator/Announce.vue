@@ -14,8 +14,10 @@
 					<textarea v-model="content"></textarea>
 				</div>
 			</div>
-			<div style="width: 100%;"><a-button type="primary" @click="Submit" style="margin: auto; ">提交</a-button></div>
-			
+			<div style="width: 100%;">
+				<a-button type="primary" @click="Submit" style="margin: auto; ">提交</a-button>
+			</div>
+
 		</div>
 	</div>
 </template>
@@ -53,9 +55,9 @@
 			Submit() {
 				let that = this;
 				console.log(
-						"title"+ that.title+
-						"contents"+ that.content+
-						"userId"+that.userId)
+					"title" + that.title +
+					"contents" + that.content +
+					"userId" + that.userId)
 				this.axios.get("http://47.98.238.175:8080/notice/add", {
 					params: {
 						"userId": that.userId,
@@ -63,10 +65,12 @@
 						"contents": that.content,
 					}
 				}).then(function(response) {
-					alert('发布成功！');
+					// alert('发布成功！');
+					that.$message.success('发布成功！');
 					that.$router.go(-1);
 				}).catch(function(error) {
-					alert(error);
+					// alert(error);
+					that.$message.error(error);
 				});
 			}
 		}
@@ -74,11 +78,12 @@
 </script>
 
 <style>
-	.body{
+	.body {
 		padding-top: 10px;
 		width: 100%;
-		background-color: rgba(255,255,255,0.5);
+		background-color: rgba(255, 255, 255, 0.5);
 	}
+
 	.body .title {
 		width: 270px;
 		height: 50px;
@@ -87,8 +92,8 @@
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;
-		margin:20px auto;
-		background-color: rgba(255,255,255,0.7);
+		margin: 20px auto;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 
 	.content-wrap {
@@ -142,15 +147,17 @@
 		width: 800px;
 		height: 350px;
 		font-size: 20px;
-		resize:none;
+		resize: none;
 	}
-	
-	input, textarea{
+
+	input,
+	textarea {
 		border-radius: 5px;
 		border-style: none;
 	}
-	
-	input:focus, textarea:focus { 
-		outline: none; 
+
+	input:focus,
+	textarea:focus {
+		outline: none;
 	}
 </style>

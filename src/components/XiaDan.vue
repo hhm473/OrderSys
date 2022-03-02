@@ -134,13 +134,15 @@
 					"newOrder": newOrder,
 					"dishOrders": newarr
 				}).then(function(response) {
-					alert('下单成功！');
+					// alert('下单成功！');
+					that.$message.success('下单成功！');
 					// that.$router.go(-1);
 					that.$router.push({
 						path: "/WaiterIndex"
 					});
 				}).catch(function(error) {
-					alert(error);
+					// alert(error);
+					that.$message.error(error);
 				});
 
 

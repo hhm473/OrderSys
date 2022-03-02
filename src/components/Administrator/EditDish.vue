@@ -77,8 +77,8 @@
 			</a-row>
 
 			<a-form-item>
-				<div class="button-wrap" >
-					<a-button type="primary" @click="dishEdit" size="large" >提交</a-button>
+				<div class="button-wrap">
+					<a-button type="primary" @click="dishEdit" size="large">提交</a-button>
 					<a-button type="primary" size="large" @click="comeBack">返回</a-button>
 				</div>
 			</a-form-item>
@@ -91,7 +91,6 @@
 </template>
 
 <script>
-
 	export default {
 		name: 'EditDish',
 
@@ -119,7 +118,9 @@
 		},
 		methods: {
 			back() {
-				this.$router.push({path:"/dishmanage"});
+				this.$router.push({
+					path: "/dishmanage"
+				});
 			},
 			dishEdit() {
 				let that = this;
@@ -134,27 +135,30 @@
 
 					}
 				}).then(function(response) {
-					alert('修改成功！');
+					// alert('修改成功！');
+					that.$message.success('修改成功！');
 					that.$router.go(-1);
 				}).catch(function(error) {
-					alert(error);
+					// alert(error);
+					that.$message.error(error);
 				});
 			},
-			
-			comeBack(){
+
+			comeBack() {
 				this.$router.go(-1)
 			}
-			
+
 		}
 	}
 </script>
 
 <style scoped>
-	.body{
+	.body {
 		padding-top: 10px;
 		width: 100%;
-		background-color: rgba(255,255,255,0.5);
+		background-color: rgba(255, 255, 255, 0.5);
 	}
+
 	.body .title {
 		width: 270px;
 		height: 50px;
@@ -163,8 +167,8 @@
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;
-		margin:20px auto;
-		background-color: rgba(255,255,255,0.7);
+		margin: 20px auto;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 
 	.highlight {
@@ -197,8 +201,8 @@
 	.ant-col-sm-16 {
 		width: 100% !important;
 	}
-	
-	.button-wrap{
+
+	.button-wrap {
 		margin: auto;
 		width: 200px;
 		display: flex;

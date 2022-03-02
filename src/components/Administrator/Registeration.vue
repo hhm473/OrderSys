@@ -93,7 +93,7 @@
 				columns,
 			};
 		},
-		mounted: function (){
+		mounted: function() {
 			this.GetUser();
 		},
 
@@ -114,8 +114,10 @@
 
 			//同意申请
 			confirm(key) {
+				let that = this;
 				if (key.roleId == 0) {
-					alert("请选择用户身份");
+					// alert("请选择用户身份");
+					that.$message.error('请选择用户身份');
 				} else {
 					this.axios({
 							method: "post",
@@ -165,11 +167,12 @@
 </script>
 
 <style scoped>
-	.body{
+	.body {
 		padding: 10px 10px;
 		width: 100%;
-		background-color: rgba(255,255,255,0.5);
+		background-color: rgba(255, 255, 255, 0.5);
 	}
+
 	.body .title {
 		width: 270px;
 		height: 50px;
@@ -178,7 +181,7 @@
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;
-		margin:20px auto;
-		background-color: rgba(255,255,255,0.7);
+		margin: 20px auto;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 </style>

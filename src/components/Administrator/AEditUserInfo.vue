@@ -2,8 +2,8 @@
 	<div>
 
 		<div class="body">
-			
-				<div class="title">管理员修改个人信息</div>
+
+			<div class="title">管理员修改个人信息</div>
 			<div class="form">
 				<a-form :form="form" @submit="handleSubmit">
 
@@ -145,7 +145,6 @@
 </template>
 
 <script>
-
 	import axios from 'axios'
 	export default {
 		name: 'AEditUserInfo',
@@ -230,9 +229,11 @@
 							})
 
 							.then(function(response) {
-								alert('修改成功！');
+								// alert('修改成功！');
+								that.$message.success('修改成功！');
 							}).catch(function(error) {
-								alert(error);
+								// alert(error);
+								that.$message.error(error);
 							});
 					}
 				});
@@ -262,12 +263,12 @@
 </script>
 
 <style scoped>
-
-	.body{
+	.body {
 		padding-top: 10px;
 		width: 100%;
-		background-color: rgba(255,255,255,0.5);
+		background-color: rgba(255, 255, 255, 0.5);
 	}
+
 	.body .title {
 		width: 400px;
 		height: 50px;
@@ -276,8 +277,8 @@
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;
-		margin:20px auto;
-		background-color: rgba(255,255,255,0.7);
+		margin: 20px auto;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 
 	.form {

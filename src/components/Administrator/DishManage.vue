@@ -4,7 +4,8 @@
 			<div class="title">菜品管理</div>
 			<div class="secondary-head">
 				<div class="time">
-					<div>名称：</div><a-input v-model="dishName" placeholder="请输入名称" maxLength=3 style="width: 150px;"></a-input>
+					<div>名称：</div>
+					<a-input v-model="dishName" placeholder="请输入名称" maxLength=3 style="width: 150px;"></a-input>
 				</div>
 				<div class="table-number">
 					是否推荐：
@@ -22,9 +23,13 @@
 				</div>
 				<div class="table-number">
 					价格：
-					<div><a-input type="number" v-model="minPrice" maxLength=3 placeholder="最小价格"></a-input></div> -
-					<div><a-input type="number" v-model="maxPrice" maxLength=3 placeholder="最大价格"></a-input></div>
-					
+					<div>
+						<a-input type="number" v-model="minPrice" maxLength=3 placeholder="最小价格"></a-input>
+					</div> -
+					<div>
+						<a-input type="number" v-model="maxPrice" maxLength=3 placeholder="最大价格"></a-input>
+					</div>
+
 				</div>
 				<div class="total-price">
 					<a-button type="primary" @click="dishSelect">查询</a-button>
@@ -165,7 +170,7 @@
 					console.log('请求失败：' + res.status + ',' + res.statusText);
 				});
 			},
-			
+
 			toEditDish(record) {
 				this.$router.push({
 					name: "editdish",
@@ -173,15 +178,18 @@
 				})
 			},
 			onDelete(record) {
+				let that = this;
 				console.log(record);
 				axios.get("http://47.98.238.175:8080/dishes/remove", {
 					params: {
 						'dishid': record.dishId
 					}
 				}).then(function(response) {
-					alert('删除成功');
+					// alert('删除成功');
+					that.$message.success('删除成功！');
 				}).catch(function(error) {
-					alert(error);
+					// alert(error);
+					that.$message.error(error);
 				});
 				location.reload();
 
@@ -213,7 +221,7 @@
 					alert(error);
 				});
 			},
-			
+
 			handlecook(key) {
 				console.log("进入handlebook")
 				const newData = [...this.data];
@@ -234,10 +242,10 @@
 <style scoped>
 	.body {
 		padding-top: 10px;
-		background-color: rgba(255,255,255,0.5);
+		background-color: rgba(255, 255, 255, 0.5);
 		width: 100%;
 	}
-	
+
 	.body .title {
 		width: 270px;
 		height: 50px;
@@ -246,8 +254,8 @@
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;
-		margin:20px auto;
-		background-color: rgba(255,255,255,0.7);
+		margin: 20px auto;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 
 	.secondary-head {
@@ -271,7 +279,8 @@
 		display: flex;
 		justify-content: space-around;
 	}
-	.table-number div{
+
+	.table-number div {
 		width: 80px;
 	}
 
