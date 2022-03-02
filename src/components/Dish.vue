@@ -138,7 +138,7 @@
 	.tuijian {
 		position: absolute;
 		top: 0;
-		left: 60px;
+		right: 10px;
 		font-size: 0.50em;
 		color: red;
 		padding-left: 8px;

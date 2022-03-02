@@ -3,7 +3,7 @@
 		<page-header></page-header>
 		<div class="cata">
 			<div style="display: flex; float: left;">
-				<div class="cata-item" @click="toWaiterIndex">
+				<div class="cata-item">
 					首页
 				</div>
 			</div>
@@ -110,19 +110,7 @@
 		},
 	];
 
-	const data = [{
-		key: '1',
-		dish_name: 'John Brown',
-		table_id: "2",
-		count: '1',
-		dish_state: "等待烹饪"
-	}, {
-		key: '6',
-		name: 'John Brown',
-		table_id: "3",
-		count: '1',
-		dish_state: "等待烹饪"
-	}];
+	const data = [];
 	import PageHeader from './PageHeader.vue'
 	import CallBoard from './CallBoard.vue'
 	export default {
@@ -177,7 +165,7 @@
 						params: selet
 					}).then(res => {
 						let data = res.data
-						console.log(data)
+						console.log(res)
 						this.data = data.map((item, i) => {
 							item.key = i
 							if (item.dish_state == 0) {
@@ -189,6 +177,9 @@
 							}
 							return item
 						})
+						
+						
+						console.log(this.data)
 					})
 					.catch(function(error) {
 						console.log(error);

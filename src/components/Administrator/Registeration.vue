@@ -2,6 +2,9 @@
 	<div class="body">
 		<div class="title">注册申请</div>
 		<a-table :columns="columns" :data-source="data" bordered :scroll="{ y: 350 }">
+			<template slot="profilePic" slot-scope="text, record">
+				<img :src="record.profilePic" style="height: 70px" />
+			</template>
 			<template slot="select" slot-scope="text, record">
 				<a-select @change="handleChange(record, $event)" style="width: 100%">
 					<a-select-option value="1"> 管理员 </a-select-option>
@@ -100,8 +103,7 @@
 		methods: {
 			//获取所有用户信息
 			GetUser() {
-				this.axios
-					.get("http://47.98.238.175:8080/user/queryAll")
+				this.axios.get("http://47.98.238.175:8080/user/queryAll")
 					.then((res) => {
 						let data = res.data;
 						data = data.filter((item) => item.roleId == 0);
@@ -137,7 +139,7 @@
 			//拒绝申请
 			cancel(key) {
 				this.axios
-					.get("http://47.98.238.175:8080/user/delete", {
+					.get("http://47.98.238.175:8080/user/remove", {
 						params: {
 							userId: key.userId,
 						},

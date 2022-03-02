@@ -17,7 +17,7 @@
 					<div class="table-title">
 						传菜推送信息
 					</div>
-					<a-table class="table" :columns="columnsDish" :data-source="dataDish" bordered :scroll="{y: 300 }">
+					<a-table class="table" :columns="columnsDish" :data-source="dataDish" bordered :scroll="{y: 280 }">
 						<a-tag slot="dish_state" slot-scope="text, record"
 							:color="record.dish_state === '已传菜' ? 'geekblue': 'green'"
 							@click="() => handledeliver(record.key)">

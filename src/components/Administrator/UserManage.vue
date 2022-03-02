@@ -55,8 +55,7 @@
 						</template>
 
 						<template slot="profilePic" slot-scope="text, record">
-							<img src="../../assets/logo.png" style="height: 20px" />
-							{{record.profilePic}}
+							<img :src="record.profilePic" style="height: 70px" />
 						</template>
 
 						<a-button slot="operation" slot-scope="text, record" @click="() => toEditUser(record)">
@@ -142,7 +141,7 @@
 				let that = this
 				this.axios({ //格式a
 					method: 'get',
-					url: 'http://47.98.238.175:8080/user/query'
+					url: 'http://47.98.238.175:8080/user/queryAll'
 				}).then(function(res) {
 					console.log(res)
 					console.log(res.data);

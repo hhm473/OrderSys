@@ -61,9 +61,7 @@
 						</div>
 					</a-col>
 					<a-col :span="4">
-						<a-button>
-							<a-icon type="upload" /> 上传头像
-						</a-button>
+						<Uploud v-on:profilePic="profilePic"></Uploud>
 					</a-col>
 					<a-col :span="4">
 						<div class="input-item">
@@ -98,8 +96,18 @@
 
 <script>
 	import axios from 'axios'
+	import Uploud from '../Uploud.vue'
 	export default {
 		name: 'AddDish',
+		components: {
+			Uploud
+		},
+		data(){
+			return{
+				isres:0,
+				dishPic:""
+			}
+		},
 
 		beforeCreate() {
 			this.form = this.$form.createForm(this, {
@@ -107,6 +115,10 @@
 			});
 		},
 		methods: {
+			profilePic(value){
+				this.dishPic = value
+			},
+			
 			back() {
 				this.$router.push({path:"/dishmanage"});
 			},
@@ -115,16 +127,19 @@
 				this.form.validateFields((err, values) => {
 					if (!err) {
 						values.price = Number(values.price)
+						values.dishPic = this.dishPic
+						values.isrec = Number(this.isres)
+						values.type = "荤菜"
 						console.log(values)
 						axios.get("http://47.98.238.175:8080/dishes/add", {
 							params: values
 						}).then(function(response) {
-							// alert('添加成功！');
-							that.$message.success('添加成功！');
+							alert('添加成功！');
+							// that.$message.success('添加成功！');
 							that.$router.go(-1);
 						}).catch(function(error) {
-							// alert(error);
-							that.$message.error(error);
+							alert(error);
+							// that.$message.error(error);
 						});
 					}
 				});
@@ -132,6 +147,10 @@
 			
 			comeBack(){
 				this.$router.go(-1)
+			},
+			
+			handleChange(value){
+				this.isres = value
 			}
 			
 		},
@@ -143,6 +162,7 @@
 		padding-top: 10px;
 		width: 100%;
 		background-color: rgba(255,255,255,0.5);
+		padding: 10px;
 	}
 	.body .title {
 		width: 270px;

@@ -9,7 +9,7 @@
 		
 		<div v-if="isLogin" class="user-info">
 			<div class="welcome">欢迎回来，{{role}}&nbsp;&nbsp;&nbsp;&nbsp;{{userId}}</div>
-			<img v-on:click="ShowButton" v-if="!isShowButton" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+			<img v-on:click="ShowButton" v-if="!isShowButton" :src="profilePic" />
 			<div class="user-buton" v-if="isShowButton">
 				<a-button style="width: 70px; font-size: 10px;" @click="EditUserInfo" type="primary" size="small">修改信息</a-button>
 				<a-button style="width: 70px; font-size: 10px;" @click="Quit" type="primary" size="small">退出登录</a-button>
@@ -27,7 +27,8 @@
 				isShowButton:false,
 				isLogin:false,
 				role:"",
-				userId:""
+				userId:"",
+				profilePic:""
 			};
 		},
 		mounted: function() {
@@ -43,6 +44,8 @@
 						this.$data.role = "管理人员"
 					}
 					this.$data.userId = people.userId
+					this.$data.profilePic = people.profilePic
+					console.log(this.profilePic);
 				}else{
 					this.isLogin = false
 				}

@@ -141,11 +141,7 @@
 				</a-form>
 			</div>
 		</div>
-
-		<a-modal title="提示" :visible="visible" :confirm-loading="confirmLoading" @ok="handleOk" @cancel="handleCancel"
-			okText="确定" cancelText="取消">
-			<p>{{ ModalText }}</p>
-		</a-modal>
+		
 	</div>
 </template>
 
@@ -167,6 +163,8 @@
 		},
 		data() {
 			return {
+				loading:false,
+				imageUrl:"",
 				role: "",
 				userId: "",
 				// 以下代码为点击注册按钮后弹出框相关数据
@@ -208,7 +206,9 @@
 
 				identifyCodes: "1234567890",
 				identifyCode: "",
-				writeCode: ""
+				writeCode: "",
+				
+				profilePic:""
 			};
 		},
 
@@ -285,6 +285,7 @@
 								this.$message.error('旧密码输入错误!');
 							} else {
 								user.password = values.password;
+								user.profilePic = "http://diancan.drbxsj.top/"+this.profilePic
 								this.axios({
 										method: "post",
 										url: "http://47.98.238.175:8080/user/modify",
@@ -294,6 +295,7 @@
 										console.log(res);
 										this.$message.success('修改成功!');
 										localStorage.setItem("role", JSON.stringify(res.data));
+										this.goBack()
 									})
 									.catch((err) => {
 										console.log(err);
@@ -308,6 +310,7 @@
 			},
 
 			handleChange(info) {
+				let that = this
 				if (info.file.status === 'uploading') {
 					this.loading = true;
 					return;
@@ -328,6 +331,7 @@
 						})
 						.then(res => {
 							console.log(res)
+							that.profilePic = res.data
 						}).catch(err => {
 							console.log(err)
 						})

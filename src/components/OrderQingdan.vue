@@ -3,7 +3,7 @@
 		<div class="big-title">
 			已购菜品
 		</div>
-		<a-table class="table" :columns="columns" :data-source="list" bordered :scroll="{y: 700 }">
+		<a-table id="wrap" class="table" :columns="columns" :data-source="list" bordered :scroll="{y: 700 }">
 
 		</a-table>
 		<div v-show="false">
@@ -80,5 +80,18 @@
 		background-color: rgba(255, 255, 255, 0.6);
 		height: 500px;
 		overflow: auto;
+	}
+	
+	#wrap::-webkit-scrollbar {
+	width: 5px;
+	background-color: #F5F5F5;
+	}
+	#wrap::-webkit-scrollbar-thumb {
+	    background-color: #fda03f;
+	    
+	}
+	#wrap::-webkit-scrollbar-track {
+	    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+	    background-color: #F5F5F5;
 	}
 </style>

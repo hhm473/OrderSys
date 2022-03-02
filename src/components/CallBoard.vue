@@ -4,7 +4,7 @@
 		<div class="big-title">
 			实时公告
 		</div>
-		<div class="item-wrap">
+		<div class="item-wrap" id="wrap">
 			<!-- customStyle自定义样式 -->
 			<a-collapse v-for="(item, i) in lists" v-bind:key="i">
 				<a-collapse-panel :key="i" :header="item.title" :style="customStyle">
@@ -135,5 +135,17 @@
 		font-weight: normal;
 		margin-top: 50px;
 		text-align: left;
+	}
+	#wrap::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+	}
+	#wrap::-webkit-scrollbar-thumb {
+	    background-color: #F90;
+	    
+	}
+	#wrap::-webkit-scrollbar-track {
+	    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+	    background-color: #F5F5F5;
 	}
 </style>

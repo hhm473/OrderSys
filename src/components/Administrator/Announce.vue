@@ -67,7 +67,8 @@
 				}).then(function(response) {
 					// alert('发布成功！');
 					that.$message.success('发布成功！');
-					that.$router.go(-1);
+					that.title= "",
+					that.content= ""
 				}).catch(function(error) {
 					// alert(error);
 					that.$message.error(error);
@@ -154,6 +155,7 @@
 	textarea {
 		border-radius: 5px;
 		border-style: none;
+		padding-left: 5px;
 	}
 
 	input:focus,

@@ -11,7 +11,7 @@
 						菜品编号： {{dishId}}
 					</div>
 				</a-col>
-				<a-col :span="4">
+				<a-col :span="2">
 					<div class="input-item" style="margin-left: 0;">
 						菜品名称：
 					</div>
@@ -19,7 +19,7 @@
 				<a-col :span="6">
 					<a-input placeholder='请输入菜品名称' v-model="dishName" />
 				</a-col>
-				<a-col :span="4">
+				<a-col :span="3">
 					<div class="input-item">
 						菜品价格：
 					</div>
@@ -55,9 +55,7 @@
 					</div>
 				</a-col>
 				<a-col :span="4">
-					<a-button>
-						<a-icon type="upload" /> 上传头像
-					</a-button>
+					<Uploud v-on:profilePic="profilePic"></Uploud>
 				</a-col>
 				<a-col :span="4">
 					<div class="input-item">
@@ -65,14 +63,14 @@
 					</div>
 				</a-col>
 				<a-col :span="4">
-					<a-select default-value="0" style="width: 120px" @change="handleChange">
-						<a-select-option value="0">
-							否
-						</a-select-option>
-						<a-select-option value="1">
-							是
-						</a-select-option>
-					</a-select>
+						<a-select :default-value="isres" style="width: 120px" @change="handleChange">
+							<a-select-option value="0">
+								否
+							</a-select-option>
+							<a-select-option value="1">
+								是
+							</a-select-option>
+						</a-select>
 				</a-col>
 			</a-row>
 
@@ -91,8 +89,12 @@
 </template>
 
 <script>
+	import Uploud from '../Uploud.vue'
 	export default {
 		name: 'EditDish',
+		components: {
+			Uploud
+		},
 
 		data() {
 			return {
@@ -102,7 +104,9 @@
 				price: 0,
 				type: "",
 				detail: "",
-				intro: ""
+				intro: "",
+				isres:0,
+				dishPic:""
 			}
 		},
 		mounted() {
@@ -115,6 +119,7 @@
 			that.detail = that.initData.detail;
 			that.intro = that.initData.intro;
 			that.type = that.initData.type;
+			that.isres = that.initData.isres;
 		},
 		methods: {
 			back() {
@@ -126,13 +131,14 @@
 				let that = this;
 				this.axios.get("http://47.98.238.175:8080/dishes/edit", {
 					params: {
-						"dishId": that.dishId,
-						"dishName": that.dishName,
-						"price": that.price,
-						"detail": that.detail,
-						"intro": that.intro,
-						"type": that.type,
-
+						dishId: that.dishId,
+						dishName: that.dishName,
+						price: that.price,
+						detail: that.detail,
+						intro: that.intro,
+						type: that.type,
+						dishPic: this.dishPic,
+						isrec: Number(this.isres)
 					}
 				}).then(function(response) {
 					// alert('修改成功！');
@@ -146,6 +152,10 @@
 
 			comeBack() {
 				this.$router.go(-1)
+			},
+			
+			handleChange(value){
+				this.isres = value
 			}
 
 		}
@@ -157,6 +167,7 @@
 		padding-top: 10px;
 		width: 100%;
 		background-color: rgba(255, 255, 255, 0.5);
+		padding: 10px;
 	}
 
 	.body .title {
@@ -189,7 +200,7 @@
 	.input-item {
 		font-size: 18px;
 		font-weight: bold;
-		margin: 10px 0 0 60px;
+		margin: 0 0 0 60px;
 	}
 
 	.input-hint {

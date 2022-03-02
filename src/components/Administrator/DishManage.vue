@@ -41,12 +41,14 @@
 			<div style="padding: 20px;">
 				<div>
 					<a-table :columns="columns" :data-source="data1" bordered :scroll="{y: 450 }">
+						<template slot="isrec" slot-scope="text, record">
+							{{record.isrec == 1?'推荐':'' }}
+						</template>
 						<a-button slot="edit" slot-scope="text, record" @click="() => toEditDish(record)">
 							修改
 						</a-button>
-						<template slot="pic" slot-scope="text, record">
-							<img src="../../assets/logo.png" style="height: 20px" />
-							{{record.ipc}}
+						<template slot="dishPic" slot-scope="text, record">
+							<img :src="record.dishPic" style="height: 70px" />
 						</template>
 						<template slot="delete" slot-scope="text, record">
 							<a-popconfirm v-if="data1.length" title="确定删除 ?" @confirm="() => onDelete(record)">
@@ -87,15 +89,18 @@
 		},
 		{
 			title: '是否推荐',
-			key: 'reco',
-			dataIndex: 'reco',
+			key: 'isrec',
+			dataIndex: 'isrec',
+			scopedSlots: {
+				customRender: 'isrec'
+			},
 		},
 		{
 			title: '图片',
-			key: 'pic',
-			dataIndex: 'pic',
+			key: 'dishPic',
+			dataIndex: 'dishPic',
 			scopedSlots: {
-				customRender: 'pic'
+				customRender: 'dishPic'
 			},
 		},
 		{

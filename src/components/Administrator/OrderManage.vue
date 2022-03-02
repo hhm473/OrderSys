@@ -114,7 +114,7 @@
 				this.$router.push({path:"/administratorindex"});
 			},
 			getOrder(){
-				this.axios.get("http://47.98.238.175:8080/Order/queryOrder").then(res => {				
+				this.axios.get("http://47.98.238.175:8080/order/queryOrder").then(res => {				
 					this.data = res.data.map((item,i) => {
 						item.newOrder.key = i
 						let cook=""

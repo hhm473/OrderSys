@@ -183,6 +183,10 @@
 			PageHeader,
 			SIdentify
 		},
+		mounted() {
+			this.identifyCode = "";
+			this.makeCode(this.identifyCodes, 4);
+		},
 		data() {
 			return {
 				identifyCodes: "1234567890",
@@ -227,6 +231,8 @@
 						},
 					},
 				},
+				
+				profilePic:""
 			};
 		},
 		beforeCreate() {
@@ -266,11 +272,11 @@
 							userId: values.userId,
 							password: values.password,
 							roleId: "",
-							profilePic: "",
+							profilePic: "http://diancan.drbxsj.top/"+this.profilePic,
 							isLock: ""
 						}
 						console.log('Received values of form: ', data);
-						this.axios.post("http://47.98.238.175:8080/user/add", this.$qs.stringify(values)).then(
+						this.axios.post("http://47.98.238.175:8080/user/add", this.$qs.stringify(data)).then(
 								res => {
 									console.log(res)
 								})
@@ -287,6 +293,7 @@
 			},
 
 			handleChange(info) {
+				let that = this
 				if (info.file.status === 'uploading') {
 					this.loading = true;
 					return;
@@ -306,7 +313,8 @@
 					  }
 					})
 					  .then(res => {
-					    console.log(res)
+						  console.log(res)
+					    that.profilePic = res.data
 					  }).catch(err => {
 					  console.log(err)
 					})
