@@ -40,7 +40,7 @@
 			</div>
 			<div style="padding: 20px;">
 				<div>
-					<a-table :columns="columns" :data-source="userData" bordered :scroll="{y: 450 }">
+					<a-table :columns="columns" :data-source="userData" bordered :scroll="{y: 350 }">
 
 						<template slot="num" slot-scope="text, record,index">
 							{{index+1}}

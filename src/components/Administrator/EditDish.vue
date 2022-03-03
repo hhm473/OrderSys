@@ -63,14 +63,15 @@
 					</div>
 				</a-col>
 				<a-col :span="4">
-						<a-select :default-value="isres" style="width: 120px" @change="handleChange">
-							<a-select-option value="0">
-								否
-							</a-select-option>
-							<a-select-option value="1">
-								是
-							</a-select-option>
-						</a-select>
+					<!-- <a-select :default-value="String(isrec)" style="width: 120px" @change="handleChange"> -->
+					<a-select :default-value=isrec style="width: 120px" @change="handleChange">
+						<a-select-option value="0">
+							否
+						</a-select-option>
+						<a-select-option value="1">
+							是
+						</a-select-option>
+					</a-select>
 				</a-col>
 			</a-row>
 
@@ -98,30 +99,37 @@
 
 		data() {
 			return {
-				initData: "",
 				dishId: 0,
 				dishName: "",
 				price: 0,
 				type: "",
 				detail: "",
 				intro: "",
-				isres:0,
-				dishPic:""
+				isrec: "",
+				dishPic: "",
 			}
 		},
-		mounted() {
-			let that = this;
-			that.initData = this.$route.params;
-			console.log(that.initData)
-			that.dishId = that.initData.dishId;
-			that.dishName = that.initData.dishName;
-			that.price = that.initData.price;
-			that.detail = that.initData.detail;
-			that.intro = that.initData.intro;
-			that.type = that.initData.type;
-			that.isres = that.initData.isres;
+		created () {
+			this.getDataFromRoute();
 		},
 		methods: {
+			getDataFromRoute() {
+				let that = this;
+				let initData = this.$route.params;
+				console.log(initData)
+				that.isrec = String(initData.isrec);
+				that.dishId = initData.dishId;
+				that.dishName = initData.dishName;
+				that.price = initData.price;
+				that.detail = initData.detail;
+				that.intro = initData.intro;
+				that.type = initData.type;
+				console.log("that.isrecthat.isrecthat.isrecthat.isrecthat.isrecthat.isrecthat.isrecthat.isrec",that.isrec);
+				console.log(typeof(that.isrec));
+			},
+			profilePic(value) {
+				this.dishPic = value
+			},
 			back() {
 				this.$router.push({
 					path: "/dishmanage"
@@ -129,17 +137,20 @@
 			},
 			dishEdit() {
 				let that = this;
-				this.axios.get("http://47.98.238.175:8080/dishes/edit", {
-					params: {
-						dishId: that.dishId,
-						dishName: that.dishName,
-						price: that.price,
-						detail: that.detail,
-						intro: that.intro,
-						type: that.type,
-						dishPic: this.dishPic,
-						isrec: Number(this.isres)
-					}
+				let values = {
+					dishId: that.dishId,
+					dishName: that.dishName,
+					price: that.price,
+					detail: that.detail,
+					intro: that.intro,
+					type: that.type,
+					dishPic: this.dishPic,
+					isrec: Number(this.isrec)
+				}
+				this.axios({
+					method: 'post',
+					url: "http://47.98.238.175:8080/dishes/edit",
+					data: this.$qs.stringify(values)
 				}).then(function(response) {
 					// alert('修改成功！');
 					that.$message.success('修改成功！');
@@ -153,9 +164,9 @@
 			comeBack() {
 				this.$router.go(-1)
 			},
-			
-			handleChange(value){
-				this.isres = value
+
+			handleChange(value) {
+				this.isrec = value
 			}
 
 		}

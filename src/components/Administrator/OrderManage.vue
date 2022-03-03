@@ -46,7 +46,7 @@
 			</div>
 			<div style="padding: 20px;">
 				<div>
-					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 450 }">
+					<a-table :columns="columns" :data-source="data" bordered :scroll="{y: 350 }">
 
 
 					</a-table>

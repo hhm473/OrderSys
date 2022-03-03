@@ -386,7 +386,7 @@
 <style scoped>
 	.touming {
 		height: 650px;
-		width: 1220px;
+		width: 75%;
 		border-radius: 20px;
 		margin: auto;
 		margin-top: 100px;
@@ -398,7 +398,7 @@
 		margin: auto;
 		background-color: white;
 		height: 630px;
-		width: 1200px;
+		width: 98%;
 		padding: 30px 80px;
 		border-radius: 20px;
 	}

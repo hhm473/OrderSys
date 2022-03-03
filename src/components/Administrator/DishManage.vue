@@ -9,7 +9,7 @@
 				</div>
 				<div class="table-number">
 					是否推荐：
-					<a-select default-value="全部" style="width: 120px" @change="handleTuijian">
+					<a-select default-value="-1" style="width: 120px" @change="handleTuijian">
 						<a-select-option value="1">
 							是
 						</a-select-option>
@@ -40,7 +40,8 @@
 			</div>
 			<div style="padding: 20px;">
 				<div>
-					<a-table :columns="columns" :data-source="data1" bordered :scroll="{y: 450 }">
+					<!-- <a-table :columns="columns" :data-source="data1" bordered :scroll="{y: 450 }"> -->
+					<a-table :columns="columns" :data-source="data1" bordered :scroll="{y: 350 }">
 						<template slot="isrec" slot-scope="text, record">
 							{{record.isrec == 1?'推荐':'' }}
 						</template>
@@ -51,6 +52,7 @@
 							<img :src="record.dishPic" style="height: 70px" />
 						</template>
 						<template slot="delete" slot-scope="text, record">
+							<!-- <a-popconfirm v-if="data1.length" title="确定删除 ?" @confirm="() => onDelete(record)"> -->
 							<a-popconfirm v-if="data1.length" title="确定删除 ?" @confirm="() => onDelete(record)">
 								<a-button>删除</a-button>
 							</a-popconfirm>
@@ -125,16 +127,15 @@
 			},
 		}
 	];
-	const data1 = [];
 
 	export default {
 		data() {
 			return {
 				kind: [],
-				data1,
+				data1: [],
 				Bdata: [],
 				dishName: '',
-				tuijian: '',
+				tuijian: '-1',
 				minPrice: '',
 				maxPrice: '',
 				columns,
@@ -168,7 +169,6 @@
 					console.log(res.data);
 					// console.log(this.data1);
 					that.data1 = res.data;
-					that.Bdata = that.data1;
 					// console.log(data);
 				}).catch(res => {
 					console.log(res)
@@ -219,27 +219,25 @@
 					}
 				}).then(function(res) {
 					// alert('修改成功！');
-
 					that.data1 = res.data;
+					that.Bdata = that.data1;
 					// that.$router.go(-1);
 				}).catch(function(error) {
 					alert(error);
 				});
-			},
-
-			handlecook(key) {
-				console.log("进入handlebook")
-				const newData = [...this.data];
-				const target = newData.filter(item => key === item.key)[0];
-				if (target) {
-					if (target.cook === "等待烹饪") {
-						target.cook = "正在烹饪";
-					} else {
-						target.cook = "已烹饪"
-					}
+								
+				// console.log(that.Bdata);
+				if (that.tuijian != '-1') {
+					that.data1 = that.Bdata.filter((item, index) => {
+						console.log(that.tuijian);
+						if (this.$data.tuijian == "0") {
+							return item.isrec === 0
+						}else{
+							return item.isrec === 1
+						}
+					})
 				}
 			},
-
 		},
 	}
 </script>

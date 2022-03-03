@@ -195,8 +195,8 @@
 
 <style scoped>
 	.touming {
-		height: 620px;
-		width: 620px;
+		height: 520px;
+		width: 40%;
 		border-radius: 20px;
 		margin: auto;
 		margin-top: 120px;
@@ -206,8 +206,8 @@
 
 	.login-wrap {
 		background-color: white;
-		height: 600px;
-		width: 600px;
+		height: 500px;
+		width: 96%;
 		padding: 30px 80px;
 		margin: auto;
 		border-radius: 20px;
