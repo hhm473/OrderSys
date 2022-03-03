@@ -30,20 +30,13 @@
 
 			let peaple = JSON.parse(localStorage.getItem('role'))
 
-			if (peaple.roleId == 1) {
-				this.$data.role = "服务员"
-			} else if (peaple.roleId == 2) {
-				this.$data.role = "后厨人员"
-			} else {
-				this.$data.role = "管理人员"
-			}
-			// this.$data.userId = peaple.userId
+			this.$data.userId = peaple.userId
 			//userId需要在用户表中存在
 		},
 		data() {
 			return {
 				role: "",
-				userId: "user1",
+				userId: "user3",
 				title: "",
 				content: ""
 			}
@@ -54,10 +47,6 @@
 			},
 			Submit() {
 				let that = this;
-				console.log(
-					"title" + that.title +
-					"contents" + that.content +
-					"userId" + that.userId)
 				this.axios.get("http://47.98.238.175:8080/notice/add", {
 					params: {
 						"userId": that.userId,
@@ -65,13 +54,13 @@
 						"contents": that.content,
 					}
 				}).then(function(response) {
-					// alert('发布成功！');
-					that.$message.success('发布成功！');
+					alert('发布成功！');
+					// that.$message.success('发布成功！');
 					that.title= "",
 					that.content= ""
 				}).catch(function(error) {
-					// alert(error);
-					that.$message.error(error);
+					alert(error);
+					// that.$message.error(error);
 				});
 			}
 		}

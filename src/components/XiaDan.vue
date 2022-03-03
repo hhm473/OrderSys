@@ -130,12 +130,12 @@
 				// that.$set(newOrder, "dishes", newarr);
 				console.log(newOrder)
 				console.log(newarr)
-				that.axios.post("http://47.98.238.175:8080/newOrder", {
+				that.axios.post("http://47.98.238.175:8080/order/newOrder", {
 					"newOrder": newOrder,
 					"dishOrders": newarr
 				}).then(function(response) {
-					// alert('下单成功！');
-					that.$message.success('下单成功！');
+					alert('下单成功！');
+					// that.$message.success('下单成功！');
 					// that.$router.go(-1);
 					that.$router.push({
 						path: "/WaiterIndex"
