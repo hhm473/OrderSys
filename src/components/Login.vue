@@ -69,7 +69,7 @@
 
 					</a-row>
 
-					<a-button html-type="submit" style="color: white; background-color: #FE742B;" size="large"
+					<a-button html-type="submit" style="color: white; background-color: #FE742B; width: 93%;" size="large"
 						type="danger" shape="round">
 						登录
 					</a-button>
@@ -108,6 +108,7 @@
 		},
 
 		mounted() {
+			localStorage.setItem('Aindex', 1);
 			this.identifyCode = "";
 			this.makeCode(this.identifyCodes, 4);
 		},
@@ -182,13 +183,22 @@
 					});
 
 				} else {
-					console.log(this.$message);
-					this.$message.error('验证码错误!');
+					console.log("this.$message", this.$message);
+					// alert('验证码错误!')
+					// this.$message.error('验证码错误!');
+					this.info();
 					this.makeCode(this.identifyCodes, 4);
 				}
 			},
-
-
+			info() {
+				const h = this.$createElement;
+				this.$warning({
+					title: '发生错误',
+					content: h('div', {}, [
+						h('p', '您输入的验证码错误，请重新输入'),
+					]),
+				});
+			},
 		},
 	};
 </script>

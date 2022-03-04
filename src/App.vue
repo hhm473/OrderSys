@@ -7,6 +7,9 @@
 <script>
 	export default {
 		name: 'app',
+		beforeDestroy(){
+			localStorage.clear()
+		}
 	}
 </script>
 
@@ -22,6 +25,6 @@
 		background-size: cover;
 
 		height: 100%;
-		overflow: hidden;
+		overflow: auto;
 	}
 </style>

@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<page-header is-login="true" :user-name="userId" :user-type="role"></page-header>
+	<div style="height: 90%;">
+		<page-header></page-header>
 		<div class="cata">
 			<div style="display: flex; float: left;">
 				<div class="cata-item" @click="toWaiterIndex">
@@ -46,7 +46,7 @@
 						下单</a-button>
 				</div>
 
-				<div id="wrap" style="height: 500px;overflow: auto;display:flex; justify-content: left; flex-wrap:wrap; margin-top: 20px;">
+				<div id="wrap" style="height: 85%;overflow: auto;display:flex; justify-content: left; flex-wrap:wrap; margin-top: 20px;">
 					<!-- <div v-for="(item, index) in data" :key="index" -->
 						<div v-for="(item, index) in dishData" :key="index"
 					style="margin-bottom: 20px; width: 30%; margin-left: 30px;">
@@ -57,7 +57,6 @@
 				</div>
 			</div>
 		</div>
-		<div style="width: 100%;height: 200px;"></div>、
 	</div>
 </template>
 
@@ -199,7 +198,7 @@
 
 <style scoped>
 	.content {
-		height: 630px;
+		height: 90%;
 		width: 98%;
 		border-radius: 20px;
 		margin: auto;
@@ -241,14 +240,14 @@
 	
 	.left-select {
 		width: 30%;
-		height: 600px;
+		height: 100%;
 		/* background-color: white; */
 	}
 
 	.right {
 		width: 70%;
 		margin-right: 10px;
-		height: 650px;
+		height: 100%;
 		/* background-color: white; */
 	}
 

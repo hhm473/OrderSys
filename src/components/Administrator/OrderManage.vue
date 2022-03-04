@@ -125,7 +125,7 @@
 						 }
 						item.newOrder.cook = cook
 						
-						if (item.newOrder.dishState == 0) {
+						if (item.newOrder.orderState == 0) {
 							item.newOrder.orderState = "未完成";
 						}
 						else{

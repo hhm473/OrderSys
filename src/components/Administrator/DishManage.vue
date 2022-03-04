@@ -5,7 +5,7 @@
 			<div class="secondary-head">
 				<div class="time">
 					<div>名称：</div>
-					<a-input v-model="dishName" placeholder="请输入名称" maxLength=3 style="width: 150px;"></a-input>
+					<a-input v-model="dishName" placeholder="请输入名称" style="width: 150px;"></a-input>
 				</div>
 				<div class="table-number">
 					是否推荐：
@@ -24,10 +24,10 @@
 				<div class="table-number">
 					价格：
 					<div>
-						<a-input type="number" v-model="minPrice" maxLength=3 placeholder="最小价格"></a-input>
+						<a-input type="number" v-model="minPrice" placeholder="最小价格"></a-input>
 					</div> -
 					<div>
-						<a-input type="number" v-model="maxPrice" maxLength=3 placeholder="最大价格"></a-input>
+						<a-input type="number" v-model="maxPrice" placeholder="最大价格"></a-input>
 					</div>
 
 				</div>
@@ -168,7 +168,10 @@
 					console.log(res)
 					console.log(res.data);
 					// console.log(this.data1);
-					that.data1 = res.data;
+					that.data1 = res.data.map((item,i) => {
+						item.key = i
+						return item
+					})
 					// console.log(data);
 				}).catch(res => {
 					console.log(res)
@@ -184,7 +187,8 @@
 			},
 			onDelete(record) {
 				let that = this;
-				console.log(record);
+				console.log(record.key);
+				this.data1.splice(this.data1.findIndex(item => item.key == record.key), 1)
 				axios.get("http://47.98.238.175:8080/dishes/remove", {
 					params: {
 						'dishid': record.dishId
@@ -196,7 +200,7 @@
 					// alert(error);
 					that.$message.error(error);
 				});
-				location.reload();
+				// location.reload();
 
 			},
 

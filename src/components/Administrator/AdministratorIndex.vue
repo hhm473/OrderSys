@@ -3,7 +3,7 @@
     <page-header></page-header>
     <div class="content">
       <div class="rleft-select">
-            <a-menu :default-selected-keys="['1']" style="width: 100% background-color: rgba(255,255,255,0.5);" mode="vertical" @click="handleClick" >
+            <a-menu :default-selected-keys="[Aindex]" style="width: 100% background-color: rgba(255,255,255,0.5);" mode="vertical" @click="handleClick" >
                   <a-menu-item key="1">
                     <a-icon type="mail" />
                     注册申请
@@ -42,14 +42,16 @@ export default {
     PageHeader,
   },
 
-  mounted: function () {
-
+  created: function () {
+	this.Aindex = localStorage.getItem('Aindex').toString()
+	console.log(this.Aindex);
     this.GetUser();
   },
   data() {
     return {
       role: "",
       userId: "",
+	  Aindex:'1'
     };
   },
 
@@ -57,26 +59,31 @@ export default {
 	handleClick(e) {
 	      switch(e.key){
 	      	case "1":
+				localStorage.setItem('Aindex', "1");
 	      		this.$router.push({
 	      			path: "/registeration"
 	      		})
 	      		break
 	      	case "2":
+				localStorage.setItem('Aindex', "2");
 	      		this.$router.push({
 	      			path: "/dishmanage"
 	      		})
 	      		break
 			case "3":
+				localStorage.setItem('Aindex', "3");
 				this.$router.push({
 					path: "/usermanage"
 				})
 				break
 			case "4":
+				localStorage.setItem('Aindex', "4");
 				this.$router.push({
 					path: "/ordermanage"
 				})
 			break
 			case "5":
+				localStorage.setItem('Aindex', "5");
 				this.$router.push({
 					path: "/announce"
 				})
@@ -95,9 +102,10 @@ export default {
 <style scoped>
 
 .content {
-	margin-top: 70px;
+	padding-top: 70px;
 	display: flex;
-	height: calc( 100% - 70px ) ;
+	/* height: calc( 100% - 70px ) ; */
+	height: 100%;
 	width: 100%;
 	overflow: hidden;
 }
@@ -116,7 +124,7 @@ export default {
   	flex: 10;
 	height: 100%;
 	padding-bottom: 0;
-  overflow: scroll;
+	overflow: auto;
 }
 
 

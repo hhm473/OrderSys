@@ -55,7 +55,7 @@
 	.board-wrap {
 		width: 90%;
 		margin: auto;
-		height: 650px;
+		height: 100%;
 	}
 
 	.big-title {
@@ -78,7 +78,7 @@
 		padding: 10px;
 		margin-bottom: 10px;
 		background-color: rgba(255, 255, 255, 0.6);
-		height: 500px;
+		height: 85%;
 		overflow: auto;
 	}
 	

@@ -41,6 +41,9 @@
 			title: "头像",
 			dataIndex: "profilePic",
 			key: "profilePic",
+			scopedSlots: {
+				customRender: "profilePic",
+			},
 		},
 		{
 			title: "身份选择",

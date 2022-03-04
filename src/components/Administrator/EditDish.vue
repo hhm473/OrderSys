@@ -55,7 +55,7 @@
 					</div>
 				</a-col>
 				<a-col :span="4">
-					<Uploud v-on:profilePic="profilePic"></Uploud>
+					<Uploud v-on:profilePic="profilePic" :dishPic = "dishPic"></Uploud>
 				</a-col>
 				<a-col :span="4">
 					<div class="input-item">
@@ -124,7 +124,7 @@
 				that.detail = initData.detail;
 				that.intro = initData.intro;
 				that.type = initData.type;
-				console.log("that.isrecthat.isrecthat.isrecthat.isrecthat.isrecthat.isrecthat.isrecthat.isrec",that.isrec);
+				that.dishPic = initData.dishPic;
 				console.log(typeof(that.isrec));
 			},
 			profilePic(value) {

@@ -144,7 +144,7 @@
 			},
 
 			getOrder() {
-				this.axios.get("http://47.98.238.175:8080/queryOrder", {
+				this.axios.get("http://47.98.238.175:8080/order/queryOrder", {
 						params: {
 							orderState: 0
 						}

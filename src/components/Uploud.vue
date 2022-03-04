@@ -24,12 +24,21 @@
 	
 	export default{
 		name: 'Uploud',
+		props:{
+			'dishPic': {
+				type: String,
+			},
+		},
 		data(){
 			return{
 				loading: false,
 				imageUrl: '',
 				profilePic:""
 			}
+		},
+		mounted(){
+			console.log(this._props.dishPic);
+			this.imageUrl = this.dishPic
 		},
 		methods: {
 			handleChange(info) {
