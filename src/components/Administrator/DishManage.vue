@@ -145,7 +145,7 @@
 		},
 		mounted() {
 			this.getData();
-			this.RequestKind();
+			// this.RequestKind();
 		},
 		methods: {
 			back() {
@@ -218,25 +218,22 @@
 						"maxPrice": that.maxPrice,
 					}
 				}).then(function(res) {
-					// alert('修改成功！');
 					that.data1 = res.data;
+					if (that.tuijian != '-1') {
 					that.Bdata = that.data1;
-					// that.$router.go(-1);
+					that.data1 = that.Bdata.filter((item, index) => {
+						if (that.tuijian == "0") {
+							return item.isrec == 0
+						} else {
+							return item.isrec == 1
+						}
+					})
+					console.log(that.data1)
+				}
 				}).catch(function(error) {
 					alert(error);
 				});
-								
-				// console.log(that.Bdata);
-				if (that.tuijian != '-1') {
-					that.data1 = that.Bdata.filter((item, index) => {
-						console.log(that.tuijian);
-						if (this.$data.tuijian == "0") {
-							return item.isrec === 0
-						}else{
-							return item.isrec === 1
-						}
-					})
-				}
+				
 			},
 		},
 	}

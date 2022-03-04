@@ -7,7 +7,7 @@
 					首页
 				</div>
 				<div class="cata-item">
-					点菜
+					订单
 				</div>
 			</div>
 			<img src="../assets/img/back.png" @click="back" class="img-back">
@@ -128,9 +128,7 @@
 				});
 			},
 
-
 			RequestChangeState(orderId, dishId) {
-
 				console.log(orderId, dishId);
 				this.axios.get("http://47.98.238.175:8080/dishOrder/update", {
 						params: {

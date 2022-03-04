@@ -229,12 +229,12 @@
 							})
 
 							.then(function(response) {
-								// alert('修改成功！');
-								that.$message.success('修改成功！');
+								alert('修改成功！');
+								// that.$message.success('修改成功！');
 								
 							}).catch(function(error) {
-								// alert(error);
-								that.$message.error(error);
+								alert(error);
+								// that.$message.error(error);
 							});
 					}
 				});
