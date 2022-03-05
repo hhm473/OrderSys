@@ -22,7 +22,9 @@ Vue.use(VueRouter)
 
 const routes = [{
 		path: '/',
-		redirect: '/login'
+		redirect: '/login',
+		// redirect: '/chartzhu',
+		
 	},
 	{
 		path: '/login',
@@ -81,9 +83,9 @@ const routes = [{
 	{
 		path: '/administratorindex',
 		component: AdministratorIndex,
-		meta: {
-			requireAuth: true, // 判断是否需要登录
-		},
+		// meta: {
+		// 	requireAuth: true, // 判断是否需要登录
+		// },
 		children: [{
 				path: '/',
 				// redirect: '/registeration'

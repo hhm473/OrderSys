@@ -18,14 +18,14 @@
 				<OrderQingdan :list="dishOrder" :totalPrice="dishData1"></OrderQingdan>
 			</div>
 			<div class="right">
-				<div style="display: flex;">
+				<div style="display: flex; justify-content: space-around;">
 					<div class="secondary-head">
 						<div class="time">
 							时间：{{timeNow}}
 						</div>
 						<div class="table-number">
 							桌号：
-							<a-select default-value="1" style="width: 120px" @change="ChangeTableNum">
+							<a-select default-value="1" style="width: 50px" @change="ChangeTableNum">
 								<a-select-option value="1">
 									1
 								</a-select-option>
@@ -113,7 +113,7 @@
 			toXiadan() {
 				let that = this;
 				console.log(that.dishOrder);
-				if (that.dishOrder.length==0) {
+				if (that.dishOrder.length == 0) {
 					that.$message.warning('您还未点菜！');
 				} else {
 					this.$router.push({
@@ -266,8 +266,10 @@
 		display: flex;
 		height: 60px;
 		line-height: 60px;
-		padding-left: 20px;
-		margin-left: 20px;
+		/* 		padding-left: 20px;
+		margin-left: 20px; */
+
+		width: 65%;
 		font-size: 20px;
 		font-weight: bold;
 		border-radius: 20px;
@@ -275,15 +277,18 @@
 	}
 
 	.time {
-		margin-right: 50px;
+		/* margin-right: 50px; */
+		margin: auto;
 	}
 
 	.table-number {
-		margin-right: 50px;
+		/* margin-right: 50px; */
+		margin: auto;
 	}
 
 	.total-price {
-		margin-right: 50px;
+		/* margin-right: 50px; */
+		margin: auto;
 	}
 
 	#wrap::-webkit-scrollbar {

@@ -27,11 +27,10 @@
 			</div>
 		</div>
 		<div class="chart">
-			<div>
+			<div style="margin: auto;">
 				<chart-zhu></chart-zhu>
-				hhhhhh
 			</div>
-			<div>
+			<div style="margin: auto;">
 				<chart-bing></chart-bing>
 			</div>
 		</div>
@@ -75,6 +74,20 @@
 		components: {
 			ChartZhu,
 			ChartBing
+		},
+		mounted() {
+			this.getToday()
+		},
+		methods: {
+			getToday() {
+				this.axios.get("http://47.98.238.175:8080/order/getToday").then(res => {
+						console.log(res)
+						// this.todaySales = res.data
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			}
 		}
 	}
 </script>

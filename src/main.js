@@ -12,6 +12,10 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 Vue.use(Antd);
 
+//引入图表库
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
 import qs from 'qs'
 
 //Vue全局对象可用

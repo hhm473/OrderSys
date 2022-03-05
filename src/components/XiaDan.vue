@@ -215,29 +215,28 @@
 
 	.secondary-head {
 		display: flex;
+		justify-content: left;
 		height: 60px;
 		line-height: 60px;
 		padding-left: 20px;
 		font-size: 20px;
 		font-weight: bold;
 		width: 80%;
-		/* margin: auto; */
-		margin-left: 1%;
+		margin-left: 1%; 
 		border-radius: 20px;
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 
 
 	.time {
-		margin-right: 300px;
 	}
 
 	.table-number {
-		margin-right: 350px;
+		margin: auto;
 	}
 
 	.total-price {
-		margin-right: 50px;
+		margin: auto;
 	}
 
 	.table {
