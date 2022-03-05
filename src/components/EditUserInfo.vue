@@ -26,11 +26,6 @@
                   ]" placeholder="请输入旧密码" style="height: 40px; border-radius: 5px;" />
 							</a-form-item>
 						</a-col>
-						<a-col :span="9">
-							<div class="input-hint">
-								<!-- 支持字母、数字、“-” “_”的组合，0-30个字符，支持中文 -->
-							</div>
-						</a-col>
 					</a-row>
 
 					<a-row :gutter="8">
@@ -97,8 +92,7 @@
 							<div class="input-item">用户头像：</div>
 						</a-col>
 						<a-col :span="10">
-
-							<Uploud v-on:profilePic="profilePic" :dishPic="profilePic"></Uploud>
+							<Uploud v-on:profilePic="profilePicture" :dishPic="profilePic"></Uploud>
 						</a-col>
 					</a-row>
 
@@ -137,7 +131,7 @@
 <script>
 	import PageHeader from "./PageHeader.vue";
 	import SIdentify from './Identify'
-
+	import Uploud from './Uploud.vue'
 	function getBase64(img, callback) {
 		const reader = new FileReader();
 		reader.addEventListener('load', () => callback(reader.result));
@@ -148,7 +142,8 @@
 		name: "SignUp",
 		components: {
 			PageHeader,
-			SIdentify
+			SIdentify,
+			Uploud
 		},
 		data() {
 			return {
@@ -156,10 +151,7 @@
 				imageUrl: "",
 				role: "",
 				userId: "",
-				// 以下代码为点击注册按钮后弹出框相关数据
-				ModalText: "已成功提交注册申请，等待管理员指定身份…………",
-				visible: false,
-
+				
 				confirmDirty: false,
 				autoCompleteResult: [],
 				formItemLayout: {
@@ -200,10 +192,12 @@
 				profilePic: ""
 			};
 		},
-
 		mounted() {
+			
 			this.identifyCode = "";
 			this.makeCode(this.identifyCodes, 4);
+		},
+		created() {
 			let people = JSON.parse(localStorage.getItem('role'))
 			if (people) {
 				this.$data.profilePic = people.profilePic
@@ -216,16 +210,9 @@
 			});
 		},
 		methods: {
-			// 以下三个方法与弹出框相关
-			showModal() {
-				this.visible = true;
-			},
-			handleOk(e) {
-				this.visible = false;
-			},
-			handleCancel(e) {
-				console.log("Clicked cancel button");
-				this.visible = false;
+			//接收子组件中的imgUrl
+			profilePicture(value) {
+				this.profilePic = value
 			},
 			//验证码
 			randomNum(min, max) {
@@ -278,7 +265,9 @@
 								this.$message.error('旧密码输入错误!');
 							} else {
 								user.password = values.password;
-								user.profilePic = "http://diancan.drbxsj.top/" + this.profilePic
+								// user.profilePic = "http://diancan.drbxsj.top/" + this.profilePic
+								user.profilePic = this.profilePic
+								console.log("user",user);
 								this.axios({
 										method: "post",
 										url: "http://47.98.238.175:8080/user/modify",

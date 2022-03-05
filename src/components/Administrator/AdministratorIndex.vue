@@ -24,6 +24,10 @@
 				    <a-icon type="calendar" />
 				    实时公告发布
 				  </a-menu-item>
+				  <a-menu-item key="6">
+				    <a-icon type="calendar" />
+				    历史数据查询
+				  </a-menu-item>
             </a-menu>
       </div>
       <div class="right-table">
@@ -86,6 +90,11 @@ export default {
 				localStorage.setItem('Aindex', "5");
 				this.$router.push({
 					path: "/announce"
+				})
+			break
+			case "6":
+				this.$router.push({
+					path: "/historicaldata"
 				})
 			break
 	      	default:

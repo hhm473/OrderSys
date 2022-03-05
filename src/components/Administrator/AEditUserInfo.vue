@@ -84,25 +84,11 @@
 							</div>
 						</a-col>
 						<a-col :span="10">
-							<a-form-item>
-								<a-upload v-decorator="[
-							          'upload',
-							          {
-							            valuePropName: 'fileList',
-							            getValueFromEvent: normFile,
-							          },
-							        ]" name="logo" action="/upload.do" list-type="picture">
-									<a-button>
-										<a-icon type="upload" /> 上传头像
-									</a-button>
-								</a-upload>
-							</a-form-item>
-
-
+							<Uploud v-on:profilePic="profilePicture" :dishPic="profilePic"></Uploud>
 						</a-col>
 					</a-row>
 
-					<a-row :gutter="8">
+					<!-- <a-row :gutter="8">
 						<a-col :span="4">
 							<div class="input-item">
 								验证码：
@@ -129,7 +115,7 @@
 								<a-button>获取验证码</a-button>
 							</div>
 						</a-col>
-					</a-row>
+					</a-row> -->
 					<a-form-item v-bind="tailFormItemLayout">
 						<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
 							shape="round" size="large">确认修改</a-button>
@@ -146,9 +132,17 @@
 
 <script>
 	import axios from 'axios'
+	import Uploud from '../Uploud.vue'
 	export default {
 		name: 'AEditUserInfo',
-
+		components: {
+			Uploud
+		},
+		created() {
+			let that = this;
+			let initData = that.$route.params;
+			that.profilePic = initData.profilePic;
+		},
 		mounted: function() {
 
 			let that = this;
@@ -170,20 +164,16 @@
 				['roleIdEdit']: String(initData.roleId)
 			});
 
-
 			form.setFieldsValue({
 				['isLock']: String(initData.isLock)
 			});
 			that.userIdEdit = initData.userId;
-			that.profilePicEdit = initData.profilePic;
-
-
 		},
 		data() {
 			return {
 				roleEdit: "",
 				userIdEdit: "",
-				profilePicEdit: "",
+				profilePic: "",
 				confirmDirty: false,
 				autoCompleteResult: [],
 				tailFormItemLayout: {
@@ -206,6 +196,10 @@
 			});
 		},
 		methods: {
+			//接收子组件中的imgUrl
+			profilePicture(value) {
+				this.profilePic = value
+			},
 			back() {
 				this.$router.go(-1);
 			},
@@ -217,7 +211,7 @@
 						let user = {
 							userId: that.userIdEdit,
 							password: values.password,
-							profilePic: that.profilePicEdit,
+							profilePic: that.profilePic,
 							roleId: Number(values.roleIdEdit),
 							isLock: Number(values.isLock)
 						}

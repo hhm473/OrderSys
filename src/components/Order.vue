@@ -46,12 +46,14 @@
 						下单</a-button>
 				</div>
 
-				<div id="wrap" style="height: 85%;overflow: auto;display:flex; justify-content: left; flex-wrap:wrap; margin-top: 20px;">
+				<div id="wrap"
+					style="height: 85%;overflow: auto;display:flex; justify-content: left; flex-wrap:wrap; margin-top: 20px;">
 					<!-- <div v-for="(item, index) in data" :key="index" -->
-						<div v-for="(item, index) in dishData" :key="index"
-					style="margin-bottom: 20px; width: 30%; margin-left: 30px;">
-						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :dishPic="item.dishPic" :detail="item.detail" :tuijian="item.isrec"
-							:dishNum="item.dishNum" @minusDish="minusDish(index)" @plusDish="plusDish(index)">
+					<div v-for="(item, index) in dishData" :key="index"
+						style="margin-bottom: 20px; width: 30%; margin-left: 30px;">
+						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :dishPic="item.dishPic"
+							:detail="item.detail" :tuijian="item.isrec" :dishNum="item.dishNum"
+							@minusDish="minusDish(index)" @plusDish="plusDish(index)">
 						</Dish>
 					</div>
 				</div>
@@ -68,7 +70,7 @@
 	export default {
 		data() {
 			return {
-				data:[],
+				data: [],
 				dishData: [],
 				tableNum: '1',
 				dishOrder: [],
@@ -111,16 +113,20 @@
 			toXiadan() {
 				let that = this;
 				console.log(that.dishOrder);
+				if (that.dishOrder.length==0) {
+					that.$message.warning('您还未点菜！');
+				} else {
+					this.$router.push({
+						// path: "/Xiadan",
+						name: 'xiadan',
+						query: {
+							dishOrder: that.dishOrder,
+							tableNum: that.tableNum,
+							totalPrice: that.totalPrice
+						}
+					})
+				}
 				// localStorage.setItem('dishOrder', JSON.stringify(values));
-				this.$router.push({
-					// path: "/Xiadan",
-					name: 'xiadan',
-					query: {
-						dishOrder: that.dishOrder,
-						tableNum: that.tableNum,
-						totalPrice: that.totalPrice
-					}
-				})
 			},
 			getTime() {
 				let yy = new Date().getFullYear();
@@ -237,7 +243,7 @@
 		float: right;
 		height: 40px;
 	}
-	
+
 	.left-select {
 		width: 30%;
 		height: 100%;
@@ -279,17 +285,19 @@
 	.total-price {
 		margin-right: 50px;
 	}
-	
+
 	#wrap::-webkit-scrollbar {
-	width: 5px;
-	background-color: #F5F5F5;
+		width: 5px;
+		background-color: #F5F5F5;
 	}
+
 	#wrap::-webkit-scrollbar-thumb {
-	    background-color: #fda03f;
-	    
+		background-color: #fda03f;
+
 	}
+
 	#wrap::-webkit-scrollbar-track {
-	    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
-	    background-color: #F5F5F5;
+		-webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+		background-color: #F5F5F5;
 	}
 </style>

@@ -17,7 +17,7 @@ import AEditUserInfo from '../components/Administrator/AEditUserInfo.vue'
 import AdministratorIndex from '../components/Administrator/AdministratorIndex.vue'
 import Registeration from '../components/Administrator/Registeration.vue'
 import CheckOrder from '../components/CheckOrder.vue'
-
+import HistoricalData from '../components/Administrator/HistoricalData.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -86,7 +86,8 @@ const routes = [{
 		},
 		children: [{
 				path: '/',
-				redirect: '/registeration'
+				// redirect: '/registeration'
+				redirect: '/historicaldata'
 			},
 			{
 				path: '/registeration',
@@ -122,6 +123,11 @@ const routes = [{
 				path: '/editdish',
 				name: 'editdish',
 				component: EditDish,
+			},
+			{
+				path: '/historicaldata',
+				name: 'HistoricalData',
+				component: HistoricalData
 			},
 		]
 	},
