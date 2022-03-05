@@ -82,7 +82,7 @@
 	}
 
 	.all-wrap {
-		z-index: 99999;
+		z-index: 2;
 		position: absolute;
 		top: 0;
 		left: 0;

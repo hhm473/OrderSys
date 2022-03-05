@@ -181,7 +181,7 @@
 			},
 
 			CheckOut(orderid) {
-				this.axios.get("http://47.98.238.175:8080/checkout", {
+				this.axios.get("http://47.98.238.175:8080/order/checkout", {
 						params: {
 							orderid
 						}

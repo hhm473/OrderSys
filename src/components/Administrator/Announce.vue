@@ -54,13 +54,11 @@
 						"contents": that.content,
 					}
 				}).then(function(response) {
-					alert('发布成功！');
-					// that.$message.success('发布成功！');
+					that.$message.success('发布成功！');
 					that.title= "",
 					that.content= ""
 				}).catch(function(error) {
-					alert(error);
-					// that.$message.error(error);
+					that.$message.error(error);
 				});
 			}
 		}

@@ -121,7 +121,6 @@
 			confirm(key) {
 				let that = this;
 				if (key.roleId == 0) {
-					// alert("请选择用户身份");
 					that.$message.error('请选择用户身份');
 				} else {
 					this.axios({

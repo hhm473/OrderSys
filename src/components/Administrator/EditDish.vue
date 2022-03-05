@@ -45,7 +45,7 @@
 					</div>
 				</a-col>
 				<a-col :span="14">
-					<a-textarea placeholder="菜品详情" :rows="4" v-model="detail" />
+					<a-textarea maxlength="300" placeholder="最多输入300个字" :rows="4" v-model="detail" />
 				</a-col>
 			</a-row>
 			<a-row :gutter="[0,50]">
@@ -152,11 +152,9 @@
 					url: "http://47.98.238.175:8080/dishes/edit",
 					data: this.$qs.stringify(values)
 				}).then(function(response) {
-					// alert('修改成功！');
 					that.$message.success('修改成功！');
 					that.$router.go(-1);
 				}).catch(function(error) {
-					// alert(error);
 					that.$message.error(error);
 				});
 			},

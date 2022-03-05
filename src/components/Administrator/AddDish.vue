@@ -50,7 +50,7 @@
 					</a-col>
 					<a-col :span="14">
 						<a-form-item>
-							<a-textarea v-decorator="['detail']" placeholder="请输入菜品详情" :rows="4" />
+							<a-textarea  maxlength="300" v-decorator="['detail']" placeholder="最多输入300个字" :rows="4" />
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -134,12 +134,10 @@
 						axios.get("http://47.98.238.175:8080/dishes/add", {
 							params: values
 						}).then(function(response) {
-							alert('添加成功！');
-							// that.$message.success('添加成功！');
+							that.$message.success('添加成功！');
 							that.$router.go(-1);
 						}).catch(function(error) {
-							alert(error);
-							// that.$message.error(error);
+							that.$message.error(error);
 						});
 					}
 				});

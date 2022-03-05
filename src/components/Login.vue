@@ -6,7 +6,7 @@
 				<div class="header-title">
 					用户名登录
 				</div>
-				<a-form :form="form" @submit="handleSubmit">
+				<a-form :form="form" @submit.prevent="handleSubmit">
 					<a-row style="height: 90px;">
 						<a-col :span="6">
 							<div class="username">用户名：</div>
@@ -69,7 +69,7 @@
 
 					</a-row>
 
-					<a-button html-type="submit" style="color: white; background-color: #FE742B; width: 93%;" size="large"
+					<a-button html-type="submit" @ style="color: white; background-color: #FE742B; width: 93%;" size="large"
 						type="danger" shape="round">
 						登录
 					</a-button>
@@ -138,7 +138,7 @@
 			},
 
 			handleSubmit(e) {
-				console.log(this.form);
+				// console.log(this.form);
 
 				if (this.writeCode == this.identifyCode) {
 					this.form.validateFields((err, values) => {
@@ -148,6 +148,7 @@
 									url: 'http://47.98.238.175:8080/user/login',
 									data: this.$qs.stringify(values)
 								}).then(res => {
+									console.log(res)
 									if (!res.data) {
 										this.form.setFields({
 										  password: {
@@ -155,13 +156,11 @@
 										    errors: [new Error('密码错误！请重新输入！')],
 										  },
 										});
-										
 										this.makeCode(this.identifyCodes, 4);
 									} else {
 										let values = res.data
 										localStorage.setItem('role', JSON.stringify(values));
 										if (values.roleId === 3) {
-
 											this.$router.push({
 												path: "/waiterindex"
 											})
@@ -184,20 +183,9 @@
 
 				} else {
 					console.log("this.$message", this.$message);
-					// alert('验证码错误!')
-					// this.$message.error('验证码错误!');
-					this.info();
+					this.$message.error('验证码错误!');
 					this.makeCode(this.identifyCodes, 4);
 				}
-			},
-			info() {
-				const h = this.$createElement;
-				this.$warning({
-					title: '发生错误',
-					content: h('div', {}, [
-						h('p', '您输入的验证码错误，请重新输入'),
-					]),
-				});
 			},
 		},
 	};
@@ -206,7 +194,7 @@
 <style scoped>
 	.touming {
 		height: 520px;
-		width: 40%;
+		width: 600px;
 		border-radius: 20px;
 		margin: auto;
 		margin-top: 120px;

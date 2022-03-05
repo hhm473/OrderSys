@@ -117,7 +117,8 @@
 								<a-upload name="avatar" list-type="picture-card" class="avatar-uploader"
 									:show-upload-list="false" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
 									:before-upload="beforeUpload" @change="handleChange">
-									<img style="height: 85px; width: 85px;" v-if="imageUrl" :src="imageUrl" alt="avatar" />
+									<img style="height: 85px; width: 85px;" v-if="imageUrl" :src="imageUrl"
+										alt="avatar" />
 									<div v-else>
 										<a-icon :type="loading ? 'loading' : 'plus'" />
 										<div class="ant-upload-text">
@@ -231,8 +232,8 @@
 						},
 					},
 				},
-				
-				profilePic:""
+
+				profilePic: ""
 			};
 		},
 		beforeCreate() {
@@ -265,27 +266,27 @@
 
 			handleSubmit(e) {
 				if (this.writeCode == this.identifyCode) {
-				this.form.validateFieldsAndScroll((err, values) => {
-					if (!err) {
-						console.log('Received values of form: ', values);
-						let data = {
-							userId: values.userId,
-							password: values.password,
-							roleId: "",
-							profilePic: "http://diancan.drbxsj.top/"+this.profilePic,
-							isLock: ""
-						}
-						console.log('Received values of form: ', data);
-						this.axios.post("http://47.98.238.175:8080/user/add", this.$qs.stringify(data)).then(
-								res => {
-									console.log(res)
-								})
-							.catch(function(error) {
-								console.log(error);
-							});
+					this.form.validateFieldsAndScroll((err, values) => {
+						if (!err) {
+							console.log('Received values of form: ', values);
+							let data = {
+								userId: values.userId,
+								password: values.password,
+								roleId: "",
+								profilePic: "http://diancan.drbxsj.top/" + this.profilePic,
+								isLock: ""
+							}
+							console.log('Received values of form: ', data);
+							this.axios.post("http://47.98.238.175:8080/user/add", this.$qs.stringify(data)).then(
+									res => {
+										console.log(res)
+									})
+								.catch(function(error) {
+									console.log(error);
+								});
 
-					}
-				});
+						}
+					});
 				} else {
 					this.$message.error('验证码错误!');
 					this.makeCode(this.identifyCodes, 4);
@@ -305,29 +306,31 @@
 						this.loading = false;
 					});
 					const formData = new FormData()
-					
+
 					formData.append('photo', info.file.originFileObj)
-					this.axios.post("http://47.98.238.175:8080/user/uploadFile", formData,{
-					  headers:{
-					    'Content-Type':'multipart/form-data'
-					  }
-					})
-					  .then(res => {
-						  console.log(res)
-					    that.profilePic = res.data
-					  }).catch(err => {
-					  console.log(err)
-					})
+					this.axios.post("http://47.98.238.175:8080/user/uploadFile", formData, {
+							headers: {
+								'Content-Type': 'multipart/form-data'
+							}
+						})
+						.then(res => {
+							console.log(res)
+							that.profilePic = res.data
+						}).catch(err => {
+							console.log(err)
+						})
 				}
 			},
 			beforeUpload(file) {
 				const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
 				if (!isJpgOrPng) {
-					this.$message.error('You can only upload JPG file!');
+					// this.$message.error('You can only upload JPG file!');
+					this.$message.error('请上传JPG文件！');
 				}
 				const isLt2M = file.size / 1024 / 1024 < 2;
 				if (!isLt2M) {
-					this.$message.error('Image must smaller than 2MB!');
+					// this.$message.error('Image must smaller than 2MB!');
+					this.$message.error('图片的大小需小于2M！');
 				}
 				return isJpgOrPng && isLt2M;
 			},

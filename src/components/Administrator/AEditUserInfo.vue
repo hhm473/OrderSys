@@ -121,7 +121,7 @@
 			              },
 			            ],
 			          },
-						]" type="password" @blur="handleConfirmBlur" placeholder='验证码' />
+						]" @blur="handleConfirmBlur" placeholder='验证码' />
 							</a-form-item>
 						</a-col>
 						<a-col :span="9">
@@ -229,12 +229,10 @@
 							})
 
 							.then(function(response) {
-								alert('修改成功！');
-								// that.$message.success('修改成功！');
-								
+								that.$message.success('修改成功！');
+								that.$router.go(-1);
 							}).catch(function(error) {
-								alert(error);
-								// that.$message.error(error);
+								that.$message.error(error);
 							});
 					}
 				});

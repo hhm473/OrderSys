@@ -194,14 +194,10 @@
 						'dishid': record.dishId
 					}
 				}).then(function(response) {
-					// alert('删除成功');
 					that.$message.success('删除成功！');
 				}).catch(function(error) {
-					// alert(error);
 					that.$message.error(error);
 				});
-				// location.reload();
-
 			},
 
 			handleKind(value) {
