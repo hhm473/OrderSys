@@ -7,6 +7,25 @@
 <script>
 	export default {
 		name: 'app',
+		mounted() {
+			let user = localStorage.getItem('role')
+			if(user){
+				if (user.roleId === 3) {
+				
+					this.$router.push({
+						path: "/waiterindex"
+					})
+				} else if (user.roleId === 2) {
+					this.$router.push({
+						path: "/ChefIndex"
+					})
+				} else {
+					this.$router.push({
+						path: "/AdministratorIndex"
+					})
+				}
+			}
+		},
 		beforeDestroy(){
 			localStorage.clear()
 		}
