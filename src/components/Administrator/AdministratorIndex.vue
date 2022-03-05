@@ -28,6 +28,10 @@
 				    <a-icon type="calendar" />
 				    历史数据查询
 				  </a-menu-item>
+				  <a-menu-item key="7">
+				    <a-icon type="calendar" />
+				    历史公告查询
+				  </a-menu-item>
             </a-menu>
       </div>
       <div class="right-table">
@@ -95,6 +99,11 @@ export default {
 			case "6":
 				this.$router.push({
 					path: "/historicaldata"
+				})
+			break
+			case "7":
+				this.$router.push({
+					path: "/noticemanage"
 				})
 			break
 	      	default:

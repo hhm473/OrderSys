@@ -18,6 +18,9 @@ import AdministratorIndex from '../components/Administrator/AdministratorIndex.v
 import Registeration from '../components/Administrator/Registeration.vue'
 import CheckOrder from '../components/CheckOrder.vue'
 import HistoricalData from '../components/Administrator/HistoricalData.vue'
+import NoticeManage from '../components/Administrator/NoticeManage.vue'
+import EditNotice from '../components/Administrator/EditNotice.vue'
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -88,8 +91,8 @@ const routes = [{
 		// },
 		children: [{
 				path: '/',
-				// redirect: '/registeration'
-				redirect: '/historicaldata'
+				redirect: '/registeration'
+				// redirect: '/historicaldata'
 			},
 			{
 				path: '/registeration',
@@ -130,6 +133,16 @@ const routes = [{
 				path: '/historicaldata',
 				name: 'HistoricalData',
 				component: HistoricalData
+			},
+			{
+				path: '/noticemanage',
+				name: 'NoticeManage',
+				component: NoticeManage
+			},
+			{
+				path: '/editnotice',
+				name: 'EditNotice',
+				component: EditNotice
 			},
 		]
 	},
