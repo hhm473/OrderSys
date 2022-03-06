@@ -1,16 +1,12 @@
 <template>
-	<div>
-		<a-upload name="avatar" list-type="picture-card" class="avatar-uploader"
-			:show-upload-list="false" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-			:before-upload="beforeUpload" @change="handleChange">
-			<img style="height: 85px; width: 85px;" v-if="imageUrl" :src="imageUrl" alt="avatar" />
-			<div v-else>
-				<a-icon :type="loading ? 'loading' : 'plus'" />
-				<div class="ant-upload-text">
-					Upload
-				</div>
-			</div>
-		</a-upload>
+	<div class="uploud-wrap">
+		<input class="fileinput" type="file" :before-upload="beforeUpload" @change="handleChange">
+		<div class="imgbutton" v-if="!imageUrl">
+			<div style="font-size: 30px;">+</div> 
+			<div>上传</div> 
+		</div>
+		<img style="height: 85px; width: 85px;" v-if="imageUrl" :src="imageUrl" alt="avatar" />
+			
 	</div>
 </template>
 
@@ -41,21 +37,17 @@
 			this.imageUrl = this.dishPic
 		},
 		methods: {
-			handleChange(info) {
+			handleChange(e) {
 				let that = this
-				if (info.file.status === 'uploading') {
-					this.loading = true;
-					return;
-				}
-				if (info.file.status === 'done') {
-					// Get this url from response in real world.
-					getBase64(info.file.originFileObj, imageUrl => {
+				console.log(e.target.files[0]);
+
+					getBase64(e.target.files[0], imageUrl => {
 						this.imageUrl = imageUrl;
 						this.loading = false;
 					});
 					const formData = new FormData()
 					
-					formData.append('photo', info.file.originFileObj)
+					formData.append('photo', e.target.files[0])
 					this.axios.post("http://47.98.238.175:8080/user/uploadFile", formData,{
 					  headers:{
 					    'Content-Type':'multipart/form-data'
@@ -67,7 +59,6 @@
 					  }).catch(err => {
 					  console.log(err)
 					})
-				}
 			},
 			beforeUpload(file) {
 				const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -89,5 +80,28 @@
 	
 </script>
 
-<style>
+<style scoped>
+	.uploud-wrap{
+		margin: 5px 0;
+		position: relative;
+	}
+	.fileinput{
+		position: absolute;
+		width: 85px;
+		height: 85px;
+		opacity: 0;
+	}
+	.imgbutton{
+		width: 85px;
+		height: 85px;
+		border: 1px dashed #d9d9d9;
+		background-color: #fafafa;
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		justify-content: center;
+	}
+	.imgbutton:hover{
+		border: 1px dashed #1890ff;
+	}
 </style>

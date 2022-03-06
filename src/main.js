@@ -7,7 +7,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false;
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;// 允许当前axios携带cookie
 
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';

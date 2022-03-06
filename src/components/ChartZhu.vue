@@ -8,16 +8,21 @@
 		data() {
 			return {
 				msg: 'Welcome to Your Vue.js App',
-				// xs:["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
 			}
 		},
-		props:{
-			'xAxis': {
+		props: {
+			xAxis: {
 				type: [],
 				default: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
 			},
+			seriesData: {
+				type: [],
+				default: [5, 20, 36, 10, 10, 20]
+			}
 		},
 		mounted() {
+			console.log("zhuChartxAxis",this.xAxis)
+			console.log("zhuChartseriesData",this.seriesData)
 			this.drawLine();
 		},
 		methods: {
@@ -28,17 +33,18 @@
 				// 绘制图表
 				zhuChart.setOption({
 					title: {
-						text: '在Vue中使用echarts'
+						text: '销售额（元）'
 					},
 					tooltip: {},
 					xAxis: {
 						data: that.xAxis
 					},
-					yAxis: {},
+					yAxis: {
+					},
 					series: [{
-						name: '销量',
+						name: '销售额',
 						type: 'bar',
-						data: [5, 20, 36, 10, 10, 20]
+						data: that.seriesData
 					}]
 				});
 			}
@@ -47,5 +53,5 @@
 </script>
 
 <style>
-	
+
 </style>

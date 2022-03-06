@@ -8,14 +8,14 @@
 	export default {
 		name: 'app',
 		mounted() {
+			console.log("ssss" + performance.navigation.type);
 			let user = localStorage.getItem('role')
-			if(user){
-				if (user.roleId === 3) {
-				
+			if (user && performance.navigation.type == 0) {
+				if (user.roleId == 3) {
 					this.$router.push({
 						path: "/waiterindex"
 					})
-				} else if (user.roleId === 2) {
+				} else if (user.roleId == 2) {
 					this.$router.push({
 						path: "/ChefIndex"
 					})
@@ -26,7 +26,7 @@
 				}
 			}
 		},
-		beforeDestroy(){
+		beforeDestroy() {
 			localStorage.clear()
 		}
 	}

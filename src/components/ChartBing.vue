@@ -7,7 +7,33 @@
 		name: 'hello',
 		data() {
 			return {
-				msg: 'Welcome to Your Vue.js App'
+
+			}
+		},
+		props: {
+			data: {
+				type: [],
+				default: [{
+						value: 148,
+						name: 'Search Enginefffffffff'
+					},
+					{
+						value: 735,
+						name: 'Direct'
+					},
+					{
+						value: 580,
+						name: 'Email'
+					},
+					{
+						value: 484,
+						name: 'Union Ads'
+					},
+					{
+						value: 300,
+						name: 'Video Ads'
+					}
+				]
 			}
 		},
 		mounted() {
@@ -24,7 +50,7 @@
 					},
 					legend: {
 						top: '5%',
-					 left: 'center'
+						left: 'center'
 					},
 					series: [{
 						name: 'Access From',
@@ -42,7 +68,7 @@
 						},
 						emphasis: {
 							label: {
-					  	show: true,
+								show: true,
 								fontSize: '40',
 								fontWeight: 'bold'
 							}
@@ -50,27 +76,7 @@
 						labelLine: {
 							show: false
 						},
-					 data: [{
-								value: 1048,
-								name: 'Search Engine'
-							},
-							{
-								value: 735,
-								name: 'Direct'
-							},
-							{
-								value: 580,
-								name: 'Email'
-							},
-							{
-								value: 484,
-								name: 'Union Ads'
-							},
-							{
-								value: 300,
-								name: 'Video Ads'
-							}
-						]
+						data: this.data
 					}]
 				});
 			}

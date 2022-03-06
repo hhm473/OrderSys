@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-title data-title="注册">
 		<page-header></page-header>
 		<div class="touming">
 			<div class="body">
@@ -114,18 +114,7 @@
 							</a-col>
 							<a-col :span="8">
 
-								<a-upload name="avatar" list-type="picture-card" class="avatar-uploader"
-									:show-upload-list="false" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-									:before-upload="beforeUpload" @change="handleChange">
-									<img style="height: 85px; width: 85px;" v-if="imageUrl" :src="imageUrl"
-										alt="avatar" />
-									<div v-else>
-										<a-icon :type="loading ? 'loading' : 'plus'" />
-										<div class="ant-upload-text">
-											Upload
-										</div>
-									</div>
-								</a-upload>
+								<Uploud v-on:profilePic="profilePic"></Uploud>
 
 							</a-col>
 						</a-row>
@@ -171,6 +160,7 @@
 <script>
 	import PageHeader from './PageHeader.vue'
 	import SIdentify from './Identify'
+	import Uploud from './Uploud.vue'
 
 	function getBase64(img, callback) {
 		const reader = new FileReader();
@@ -182,7 +172,8 @@
 		name: 'SignUp',
 		components: {
 			PageHeader,
-			SIdentify
+			SIdentify,
+			Uploud
 		},
 		mounted() {
 			this.identifyCode = "";
@@ -194,8 +185,8 @@
 				identifyCode: "",
 				writeCode: "",
 
-				loading: false,
-				imageUrl: '',
+				//图片
+				dishPic: '',
 				// 以下代码为点击注册按钮后弹出框相关数据
 				ModalText: '已成功提交注册申请，等待管理员指定身份…………',
 				visible: false,
@@ -232,8 +223,6 @@
 						},
 					},
 				},
-
-				profilePic: ""
 			};
 		},
 		beforeCreate() {
@@ -242,6 +231,9 @@
 			});
 		},
 		methods: {
+			profilePic(value){
+				this.dishPic = value
+			},
 			// 以下三个方法与弹出框相关
 			normFile(e) {
 				console.log('Upload event:', e);
@@ -273,7 +265,7 @@
 								userId: values.userId,
 								password: values.password,
 								roleId: "",
-								profilePic: "http://diancan.drbxsj.top/" + this.profilePic,
+								profilePic: "http://diancan.drbxsj.top/" + this.dishPic,
 								isLock: ""
 							}
 							console.log('Received values of form: ', data);
@@ -291,48 +283,6 @@
 					this.$message.error('验证码错误!');
 					this.makeCode(this.identifyCodes, 4);
 				}
-			},
-
-			handleChange(info) {
-				let that = this
-				if (info.file.status === 'uploading') {
-					this.loading = true;
-					return;
-				}
-				if (info.file.status === 'done') {
-					// Get this url from response in real world.
-					getBase64(info.file.originFileObj, imageUrl => {
-						this.imageUrl = imageUrl;
-						this.loading = false;
-					});
-					const formData = new FormData()
-
-					formData.append('photo', info.file.originFileObj)
-					this.axios.post("http://47.98.238.175:8080/user/uploadFile", formData, {
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(res => {
-							console.log(res)
-							that.profilePic = res.data
-						}).catch(err => {
-							console.log(err)
-						})
-				}
-			},
-			beforeUpload(file) {
-				const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-				if (!isJpgOrPng) {
-					// this.$message.error('You can only upload JPG file!');
-					this.$message.error('请上传JPG文件！');
-				}
-				const isLt2M = file.size / 1024 / 1024 < 2;
-				if (!isLt2M) {
-					// this.$message.error('Image must smaller than 2MB!');
-					this.$message.error('图片的大小需小于2M！');
-				}
-				return isJpgOrPng && isLt2M;
 			},
 
 			handleConfirmBlur(e) {

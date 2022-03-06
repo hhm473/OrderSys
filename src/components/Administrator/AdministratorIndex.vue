@@ -1,37 +1,43 @@
 <template>
-  <div style="height: 100%;">
+  <div style="height: 100%;" v-title data-title="管理员">
     <page-header></page-header>
     <div class="content">
       <div class="rleft-select">
-            <a-menu :default-selected-keys="[Aindex]" style="width: 100% background-color: rgba(255,255,255,0.5);" mode="vertical" @click="handleClick" >
-                  <a-menu-item key="1">
-                    <a-icon type="mail" />
-                    注册申请
-                  </a-menu-item>
-                  <a-menu-item key="2">
-                    <a-icon type="calendar" />
-                    菜品管理
-                  </a-menu-item>
-                  <a-menu-item key="3">
-                    <a-icon type="calendar" />
-                    用户管理
-                  </a-menu-item>
-				  <a-menu-item key="4">
-				    <a-icon type="calendar" />
-				    订单管理
-				  </a-menu-item>
-				  <a-menu-item key="5">
-				    <a-icon type="calendar" />
-				    实时公告发布
-				  </a-menu-item>
-				  <a-menu-item key="6">
-				    <a-icon type="calendar" />
-				    历史数据查询
-				  </a-menu-item>
-				  <a-menu-item key="7">
-				    <a-icon type="calendar" />
-				    历史公告查询
-				  </a-menu-item>
+            <a-menu :default-open-keys="[Subindex]" :default-selected-keys="[Aindex]" style="width: 100% background-color: rgba(255,255,255,0.5);" mode="inline" @click="handleClick" >
+                <a-sub-menu key="sub1">
+					<span slot="title"><a-icon type="setting" /><span>用户管理</span></span>
+					<a-menu-item key="1">
+						注册申请
+					</a-menu-item>
+					<a-menu-item key="3">
+						用户管理
+					</a-menu-item>
+                </a-sub-menu>
+				<a-sub-menu key="sub2">
+					<span slot="title"><a-icon type="setting" /><span>菜品管理</span></span>
+					<a-menu-item key="2">
+					  菜品管理
+					</a-menu-item>
+				</a-sub-menu>
+                <a-sub-menu key="sub3">
+                	<span slot="title"><a-icon type="setting" /><span>订单数据</span></span>
+                	<a-menu-item key="4">
+                		订单管理
+                	</a-menu-item>
+                	<a-menu-item key="6">
+                		历史数据查询
+                	</a-menu-item>
+                </a-sub-menu>
+				<a-sub-menu key="sub4">
+					<span slot="title"><a-icon type="setting" /><span>公告管理</span></span>
+					<a-menu-item key="5">
+					  实时公告发布
+					</a-menu-item>
+					<a-menu-item key="7">
+					  历史公告查询
+					</a-menu-item>
+				</a-sub-menu>
+				
             </a-menu>
       </div>
       <div class="right-table">
@@ -52,56 +58,71 @@ export default {
 
   created: function () {
 	this.Aindex = localStorage.getItem('Aindex').toString()
-	console.log(this.Aindex);
-    // this.GetUser();
+	this.Subindex = localStorage.getItem('Subindex').toString()
+	// let e = {
+	// 	key:this.Aindex
+	// }
+	// this.handleClick(e)
   },
   data() {
     return {
       role: "",
       userId: "",
-	  Aindex:'1'
+	  Aindex:'3',
+	  Subindex:'sub1'
     };
   },
 
   methods: {
+	  
 	handleClick(e) {
+		console.log(e);
 	      switch(e.key){
 	      	case "1":
+				localStorage.setItem('Subindex', "sub1");
 				localStorage.setItem('Aindex', "1");
 	      		this.$router.push({
 	      			path: "/registeration"
 	      		})
 	      		break
 	      	case "2":
+				localStorage.setItem('Subindex', "sub2");
 				localStorage.setItem('Aindex', "2");
 	      		this.$router.push({
 	      			path: "/dishmanage"
 	      		})
 	      		break
 			case "3":
+				localStorage.setItem('Subindex', "sub1");
 				localStorage.setItem('Aindex', "3");
 				this.$router.push({
 					path: "/usermanage"
 				})
 				break
 			case "4":
+				localStorage.setItem('Subindex', "sub3");
 				localStorage.setItem('Aindex', "4");
 				this.$router.push({
 					path: "/ordermanage"
 				})
 			break
 			case "5":
+				localStorage.setItem('Subindex', "sub4");
 				localStorage.setItem('Aindex', "5");
 				this.$router.push({
 					path: "/announce"
 				})
 			break
 			case "6":
+				localStorage.setItem('Subindex', "sub3");
+				localStorage.setItem('Aindex', "6");
 				this.$router.push({
 					path: "/historicaldata"
 				})
 			break
 			case "7":
+				localStorage.setItem('Subindex', "sub4");
+				localStorage.setItem('Aindex', "7");
 				this.$router.push({
 					path: "/noticemanage"
 				})
@@ -144,6 +165,4 @@ export default {
 	padding-bottom: 0;
 	overflow: auto;
 }
-
-
 </style>
