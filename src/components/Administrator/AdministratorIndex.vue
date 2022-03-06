@@ -53,7 +53,7 @@ export default {
   created: function () {
 	this.Aindex = localStorage.getItem('Aindex').toString()
 	console.log(this.Aindex);
-    this.GetUser();
+    // this.GetUser();
   },
   data() {
     return {

@@ -1,5 +1,5 @@
 <template>
-	<div id="zhuChart" :style="{width: '300px', height: '300px'}"></div>
+	<div id="zhuChart" :style="{width: '400px', height: '300px'}"></div>
 </template>
 
 <script>
@@ -7,14 +7,22 @@
 		name: 'hello',
 		data() {
 			return {
-				msg: 'Welcome to Your Vue.js App'
+				msg: 'Welcome to Your Vue.js App',
+				// xs:["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
 			}
+		},
+		props:{
+			'xAxis': {
+				type: [],
+				default: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+			},
 		},
 		mounted() {
 			this.drawLine();
 		},
 		methods: {
 			drawLine() {
+				let that = this
 				// 基于准备好的dom，初始化echarts实例
 				let zhuChart = this.$echarts.init(document.getElementById('zhuChart'))
 				// 绘制图表
@@ -24,7 +32,7 @@
 					},
 					tooltip: {},
 					xAxis: {
-						data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+						data: that.xAxis
 					},
 					yAxis: {},
 					series: [{

@@ -39,7 +39,7 @@
 
 			</a-table>
 		</div>
-		<div style="width: 100%;height: 200px;"></div>、
+		<div style="width: 100%;height: 200px;"></div>
 	</div>
 </template>
 
@@ -78,7 +78,8 @@
 				userId: '',
 				timeNow: "2021-02-26",
 				totalPrice: 35,
-				tableNum: '12'
+				tableNum: '12',
+				token:''
 			}
 		},
 		mounted() {
@@ -99,6 +100,14 @@
 				}))
 			})
 			that.dishOrder = newarr;
+			
+			// 获取到token数据
+			this.axios.get("http://localhost:8080/order/form").then(function(res) {
+					console.log(res)
+					that.token = res.data
+				}).catch(function(error) {
+					// that.$message.error(error);
+				});
 		},
 		components: {
 			PageHeader,
@@ -130,9 +139,17 @@
 				// that.$set(newOrder, "dishes", newarr);
 				console.log(newOrder)
 				console.log(newarr)
-				that.axios.post("http://47.98.238.175:8080/order/newOrder", {
+				console.log(this.token)
+				console.log(that.token)
+				
+				that.axios.post("http://localhost:8080/order/newOrder", {
 					"newOrder": newOrder,
-					"dishOrders": newarr
+					"dishOrders": newarr,
+					// "token":this.token
+				},{
+					headers:{
+					'token':this.token　
+					}　　　//也是在本地中拿到token
 				}).then(function(response) {
 					that.$message.success('下单成功！');
 					that.$router.push({

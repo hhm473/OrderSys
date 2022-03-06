@@ -32,9 +32,9 @@
 						radius: ['40%', '70%'],
 						avoidLabelOverlap: false,
 						itemStyle: {
-							borderRadius: 20,
+							borderRadius: 0,
 							borderColor: '#fff',
-							borderWidth: 10
+							borderWidth: 5
 						},
 						label: {
 							show: false,

@@ -16,7 +16,7 @@
 			</div>
 			<div style="width: 100%;">
 				<a-button type="primary" @click="Submit" style="margin: auto; ">提交</a-button>
-				<a-button @click="back" style="margin: auto; ">返回</a-button>
+				<a-button @click="back" style="margin-left: 20px; ">返回</a-button>
 			</div>
 
 		</div>

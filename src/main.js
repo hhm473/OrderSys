@@ -6,7 +6,8 @@ import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 
 Vue.use(VueAxios, axios)
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+axios.defaults.withCredentials = true;
 
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';

@@ -92,7 +92,6 @@ const routes = [{
 		children: [{
 				path: '/',
 				redirect: '/registeration'
-				// redirect: '/historicaldata'
 			},
 			{
 				path: '/registeration',

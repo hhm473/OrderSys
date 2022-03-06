@@ -77,12 +77,22 @@
 		},
 		mounted() {
 			this.getToday()
+			this.getYesterday()
 		},
 		methods: {
 			getToday() {
 				this.axios.get("http://47.98.238.175:8080/order/getToday").then(res => {
 						console.log(res)
-						// this.todaySales = res.data
+						this.todaySales = res.data.totalprice
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			},
+			getYesterday() {
+				this.axios.get("http://47.98.238.175:8080/order/getYesterday").then(res => {
+						console.log(res)
+						this.yedaySales = res.data.totalprice
 					})
 					.catch(function(error) {
 						console.log(error);
