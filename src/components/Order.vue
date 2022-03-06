@@ -47,10 +47,9 @@
 				</div>
 
 				<div id="wrap"
-					style="height: 85%;overflow: auto;display:flex; justify-content: left; flex-wrap:wrap; margin-top: 20px;">
+					style="height: 85%;overflow: auto;display:flex; justify-content: space-around; flex-wrap:wrap; margin-top: 20px;">
 					<!-- <div v-for="(item, index) in data" :key="index" -->
-					<div v-for="(item, index) in dishData" :key="index"
-						style="margin-bottom: 20px; width: 30%; margin-left: 30px;">
+					<div v-for="(item, index) in dishData" :key="index" style="margin-bottom: 20px; width: 350px; margin-left: 10px;">
 						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :dishPic="item.dishPic"
 							:detail="item.detail" :tuijian="item.isrec" :dishNum="item.dishNum"
 							@minusDish="minusDish(index)" @plusDish="plusDish(index)">

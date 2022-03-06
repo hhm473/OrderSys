@@ -12,15 +12,15 @@
 					<span class="item">昨日销售额</span>
 					￥ {{yedaySales}}
 				</div>
-				<div>
+				<div style="padding-top: 5%;">
 					<span class="item">本周收入</span>￥ {{weekSales}}
 				</div>
-				<div>
-					本月收入 ￥ {{monthSales}}
+				<div style="padding-top: 2%;">
+					<span class="item">本月收入</span> ￥ {{monthSales}}
 				</div>
 			</div>
 			<div class="rank">
-				<a-table class="table" :columns="columnsRank" :data-source="dataRank" bordered :scroll="{y: 160 }"
+				<a-table class="table" :columns="columnsRank" :data-source="dataRank" bordered :scroll="{y: 180 }"
 					size=middle>
 				</a-table>
 			</div>
@@ -28,13 +28,11 @@
 		<div class="chart">
 			<div style="margin: auto;">
 				<div style="display: flex; justify-content: space-around;">
-					
-						<!-- :class="[isActive==1?'active':'']" -->
-					<div :class="showWeek?'picked':'unpick'">周统计</div>
-					<div>月统计</div>
+					<div :class="showWeek?'picked':'unpicked'" @click="toWeek">周统计</div>
+					<div :class="showWeek?'unpicked':'picked'" @click="toMonth">月统计</div>
 				</div>
-				<chart-zhu :xAxis="xZhu1" :seriesData="dataZhu1" v-if="showWeek"></chart-zhu>
-				<chart-zhu :xAxis="xZhu2" :seriesData="dataZhu2" v-else></chart-zhu>
+				<chart-zhu v-if="showWeek"></chart-zhu>
+				<chart-zhu2 v-else></chart-zhu2>
 			</div>
 			<div style="margin: auto;">
 				<chart-bing :data="dataBing"></chart-bing>
@@ -45,6 +43,7 @@
 
 <script>
 	import ChartZhu from '../ChartZhu.vue'
+	import ChartZhu2 from '../ChartZhu2.vue'
 	import ChartBing from '../ChartBing.vue'
 	const columnsRank = [{
 			title: '排名',
@@ -76,8 +75,6 @@
 				monthSales: 4200,
 				columnsRank,
 				dataRank: [],
-				xZhu1: [],
-				dataZhu1: [],
 				zZhu2: [],
 				dataZhu2: [],
 				dataBing: [],
@@ -86,20 +83,20 @@
 		},
 		components: {
 			ChartZhu,
+			ChartZhu2,
 			ChartBing
-		},
-		created() {
-			this.xZhu1 = ["2022-03-06", "2022-03-07"]
-			this.dataZhu1 = [88, 7]
-
-			this.getChartData()
-		},
+		},		
 		mounted() {
 			this.getSaleData()
 			this.getRankData()
-			// this.getChartData()
 		},
 		methods: {
+			toWeek(){
+				this.showWeek = true
+			},
+			toMonth(){
+				this.showWeek = false
+			},
 			getSaleData() {
 				this.getToday()
 				this.getYesterday()
@@ -108,7 +105,7 @@
 			},
 			getToday() {
 				this.axios.get("http://47.98.238.175:8080/order/getToday").then(res => {
-						console.log(res)
+						// console.log(res)
 						this.todaySales = res.data.totalprice
 					})
 					.catch(function(error) {
@@ -117,7 +114,7 @@
 			},
 			getYesterday() {
 				this.axios.get("http://47.98.238.175:8080/order/getYesterday").then(res => {
-						console.log(res)
+						// console.log(res)
 						this.yedaySales = res.data.totalprice
 					})
 					.catch(function(error) {
@@ -126,7 +123,7 @@
 			},
 			getWeek() {
 				this.axios.get("http://47.98.238.175:8080/order/getThisWeek").then(res => {
-						console.log(res)
+						// console.log(res)
 						this.weekSales = res.data
 					})
 					.catch(function(error) {
@@ -135,7 +132,7 @@
 			},
 			getMonth() {
 				this.axios.get("http://47.98.238.175:8080/order/getThisMonth").then(res => {
-						console.log(res)
+						// console.log(res)
 						this.monthSales = res.data.totalprice
 					})
 					.catch(function(error) {
@@ -144,7 +141,7 @@
 			},
 			getRankData() {
 				this.axios.get("http://47.98.238.175:8080/order/querySales").then(res => {
-						console.log(res)
+						// console.log(res)
 						this.dataRank = res.data
 
 						this.data = res.data.map((item, i) => {
@@ -157,43 +154,6 @@
 						console.log(error);
 					});
 			},
-			getChartData() {
-				this.get7DaysData();
-				// this.get6MonthsData();
-			},
-			get7DaysData() {
-				let that = this;
-				this.axios.get("http://47.98.238.175:8080/order/get7DaysData").then(res => {
-						console.log(res)
-						let data = res.data
-						for (let i = 0; i < data.length; i++) {
-							that.xZhu1.push(data[i].click_date)
-							that.dataZhu1.push(data[i].totalprice)
-						}
-					})
-					.catch(function(error) {
-						console.log(error);
-					});
-			},
-			get6MonthsData() {
-				let that = this;
-				this.axios.get("http://47.98.238.175:8080/order/get6MonthsData").then(res => {
-						console.log(res)
-						let data = res.data
-						for (let i = 0; i < data.length; i++) {
-							that.xZhu2.push(data[i].click_date)
-							that.dataZhu2.push(data[i].totalprice)
-							let item = {
-								"value": data[i].totalprice,
-								"name": data[i].click_date
-							}
-							that.dataBing.push(item)
-						}
-					})
-					.catch(function(error) {
-						console.log(error);
-					});
-			}
 		}
 	}
 </script>

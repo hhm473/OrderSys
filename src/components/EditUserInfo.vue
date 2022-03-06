@@ -234,11 +234,11 @@
 			//返回首页
 			goBack() {
 				let roleId = JSON.parse(localStorage.getItem("role")).roleId;
-				if (roleId === 3) {
+				if (roleId == 3) {
 					this.$router.push({
 						path: "/waiterindex",
 					});
-				} else if (roleId === 2) {
+				} else if (roleId == 2) {
 					this.$router.push({
 						path: "/ChefIndex",
 					});

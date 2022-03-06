@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-title data-title="厨师">
 		<page-header></page-header>
 		<div class="cata">
 			<div style="display: flex; float: left;">
@@ -10,7 +10,7 @@
 		</div>
 		<div class="content">
 			<div class="left-select">
-				<CallBoard></CallBoard>
+				<CallBoard v-on:CIsRefresh="CIsRefresh"></CallBoard>
 			</div>
 			<div class="right">
 				<div class="tm-table">
@@ -139,6 +139,17 @@
 			}
 		},
 		methods: {
+			CIsRefresh(e){
+				let that = this
+				console.log("hhh");
+				
+					setTimeout(function()  {
+					 
+					    that.RequestData(this.dishName, this.tableId, this.dishState)
+					 
+					   }, 2000);
+					
+			},
 			handlecook(key) {
 				console.log("进入handlebook")
 				const newData = [...this.data];

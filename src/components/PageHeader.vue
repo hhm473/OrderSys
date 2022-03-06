@@ -67,7 +67,7 @@
 				this.$router.push({path:"/edituserinfo"})
 			},
 			Quit(){
-				localStorage.removeItem('role');
+				localStorage.clear();
 				this.$router.push({path:"/login"})
 			}
 		}
@@ -82,6 +82,7 @@
 	}
 
 	.all-wrap {
+		min-width: 1200px;
 		z-index: 2;
 		position: absolute;
 		top: 0;
@@ -93,7 +94,7 @@
 		align-items: center;
 		border-bottom: #BBBBBB;
 		box-shadow: 3px 3px 5px #e6e6e6;
-		background-color: white;
+		background-color: rgba(255,255,255,0.9);
 	}
 	.sys-wrap{
 		display: flex;

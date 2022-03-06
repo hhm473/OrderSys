@@ -5,9 +5,11 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 
+axios.defaults.withCredentials = true;
+
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false;
-axios.defaults.withCredentials = true;// 允许当前axios携带cookie
+
 
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
@@ -18,6 +20,13 @@ import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
 import qs from 'qs'
+// 设置浏览器标题
+Vue.directive('title', {
+  inserted: function (el, binding) {
+    document.title = el.dataset.title
+  }
+})
+
 
 //Vue全局对象可用
 Vue.prototype.$qs = qs

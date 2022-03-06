@@ -1,6 +1,6 @@
 <template>
 	<div class="board-wrap">
-
+		<WebSocket style="display: none;" v-on:IsRefresh="IsRefresh"></WebSocket>
 		<div class="big-title">
 			实时公告
 		</div>
@@ -12,52 +12,68 @@
 					<p>{{ item.sendTime }}</p>
 				</a-collapse-panel>
 			</a-collapse>
-			<!-- 找了一个ant的组件把下面的代码替换了 -->
-			<!-- <div v-for="(item, i) in lists" v-bind:key="i"
-				v-bind:class="item.isShow == false? 'citem': 'citem itemplus'" @click="changeShow(i)">
-				<div class="header-wrap">
-					<div class="call-title">{{item.title}}</div>
-					<div class="send-time">{{item.sendTime}}</div>
-				</div>
-				<div class="call-content" v-if="item.isShow">
-					{{item.contents}}
-				</div>
-			</div> -->
 		</div>
 	</div>
 </template>
 
 <script>
+	import WebSocket from './WebSocket.vue'
 	export default {
 		name: 'CallBoard',
-
-		mounted: function() {
-
-			this.axios.get("http://47.98.238.175:8080/notice/all").then(res => {
-
-					this.lists = res.data.map((item, i) => {
-						item.isShow = false
-						return item
-					})
-					console.log(this.kind);
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
+		components: {
+			WebSocket
+		},
+		mounted() {
+			
+			this.GetData()
+			
 		},
 		data() {
 			return {
 				lists: [],
 				customStyle: 'background: #FAFAFA;border-radius: 14px;margin-bottom: 12px;border: 0;',
+
 			}
 		},
 		methods: {
+			IsRefresh(e){
+				let that = this
+				console.log("sss");
+				if(e === '管理员发布了一条新公告'){
+					console.log('执行了')
+					setTimeout(function()  {
+					 
+					    that.GetData()
+					 
+					   }, 2000);
+					
+				} else if(e === '有新菜品待传送'){
+					this.$emit('WIsRefresh', e)
+				} else {
+					this.$emit('CIsRefresh', e)
+				}
+			},
+			
+			GetData(){
+				let that = this
+				this.axios.get("http://47.98.238.175:8080/notice/all").then(res => {
+					that.lists = res.data.map((item, i) => {
+						item.isShow = false
+						return item
+					})
+					console.log(that.lists);
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
+			},
+			
 			changeShow(index) {
 				let list = this.lists[index]
 				list.isShow = !list.isShow
 				this.$set(this.lists, index, list)
+			},
 
-			}
 		}
 	}
 </script>

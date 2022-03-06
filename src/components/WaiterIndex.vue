@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-title data-title="服务员">
 		<page-header></page-header>
 		<div class="cata">
 			<div style="display: flex; float: left;">
@@ -10,7 +10,7 @@
 		</div>
 		<div class="content">
 			<div class="left-select">
-				<CallBoard></CallBoard>
+				<CallBoard v-on:WIsRefresh="WIsRefresh"></CallBoard>
 			</div>
 			<div class="right">
 				<div class="tm-table">
@@ -102,7 +102,7 @@
 		name: 'SignUp',
 		components: {
 			PageHeader,
-			CallBoard
+			CallBoard,
 		},
 
 		mounted: function() {
@@ -118,6 +118,19 @@
 			}
 		},
 		methods: {
+			WIsRefresh(e){
+				let that = this
+				console.log("hhhhh");
+				
+					setTimeout(function()  {
+					 
+					    that.getDishInfo()
+					 
+					   }, 2000);
+
+			},
+			
+			
 			handledeliver(key) {
 				const newData = [...this.dataDish];
 				const target = newData.filter(item => key === item.key)[0];

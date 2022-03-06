@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-title data-title="登录">
 		<page-header></page-header>
 		<div class="touming">
 			<div class="login-wrap">
@@ -149,31 +149,53 @@
 									data: this.$qs.stringify(values)
 								}).then(res => {
 									console.log(res)
-									if (!res.data) {
-										this.form.setFields({
-										  password: {
-										    value: values.password,
-										    errors: [new Error('密码错误！请重新输入！')],
-										  },
-										});
-										this.makeCode(this.identifyCodes, 4);
-									} else {
-										let values = res.data
-										localStorage.setItem('role', JSON.stringify(values));
-										if (values.roleId === 3) {
-											this.$router.push({
-												path: "/waiterindex"
-											})
-										} else if (values.roleId === 2) {
-											this.$router.push({
-												path: "/ChefIndex"
-											})
-										} else {
+									let values = res.data
+									localStorage.setItem('role', JSON.stringify(values));
+									switch(values.roleId){
+										case 0:
+											this.$message.warning('您申请的账号还未通过审核，请耐心等待');
+											break
+										case 1:
 											this.$router.push({
 												path: "/AdministratorIndex"
 											})
-										}
+											break	
+										case 2:
+											this.$router.push({
+												path: "/ChefIndex"
+											})
+											break
+										case 3:
+											this.$router.push({
+												path: "/waiterindex"
+											})
+											break
+										case 4:
+											this.form.setFields({
+											  userId: {
+											    value: values.userId,
+											    errors: [new Error('您的账号不存在，请申请')],
+											  },
+											});
+											break
+										case 5:
+											this.form.setFields({
+											  userId: {
+											    value: values.userId,
+											    errors: [new Error('用户已被锁定!请找管理员解锁')],
+											  },
+											});
+											break
+										case 6:
+											this.form.setFields({
+											  password: {
+											    value: values.password,
+											    errors: [new Error('密码错误！请重新输入！')],
+											  },
+											});
+											break														
 									}
+
 								})
 								.catch(function(error) {
 									console.log(error);

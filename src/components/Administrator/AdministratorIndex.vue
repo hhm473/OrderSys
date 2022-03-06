@@ -3,37 +3,37 @@
     <page-header></page-header>
     <div class="content">
       <div class="rleft-select">
-            <a-menu :default-open-keys="[Subindex]" :default-selected-keys="[Aindex]" style="width: 100% background-color: rgba(255,255,255,0.5);" mode="inline" @click="handleClick" >
+            <a-menu :default-open-keys="[Subindex]" :default-selected-keys="[Aindex]" style="width: 100% ; background-color: rgba(246, 255, 255, 0.3);" mode="inline" @click="handleClick" >
                 <a-sub-menu key="sub1">
 					<span slot="title"><a-icon type="setting" /><span>用户管理</span></span>
-					<a-menu-item key="1">
+					<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="1">
 						注册申请
 					</a-menu-item>
-					<a-menu-item key="3">
+					<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="3">
 						用户管理
 					</a-menu-item>
                 </a-sub-menu>
 				<a-sub-menu key="sub2">
 					<span slot="title"><a-icon type="setting" /><span>菜品管理</span></span>
-					<a-menu-item key="2">
+					<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="2">
 					  菜品管理
 					</a-menu-item>
 				</a-sub-menu>
                 <a-sub-menu key="sub3">
                 	<span slot="title"><a-icon type="setting" /><span>订单数据</span></span>
-                	<a-menu-item key="4">
+                	<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="4">
                 		订单管理
                 	</a-menu-item>
-                	<a-menu-item key="6">
+                	<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="6">
                 		历史数据查询
                 	</a-menu-item>
                 </a-sub-menu>
 				<a-sub-menu key="sub4">
 					<span slot="title"><a-icon type="setting" /><span>公告管理</span></span>
-					<a-menu-item key="5">
+					<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="5">
 					  实时公告发布
 					</a-menu-item>
-					<a-menu-item key="7">
+					<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="7">
 					  历史公告查询
 					</a-menu-item>
 				</a-sub-menu>
@@ -153,7 +153,6 @@ export default {
 	background-color: rgba(255,255,255,0.5);
 	flex: 2;
 	height: 100%;
-	background-color: white;
 	box-shadow: 2px 2px 5px #e6e6e6;
 	z-index: 9;
 }
