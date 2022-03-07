@@ -88,6 +88,8 @@
 
 			this.$data.userId = people.userId
 
+			let dishOrder = JSON.parse(localStorage.getItem('dishOrder'))
+
 			let that = this;
 			that.getTime();
 			that.dishOrder = this.$route.query.dishOrder;

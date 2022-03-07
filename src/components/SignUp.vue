@@ -138,7 +138,7 @@
 						</a-row>
 
 						<a-form-item style="margin:10px 410px;">
-							<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
+							<a-button html-type="submit" style="color: white; background-color: #ff9963; border-color: #ff9963; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);" type="danger"
 								shape="round" @click="showModal" size="large">创建账户</a-button>
 
 						</a-form-item>
@@ -327,7 +327,7 @@
 	}
 
 	.highlight {
-		color: #FE742B;
+		color: #FF9963;
 	}
 
 	.input-kuang {

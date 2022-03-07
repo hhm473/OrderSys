@@ -69,7 +69,7 @@
 
 					</a-row>
 
-					<a-button html-type="submit" @ style="color: white; background-color: #FE742B; width: 93%;" size="large"
+					<a-button html-type="submit" @ style="color: white; background-color: #ff9963; border-color: #ff9963; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2); width: 93%;" size="large"
 						type="danger" shape="round">
 						登录
 					</a-button>
@@ -77,7 +77,6 @@
 					<a-row style="font-size: 16px; font-weight: bold; margin-top: 20px;">
 						<a-col :span="15"> 没有账号？<router-link to="/signup">注册</router-link>
 						</a-col>
-						<a-col :span="5"> 忘记密码</a-col>
 					</a-row>
 				</a-form>
 			</div>
@@ -238,7 +237,7 @@
 	.header-title {
 		font-size: 36px;
 		font-weight: bold;
-		color: #fe742b;
+		color: #ff9963;
 		margin-bottom: 20px;
 	}
 

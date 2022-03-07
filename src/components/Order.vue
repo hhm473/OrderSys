@@ -41,7 +41,8 @@
 							总金额：{{totalPrice}} 元
 						</div>
 					</div>
-					<a-button class="btn-back" type="primary" @click="toXiadan" style="height:60px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);">
+					<a-button class="btn-back" type="primary" @click="toXiadan"
+						style="height:60px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);">
 						下单</a-button>
 				</div>
 
@@ -87,7 +88,10 @@
 			let that = this;
 			this.getData();
 			this.getTime();
-
+			let dishOrder = JSON.parse(localStorage.getItem('dishOrder'))
+			if(dishOrder){
+				that.dishData = dishOrder
+			}
 			console.log(that.dishData);
 
 		},
@@ -115,6 +119,7 @@
 				if (that.dishOrder.length == 0) {
 					that.$message.warning('您还未点菜！');
 				} else {
+					localStorage.setItem('dishOrder', JSON.stringify(dishOrder));
 					this.$router.push({
 						// path: "/Xiadan",
 						name: 'xiadan',
@@ -125,7 +130,6 @@
 						}
 					})
 				}
-				// localStorage.setItem('dishOrder', JSON.stringify(values));
 			},
 			getTime() {
 				let yy = new Date().getFullYear();
