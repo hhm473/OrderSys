@@ -33,7 +33,8 @@
 	}
 </script>
 
-<style>
+<style lang="less">
+	@import './assets/css/theme.less';
 	#app {
 		min-width: 1200px;
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;

@@ -82,7 +82,7 @@
 
 <style scoped>
 	.uploud-wrap{
-		margin: 5px 0;
+		margin-bottom: 15px;
 		position: relative;
 	}
 	.fileinput{

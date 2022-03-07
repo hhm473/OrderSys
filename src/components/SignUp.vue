@@ -21,7 +21,7 @@
 								</div>
 							</a-col>
 							<a-col :span="9">
-								<a-form-item v-bind="formItemLayout">
+								<a-form-item>
 									<a-input v-decorator="[
 									'userId',
 									{
@@ -35,7 +35,7 @@
 								]" placeholder='请输入用户名' class="input-kuang" />
 								</a-form-item>
 							</a-col>
-							<a-col :span="6">
+							<a-col :span="9">
 								<div class="input-hint">
 									支持字母、数字、“-” “_”的组合，0-30个字符，支持中文
 								</div>
@@ -49,7 +49,7 @@
 								</div>
 							</a-col>
 							<a-col :span="9">
-								<a-form-item v-bind="formItemLayout" has-feedback>
+								<a-form-item has-feedback>
 									<a-input v-decorator="[
 									'password',
 									{
@@ -67,7 +67,7 @@
 
 								</a-form-item>
 							</a-col>
-							<a-col :span="9">
+							<a-col :span="10">
 								<div class="input-hint">
 									建议使用字母、数字和符号两种及以上的组合，0-18个字符
 								</div>
@@ -80,26 +80,26 @@
 									确认密码：
 								</div>
 							</a-col>
-							<a-col :span="9">
-								<a-form-item v-bind="formItemLayout" has-feedback>
+							<a-col :span="9" >
+								<a-form-item has-feedback>
 
 									<a-input v-decorator="[
-			          'confirm',
-			          {
-			            rules: [
-			              {
-			                required: true,
-			                message: '请再次输入密码!',
-			              },
-			              {
-			                validator: compareToFirstPassword,
-			              },
-			            ],
-			          },
-						]" type="password" @blur="handleConfirmBlur" placeholder='请再次输入密码' class="input-kuang" />
+										'confirm',
+										{
+											rules: [
+											{
+												required: true,
+												message: '请再次输入密码!',
+											},
+											{
+												validator: compareToFirstPassword,
+											},
+											],
+										},
+											]" type="password" @blur="handleConfirmBlur" placeholder='请再次输入密码' class="input-kuang" />
 								</a-form-item>
 							</a-col>
-							<a-col :span="9">
+							<a-col :span="10">
 								<div class="input-hint">
 									建议使用字母、数字和符号两种及以上的组合，0-18个字符
 								</div>
@@ -138,7 +138,7 @@
 							</a-col>
 						</a-row>
 
-						<a-form-item v-bind="tailFormItemLayout">
+						<a-form-item style="margin:10px 410px;">
 							<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
 								shape="round" @click="showModal" size="large">创建账户</a-button>
 
@@ -184,7 +184,6 @@
 				identifyCodes: "1234567890",
 				identifyCode: "",
 				writeCode: "",
-
 				//图片
 				dishPic: '',
 				// 以下代码为点击注册按钮后弹出框相关数据
@@ -193,36 +192,6 @@
 
 				confirmDirty: false,
 				autoCompleteResult: [],
-				formItemLayout: {
-					labelCol: {
-						xs: {
-							span: 24
-						},
-						sm: {
-							span: 8
-						},
-					},
-					wrapperCol: {
-						xs: {
-							span: 24
-						},
-						sm: {
-							span: 16
-						},
-					},
-				},
-				tailFormItemLayout: {
-					wrapperCol: {
-						xs: {
-							span: 24,
-							offset: 0,
-						},
-						sm: {
-							span: 16,
-							offset: 8,
-						},
-					},
-				},
 			};
 		},
 		beforeCreate() {
@@ -231,7 +200,7 @@
 			});
 		},
 		methods: {
-			profilePic(value){
+			profilePic(value) {
 				this.dishPic = value
 			},
 			// 以下三个方法与弹出框相关
@@ -338,8 +307,8 @@
 
 <style scoped>
 	.touming {
-		height: 650px;
-		width: 75%;
+		height: 620px;
+		width: 1000px;
 		border-radius: 20px;
 		margin: auto;
 		margin-top: 100px;
@@ -350,9 +319,9 @@
 	.body {
 		margin: auto;
 		background-color: white;
-		height: 630px;
+		height: 600px;
 		width: 98%;
-		padding: 30px 80px;
+		padding-right: 20px;
 		border-radius: 20px;
 	}
 
@@ -380,7 +349,7 @@
 	.body .title {
 		font-size: 36px;
 		font-weight: bold;
-		padding-left: 60px;
+		padding-left: 10px;
 		margin: 0;
 	}
 
@@ -393,12 +362,12 @@
 	.input-item {
 		font-size: 20px;
 		font-weight: bold;
-		margin: 10px 0 0 100px;
+		margin: 10px 0 0 70px;
 	}
 
 	.input-hint {
-		margin: 10px 0 0 5px;
-		margin-left: 5px;
+		margin-left: 10px;
+		line-height: 50px;
 		background-color: #F9F8F2;
 	}
 
