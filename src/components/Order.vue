@@ -119,7 +119,7 @@
 				if (that.dishOrder.length == 0) {
 					that.$message.warning('您还未点菜！');
 				} else {
-					localStorage.setItem('dishOrder', JSON.stringify(dishOrder));
+					localStorage.setItem('dishOrder', JSON.stringify(that.dishOrder));
 					this.$router.push({
 						// path: "/Xiadan",
 						name: 'xiadan',
