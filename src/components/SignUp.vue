@@ -3,8 +3,7 @@
 		<page-header></page-header>
 		<div class="touming">
 			<div class="body">
-				<div style="display: flex; align-items: center;">
-
+				<div class="top">
 					<div class="title highlight">欢迎注册</div>
 					<div class="hint">已有账号？ 马上
 						<span class="highlight">
@@ -80,7 +79,7 @@
 									确认密码：
 								</div>
 							</a-col>
-							<a-col :span="9" >
+							<a-col :span="9">
 								<a-form-item has-feedback>
 
 									<a-input v-decorator="[
@@ -307,9 +306,10 @@
 
 <style scoped>
 	.touming {
-		height: 620px;
+		height: 600px;
 		width: 1000px;
-		border-radius: 20px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+		border-radius: 25px;
 		margin: auto;
 		margin-top: 100px;
 		padding-top: 10px;
@@ -319,10 +319,11 @@
 	.body {
 		margin: auto;
 		background-color: white;
-		height: 600px;
+		height: 580px;
 		width: 98%;
 		padding-right: 20px;
-		border-radius: 20px;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+		border-radius: 25px;
 	}
 
 	.highlight {
@@ -373,5 +374,11 @@
 
 	.ant-col-sm-16 {
 		width: 100% !important;
+	}
+
+	.top {
+		display: flex;
+		align-items: center;
+		padding: 30px 0 0 100px;
 	}
 </style>

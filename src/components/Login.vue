@@ -217,7 +217,8 @@
 	.touming {
 		height: 520px;
 		width: 600px;
-		border-radius: 20px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		margin: auto;
 		margin-top: 120px;
 		padding-top: 10px;
@@ -230,7 +231,8 @@
 		width: 96%;
 		padding: 30px 80px;
 		margin: auto;
-		border-radius: 20px;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+		border-radius: 25px;
 	}
 
 	.header-title {

@@ -221,6 +221,7 @@
 		text-align: center;
 		margin-right: 20px;
 		border-radius: 15px 15px 0 0;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 	}
 
 	.cata-item:hover {
@@ -239,7 +240,8 @@
 	.content {
 		height: 620px;
 		width: 98%;
-		border-radius: 20px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		margin: auto;
 		margin-top: 10px;
 		padding-top: 15px;

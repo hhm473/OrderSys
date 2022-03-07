@@ -216,6 +216,7 @@
 		margin-right: 20px;
 		text-align: center;
 		border-radius: 15px 15px 0 0;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 	}
 
 	.cata-item:hover {
@@ -228,7 +229,6 @@
 
 		/* height: 630px; */
 		width: 98%;
-		border-radius: 20px;
 		margin: auto;
 		/* margin-top: 100px; */
 		padding-top: 10px;
@@ -239,8 +239,9 @@
 		width: 90%;
 		height: 550px;
 		margin: auto;
-		border-radius: 20px;
+		border-radius: 25px;
 		padding-top: 10px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.5);
 	}
 

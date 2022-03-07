@@ -25,9 +25,7 @@ Vue.use(VueRouter)
 
 const routes = [{
 		path: '/',
-		redirect: '/login',
-		// redirect: '/chartzhu',
-		
+		redirect: '/login',		
 	},
 	{
 		path: '/login',
@@ -41,21 +39,21 @@ const routes = [{
 		path: '/waiterindex',
 		component: WaiterIndex,
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 	{
 		path: '/chefindex',
 		component: ChefIndex,
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 	{
 		path: '/edituserinfo',
 		component: EditUserInfo,
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 	{
@@ -63,7 +61,7 @@ const routes = [{
 		name: 'order',
 		component: Order,
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 	{
@@ -71,7 +69,7 @@ const routes = [{
 		name: 'xiadan',
 		component: XiaDan,
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 	{
@@ -79,7 +77,7 @@ const routes = [{
 		name: 'checkorder',
 		component: CheckOrder,
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 

@@ -177,6 +177,8 @@
 		width: 100%;
 		background-color: rgba(255, 255, 255, 0.5);
 		padding: 10px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 	}
 
 	.body .title {
@@ -188,6 +190,7 @@
 		font-weight: bold;
 		text-align: center;
 		margin: 20px auto;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.7);
 	}
 

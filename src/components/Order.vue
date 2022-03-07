@@ -41,15 +41,15 @@
 							总金额：{{totalPrice}} 元
 						</div>
 					</div>
-					<a-button class="btn-back" type="primary" @click="toXiadan"
-						style="height:60px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">
+					<a-button class="btn-back" type="primary" @click="toXiadan" style="height:60px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);">
 						下单</a-button>
 				</div>
 
 				<div id="wrap"
 					style="height: 85%;overflow: auto;display:flex; justify-content: space-around; flex-wrap:wrap; margin-top: 20px;">
 					<!-- <div v-for="(item, index) in data" :key="index" -->
-					<div v-for="(item, index) in dishData" :key="index" style="margin-bottom: 20px; width: 350px; margin-left: 10px;">
+					<div v-for="(item, index) in dishData" :key="index"
+						style="margin-bottom: 20px; width: 350px; margin-left: 10px;">
 						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :dishPic="item.dishPic"
 							:detail="item.detail" :tuijian="item.isrec" :dishNum="item.dishNum"
 							@minusDish="minusDish(index)" @plusDish="plusDish(index)">
@@ -203,6 +203,7 @@
 
 <style scoped>
 	.content {
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		height: 90%;
 		width: 98%;
 		border-radius: 20px;
@@ -232,6 +233,7 @@
 		text-align: center;
 		margin-right: 20px;
 		border-radius: 15px 15px 0 0;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 	}
 
 	.cata-item:hover {
@@ -271,7 +273,9 @@
 		width: 65%;
 		font-size: 20px;
 		font-weight: bold;
-		border-radius: 20px;
+		border-radius: 25px;
+
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 

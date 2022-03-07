@@ -270,6 +270,7 @@
 
 	.cata-item {
 		width: 100px;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		background-color: #FBECDE;
 		height: 40px;
 		line-height: 40px;
@@ -307,7 +308,8 @@
 		width: 90%;
 		height: 650px;
 		margin: auto;
-		border-radius: 20px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		padding-top: 10px;
 		background-color: rgba(255, 255, 255, 0.5);
 	}

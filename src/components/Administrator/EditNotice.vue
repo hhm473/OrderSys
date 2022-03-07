@@ -78,11 +78,14 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.body {
+		margin-bottom: 20px;
 		padding-top: 10px;
 		width: 100%;
 		background-color: rgba(255, 255, 255, 0.5);
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 	}
 
 	.body .title {
@@ -90,6 +93,7 @@
 		height: 50px;
 		line-height: 50px;
 		border-radius: 25px;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;

@@ -28,6 +28,8 @@
 					})
 					that.xAxis = JSON.parse(JSON.stringify(that.xAxis));
 					that.seriesData = JSON.parse(JSON.stringify(that.seriesData));
+					that.xAxis = that.xAxis.reverse();
+					that.seriesData = that.seriesData.reverse();
 					that.drawLine();
 					console.log("xAxisxAxisxAxisxAxisxAxis",that.xAxis);
 					console.log("seriesDataseriesDataseriesDataseriesData",that.seriesData)
@@ -61,6 +63,6 @@
 	}
 </script>
 
-<style>
+<style scoped>
 
 </style>
