@@ -5,7 +5,8 @@
 			<div class="secondary-head">
 				<div class="time">
 					桌号：
-					<a-select default-value="全部桌号" @change="handleScount" style="width: 120px; margin-right:20px;" size="small">
+					<a-select default-value="全部桌号" @change="handleScount" style="width: 120px; margin-right:20px;"
+						size="small">
 						<a-select-option value="1">
 							1
 						</a-select-option>
@@ -28,7 +29,8 @@
 				</div>
 				<div class="table-number">
 					状态：
-					<a-select default-value="全部订单" @change="handleState" style="width: 120px; margin-right:60px;" size="small">
+					<a-select default-value="全部订单" @change="handleState" style="width: 120px; margin-right:60px;"
+						size="small">
 						<a-select-option value="未完成">
 							未完成
 						</a-select-option>
@@ -57,7 +59,6 @@
 </template>
 
 <script>
-
 	const columns = [{
 			title: '编号',
 			dataIndex: 'orderId',
@@ -97,76 +98,91 @@
 			return {
 				data,
 				columns,
-				tableId:"-1",
-				orderState:"-1",
-				Bdata:""
+				tableId: "-1",
+				orderState: "-1",
+				Bdata: ""
 			}
 		},
 
 		mounted: function() {
-			
+
 			this.getOrder()
 		},
 		methods: {
 			back() {
-				this.$router.push({path:"/administratorindex"});
-			},
-			getOrder(){
-				this.axios.get("http://47.98.238.175:8080/order/queryOrder").then(res => {				
-					this.data = res.data.map((item,i) => {
-						item.newOrder.key = i
-						let cook=""
-						 if(item.dishOrders.length > 0){
-							item.dishOrders.forEach((ritem,ri) => {
-								cook +=  item.dishes[ri].dishName+"*"+ritem.count +"  "
-							})
-						 }
-						item.newOrder.cook = cook
-						
-						if (item.newOrder.orderState == 0) {
-							item.newOrder.orderState = "未完成";
-						}
-						else{
-							item.newOrder.orderState = "已完成"
-						}
-
-						delete	item.newOrder.waiter,
-						delete	item.newOrder.remarks
-						return item.newOrder
-					}) 
-					
-					this.Bdata = this.data
-				})
-				.catch(function (error) {
-				  console.log(error);
+				this.$router.push({
+					path: "/administratorindex"
 				});
 			},
-			
-			handleScount(value){
+			getOrder() {
+				this.axios.get("http://47.98.238.175:8080/order/queryOrder").then(res => {
+						this.data = res.data.map((item, i) => {
+							item.newOrder.key = i
+							let cook = ""
+							if (item.dishOrders.length > 0) {
+								item.dishOrders.forEach((ritem, ri) => {
+									cook += item.dishes[ri].dishName + "*" + ritem.count + "  "
+								})
+							}
+							item.newOrder.cook = cook
+
+							if (item.newOrder.orderState == 0) {
+								item.newOrder.orderState = "未完成";
+							} else {
+								item.newOrder.orderState = "已完成"
+							}
+
+							delete item.newOrder.waiter,
+								delete item.newOrder.remarks
+							return item.newOrder
+						})
+
+						this.Bdata = this.data
+					})
+					.catch(function(error) {
+						console.log(error);
+					});
+			},
+
+			handleScount(value) {
 				console.log(value);
 				this.tableId = value
 			},
-			handleState(value){
+			handleState(value) {
 				console.log(value);
 				this.orderState = value
 			},
-			
-			FindOrder(){
-				if(this._data.tableId != "-1" || this._data.orderState != "-1"){
+
+			FindOrder() {
+				if (this._data.tableId != "-1" || this._data.orderState != "-1") {
 
 					this.data = this.Bdata.filter((item, index) => {
-						console.log(this.tableId,this.orderState);
-						if(this.$data.tableId == "-1" && this.$data.orderState != "-1"){
+						console.log(this.tableId, this.orderState);
+						if (this.$data.tableId == "-1" && this.$data.orderState != "-1") {
 							return item.orderState === this.orderState
-						} else if(this.tableId != "-1" && this.orderState == "-1"){
+						} else if (this.tableId != "-1" && this.orderState == "-1") {
 							return item.tableId == this.tableId
 						}
 						return item.tableId == this.tableId && item.orderState === this.orderState;
 					})
-				} else{
+				} else {
 					this.$data.data = this.$data.Bdata
 				}
-				
+			},
+			formatDateTime(date) {
+				let that = this;
+				let time = new Date(Date.parse(date));
+				time.setTime(time.setHours(time.getHours() + 8));
+				let Y = time.getFullYear() + '-';
+				let M = that.addZero(time.getMonth() + 1) + '-';
+				let D = that.addZero(time.getDate()) + ' ';
+				let h = that.addZero(time.getHours()) + ':';
+				let m = that.addZero(time.getMinutes()) + ':';
+				let s = that.addZero(time.getSeconds());
+				return Y + M + D + h + m + s;
+			},
+			addZero(num) {
+				return num < 10 ? '0' + num : num;
 			}
 		}
 	}
@@ -177,9 +193,10 @@
 		border-radius: 25px;
 		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		width: 100%;
-		background-color: rgba(255,255,255,0.5);
+		background-color: rgba(255, 255, 255, 0.5);
 		padding-top: 10px;
 	}
+
 	.body .title {
 		width: 270px;
 		height: 50px;
@@ -189,8 +206,8 @@
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;
-		margin:20px auto;
-		background-color: rgba(255,255,255,0.7);
+		margin: 20px auto;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 
 	.secondary-head {

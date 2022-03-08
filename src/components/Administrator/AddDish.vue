@@ -13,7 +13,15 @@
 					</a-col>
 					<a-col :span="6">
 						<a-form-item>
-							<a-input v-decorator="['dishName']" placeholder='请输入菜品名称' />
+							<a-input v-decorator="['dishName',
+							{
+								rules: [
+									{
+									required: true,
+									message: '菜品名称不能为空',
+									},
+								],
+								},]" placeholder='请输入菜品名称' />
 						</a-form-item>
 					</a-col>
 					<a-col :span="4">
@@ -23,9 +31,16 @@
 					</a-col>
 					<a-col :span="2">
 						<a-form-item>
-							<a-input-number v-decorator="[
+							<a-input-number min="0" v-decorator="[
 							          'price',
-									  
+									  {
+									  	rules: [
+									  		{
+									  		required: true,
+									  		message: '菜品价格不能为空',
+									  		},
+									  	],
+									  	},
 							        ]" placeholder='请输入菜品价格' />
 						</a-form-item>
 					</a-col>
@@ -38,7 +53,15 @@
 					</a-col>
 					<a-col :span="14">
 						<a-form-item>
-							<a-input v-decorator="['intro']" placeholder='请输入菜品简介' />
+							<a-input v-decorator="['intro',{
+									  	rules: [
+									  		{
+									  		required: true,
+									  		message: '菜品简介不能为空',
+									  		},
+									  	],
+									  	},
+							]" placeholder='请输入菜品简介' />
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -50,7 +73,14 @@
 					</a-col>
 					<a-col :span="14">
 						<a-form-item>
-							<a-textarea maxlength="300" v-decorator="['detail']" placeholder="最多输入300个字" :rows="4" />
+							<a-textarea maxlength="300" v-decorator="['detail',{
+									  	rules: [
+									  		{
+									  		required: true,
+									  		message: '菜品详情不能为空',
+									  		},
+									  	],
+									  	},]" placeholder="最多输入300个字" :rows="4" />
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -73,7 +103,14 @@
 					</a-col>
 					<a-col :span="4">
 						<a-form-item>
-							<a-select default-value="0" style="width: 120px" @change="handleChangeRec">
+							<a-select default-value="0" style="width: 120px" @change="handleChangeRec" v-decorator="['rec',{
+									  	rules: [
+									  		{
+									  		required: true,
+									  		message: '是否推荐不能为空',
+									  		},
+									  	],
+									  	},]">
 								<a-select-option value="0">
 									否
 								</a-select-option>
@@ -83,12 +120,19 @@
 							</a-select>
 						</a-form-item>
 						<a-form-item>
-							<a-select default-value="荤菜" style="width: 120px" @change="handleChangeType">
+							<a-select default-value="荤菜" style="width: 120px" @change="handleChangeType" v-decorator="['type',{
+									  	rules: [
+									  		{
+									  		required: true,
+									  		message: '菜品类型不能为空',
+									  		},
+									  	],
+									  	},]">
 								<a-select-option value="荤菜">
 									荤菜
 								</a-select-option>
-								<a-select-option value="蔬菜">
-									蔬菜
+								<a-select-option value="素菜">
+									素菜
 								</a-select-option>
 								<a-select-option value="主食">
 									主食
@@ -155,10 +199,14 @@
 						values.dishPic = this.dishPic
 						values.isrec = Number(this.isres)
 						values.type = this.type
-						// values.type = "荤菜"
-						console.log(values)
+						let user = JSON.parse(localStorage.getItem('role'));
+						let token = user.token;
+						console.log("token", token)
 						axios.get("http://47.98.238.175:8080/dishes/add", {
-							params: values
+							params: values,
+							headers: {
+								'Token': token
+							},
 						}).then(function(response) {
 							that.$message.success('添加成功！');
 							that.$router.go(-1);

@@ -118,19 +118,19 @@
 			}
 		},
 		methods: {
-			WIsRefresh(e){
+			WIsRefresh(e) {
 				let that = this
 				console.log("hhhhh");
-				
-					setTimeout(function()  {
-					 
-					    that.getDishInfo()
-					 
-					   }, 2000);
+
+				setTimeout(function() {
+
+					that.getDishInfo()
+
+				}, 2000);
 
 			},
-			
-			
+
+
 			handledeliver(key) {
 				const newData = [...this.dataDish];
 				const target = newData.filter(item => key === item.key)[0];
@@ -153,7 +153,9 @@
 				})
 			},
 			getDishInfo() {
-				this.axios.get("http://47.98.238.175:8080/dishOrder/sendDishInfo").then(res => {
+				let user = localStorage.getItem('role');
+				let token = user.token;
+				this.axios.get("http://47.98.238.175:8080/dishOrder/sendDishInfo", {headers: {'token': token}}).then(res => {
 						let dataDish = res.data
 						console.log(dataDish)
 						this.dataDish = dataDish.map((item, i) => {

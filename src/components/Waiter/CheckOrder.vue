@@ -46,16 +46,7 @@
 </template>
 
 <script scoped>
-	const dataLinshi = [{
-		orderId: 181,
-		orderTime: "2022-02-28T06:25:56.000+00:00",
-		tableId: 3,
-		orderState: 1,
-		waiter: "hhm",
-		totalPrice: 77,
-		remarks: "测试",
-		addOrder: "null"
-	}];
+	const dataLinshi = [];
 	const columnsOrder = [{
 			title: '菜品桌号',
 			dataIndex: 'tableId',
@@ -154,28 +145,24 @@
 			},
 
 			getOrder() {
-				this.axios.get("http://47.98.238.175:8080/order/queryOrder", {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				let that = this
+				this.axios.get("http://47.98.238.175:8080/order/queryDetailOrder", {
 						params: {
 							orderState: 0
-						}
+						},
+						headers: {
+							'token': token
+						},
 					}).then(res => {
-						this.dataOrder = res.data
-						// .map((item, i) => {
-						// 	item.newOrder.key = i
-						// 	let cook = ""
-						// 	if (item.dishOrders.length > 0) {
-						// 		item.dishOrders.forEach((ritem, ri) => {
-						// 			cook += item.dishes[ri].dishName + "*" + ritem.count + "  "
-						// 		})
-						// 	}
-						// 	item.newOrder.cook = cook
+						that.dataOrder = res.data
+						that.dataLinshi = res.data.map((item, i) => {
+							item.newOrder.key = i
+							return item.newOrder
+						})
 
-						// 	delete item.newOrder.waiter,
-						// 		delete item.newOrder.remarks
-						// 	return item.newOrder
-						// })
-
-						console.log(this.dataOrder);
+						console.log(that.dataLinshi);
 					})
 					.catch(function(error) {
 						console.log(error);
@@ -183,19 +170,24 @@
 			},
 
 			onDelete(key) {
-				const newData = [...this.dataOrder];
+				const newData = [...this.dataLinshi];
 				const target = newData.filter(item => key === item.key)[0];
 				if (target) {
 					this.CheckOut(target.orderId)
-					this.dataOrder.splice(this.dataOrder.findIndex(item => item.key == key), 1)
+					this.dataLinshi.splice(this.dataLinshi.findIndex(item => item.key == key), 1)
 				}
 			},
 
 			CheckOut(orderid) {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				this.axios.get("http://47.98.238.175:8080/order/checkout", {
 						params: {
 							orderid
-						}
+						},
+						headers: {
+									'token': token
+						},
 					}).then(res => {
 
 						console.log(res);
@@ -206,13 +198,12 @@
 			},
 
 			toOrderXiangqing(record) {
-				let that = this;
+				let disOrder = this.dataOrder[this.dataLinshi.findIndex(item => item.key == record.key)]
 				this.$router.push({
 					path: "/orderxiangqing",
 					query: {
 						//Todo
-						dishOrder: that.dishOrder,
-						tableNum: that.tableNum,
+						dishOrder: disOrder,
 					}
 				})
 			},

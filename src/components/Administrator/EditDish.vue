@@ -25,7 +25,7 @@
 					</div>
 				</a-col>
 				<a-col :span="2">
-					<a-input placeholder='请输入菜品价格' v-model="price" />
+					<a-input-number min="0" placeholder='请输入菜品价格' v-model="price" />
 				</a-col>
 			</a-row>
 			<a-row :gutter="[0,50]">
@@ -80,8 +80,8 @@
 						<a-select-option value="荤菜">
 							荤菜
 						</a-select-option>
-						<a-select-option value="蔬菜">
-							蔬菜
+						<a-select-option value="素菜">
+							素菜
 						</a-select-option>
 						<a-select-option value="主食">
 							主食
@@ -157,7 +157,9 @@
 				});
 			},
 			dishEdit() {
-				let that = this;
+				let that = this;	
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let values = {
 					dishId: that.dishId,
 					dishName: that.dishName,
@@ -171,7 +173,10 @@
 				this.axios({
 					method: 'post',
 					url: "http://47.98.238.175:8080/dishes/edit",
-					data: this.$qs.stringify(values)
+					data: this.$qs.stringify(values),
+					headers: {
+						'Token': token
+					},
 				}).then(function(response) {
 					that.$message.success('修改成功！');
 					that.$router.go(-1);

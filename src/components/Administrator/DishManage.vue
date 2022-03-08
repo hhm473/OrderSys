@@ -160,15 +160,20 @@
 			},
 
 			getData: function() {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let that = this
 				this.axios({ //格式a
 					method: 'get',
-					url: 'http://47.98.238.175:8080/dishes/querySome'
+					url: 'http://47.98.238.175:8080/dishes/querySome',
+					headers: {
+						'token': token
+					},
 				}).then(function(res) {
 					console.log(res)
 					console.log(res.data);
 					// console.log(this.data1);
-					that.data1 = res.data.map((item,i) => {
+					that.data1 = res.data.map((item, i) => {
 						item.key = i
 						return item
 					})
@@ -210,30 +215,35 @@
 				this.price = value
 			},
 			dishSelect() {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let that = this;
 				this.axios.get("http://47.98.238.175:8080/dishes/querySome", {
 					params: {
 						"dishName": that.dishName,
 						"minPrice": that.minPrice,
 						"maxPrice": that.maxPrice,
-					}
+					},
+					headers: {
+						'token': token
+					},
 				}).then(function(res) {
 					that.data1 = res.data;
 					if (that.tuijian != '-1') {
-					that.Bdata = that.data1;
-					that.data1 = that.Bdata.filter((item, index) => {
-						if (that.tuijian == "0") {
-							return item.isrec == 0
-						} else {
-							return item.isrec == 1
-						}
-					})
-					console.log(that.data1)
-				}
+						that.Bdata = that.data1;
+						that.data1 = that.Bdata.filter((item, index) => {
+							if (that.tuijian == "0") {
+								return item.isrec == 0
+							} else {
+								return item.isrec == 1
+							}
+						})
+						console.log(that.data1)
+					}
 				}).catch(function(error) {
 					alert(error);
 				});
-				
+
 			},
 		},
 	}

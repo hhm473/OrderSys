@@ -21,11 +21,31 @@
 				<div style="display: flex; justify-content: space-around;">
 					<div class="secondary-head">
 						<div class="time">
-							时间：{{timeNow}}
+							类型：
+							<a-select default-value="全部" style="width: 100px" @change="ChangeType">
+								<a-select-option value="荤菜">
+									荤菜
+								</a-select-option>
+								<a-select-option value="素菜">
+									素菜
+								</a-select-option>
+								<a-select-option value="主食">
+									主食
+								</a-select-option>
+								<a-select-option value="小吃">
+									小吃
+								</a-select-option>
+								<a-select-option value="饮料">
+									饮料
+								</a-select-option>
+								<a-select-option value="全部">
+									全部
+								</a-select-option>
+							</a-select>
 						</div>
 						<div class="table-number">
 							桌号：
-							<a-select default-value="1" style="width: 50px" @change="ChangeTableNum">
+							<a-select default-value="" style="width: 50px" @change="ChangeTableNum">
 								<a-select-option value="1">
 									1
 								</a-select-option>
@@ -34,6 +54,12 @@
 								</a-select-option>
 								<a-select-option value="3">
 									3
+								</a-select-option>
+								<a-select-option value="4">
+									4
+								</a-select-option>
+								<a-select-option value="5">
+									5
 								</a-select-option>
 							</a-select>
 						</div>
@@ -72,11 +98,12 @@
 			return {
 				data: [],
 				dishData: [],
-				tableNum: '1',
+				BdishData: [],
+				tableNum: '',
 				dishOrder: [],
 				dishData1: 1,
-				timeNow: "",
-				totalPrice: 0
+				totalPrice: 0,
+				type: ""
 			}
 		},
 		components: {
@@ -87,9 +114,8 @@
 		mounted() {
 			let that = this;
 			this.getData();
-			this.getTime();
 			let dishOrder = JSON.parse(localStorage.getItem('dishOrder'))
-			if(dishOrder){
+			if (dishOrder) {
 				that.dishData = dishOrder
 			}
 			console.log(that.dishData);
@@ -118,7 +144,10 @@
 				console.log(that.dishOrder);
 				if (that.dishOrder.length == 0) {
 					that.$message.warning('您还未点菜！');
-				} else {
+				} else if(that.tableNum == ''){
+					that.$message.warning('您还未选择桌号！');
+				}
+				else {
 					localStorage.setItem('dishOrder', JSON.stringify(that.dishOrder));
 					this.$router.push({
 						// path: "/Xiadan",
@@ -130,16 +159,6 @@
 						}
 					})
 				}
-			},
-			getTime() {
-				let yy = new Date().getFullYear();
-				let mm = new Date().getMonth() + 1;
-				let dd = new Date().getDate();
-				let hh = new Date().getHours();
-				let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
-				let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
-				this.timeNow = yy + '/' + mm + '/' + dd + ' ' + hh + ':' + mf + ':' + ss;
-				console.log(this.timeNow)
 			},
 			minusDish(index) {
 				console.log("item.dishNum++;之前的item.dishNum++;", this.dishData)
@@ -164,16 +183,21 @@
 				console.log(this.dishData)
 			},
 			getData: function() {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let that = this
 				this.axios({ //格式a
 					method: 'get',
-					url: 'http://47.98.238.175:8080/dishes/all'
+					url: 'http://47.98.238.175:8080/dishes/all',
+					headers: {
+						'token': token
+					},
 				}).then(function(res) {
 					console.log(res)
 					console.log(res.data);
 					// console.log(this.data1);
 					that.dishData = res.data;
-
+					that.BdishData = res.data;
 					let newarr = [];
 					that.dishData.map((item, index) => {
 						newarr.push(Object.assign(item, {
@@ -201,6 +225,26 @@
 					path: "/waiterindex"
 				});
 			},
+			ChangeType(value) {
+				if (value == "全部") {
+					this.dishData = this.BdishData
+				} else {
+					this.dishData = this.BdishData.filter((item, index) => {
+						return item.type == value
+					});
+				}
+
+				// this.userData = this.BuserData.filter((item, index) => {
+				// 	console.log(this.isLockSel, this.IdentitySel);
+				// 	console.log(typeof(this.isLockSel), typeof(this.IdentitySel));
+				// 	if (this.isLockSel == "-1" && this.$data.IdentitySel != "-1") {
+				// 		return item.roleId == this.IdentitySel
+				// 	} else if (this.isLockSel != "-1" && this.IdentitySel == "-1") {
+				// 		return item.isLock == Number(this.isLockSel)
+				// 	}
+				// 	return item.isLock == Number(this.isLockSel) && item.roleId == this.IdentitySel;
+				// })
+			}
 		}
 	}
 </script>

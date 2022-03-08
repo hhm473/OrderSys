@@ -28,14 +28,9 @@
 						总金额：{{totalPrice}} 元
 					</div>
 				</div>
-				<div>
-					<a-button type="primary" size="large" @click="ConfirmOrder"
-						style="height:50px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">
-						返回</a-button>
-				</div>
 			</div>
 
-			<a-table class="table" :columns="columns" :data-source="dishOrder" bordered :scroll="{y: 350 }">
+			<a-table class="table" :columns="columns" :data-source="disharr" bordered :scroll="{y: 350 }">
 				<a-tag slot="dish_state" slot-scope="text, record"
 					:color="record.dish_state === '未烹饪' ? 'geekblue' :'red'">
 				
@@ -43,10 +38,10 @@
 					<!-- {{record}} -->
 				</a-tag>
 				
-				<template slot="pay" slot-scope="text, record">
+				<template slot="cancel" slot-scope="text, record">
 					<!-- <a-popconfirm v-if="dataOrder.length" title="确定结账 ?" @confirm="() => onDelete(record.key)"> -->
-					<a-popconfirm v-if="dataLinshi.length" title="确定撤菜 ?" @confirm="() => onDelete(record.key)">
-						<a-button type="primary" :disabled="record.dish_state === '未烹饪' ? false:true">撤菜</a-button>
+					<a-popconfirm title="确定撤菜 ?" @confirm="() => onDelete(record.key)">
+						<a-button type="primary" :disabled="record.dish_state === '未烹饪' ?false:true">撤菜</a-button>
 					</a-popconfirm>
 				</template>
 			</a-table>
@@ -62,8 +57,8 @@
 
 	const columns = [{
 			title: '菜品名称',
-			dataIndex: 'dishName',
-			key: 'dishName',
+			dataIndex: 'dish_name',
+			key: 'dish_name',
 		},
 		{
 			title: '菜品单价',
@@ -72,13 +67,8 @@
 		},
 		{
 			title: '菜品数量',
-			key: 'dishNum',
-			dataIndex: 'dishNum',
-		},
-		{
-			title: '菜品金额',
-			key: 'dishPrice',
-			dataIndex: 'dishPrice',
+			key: 'count',
+			dataIndex: 'count',
 		},
 		{
 			title: '烹制状态',
@@ -90,8 +80,10 @@
 		},
 		{
 			title: '撤菜',
-			key: 'dishPrice',
-			dataIndex: 'dishPrice',
+			dataIndex: 'cancel',
+			scopedSlots: {
+				customRender: 'cancel'
+			},
 		},
 	];
 
@@ -99,7 +91,8 @@
 		data() {
 			return {
 				columns,
-				dishOrders: [],
+				dishOrder: [],
+				disharr:[],
 				userId: '',
 				timeNow: "2021-02-26",
 				totalPrice: 35,
@@ -112,19 +105,29 @@
 			let people = JSON.parse(localStorage.getItem('role'))
 
 			this.$data.userId = people.userId
+			
 
-			let that = this;
-			that.getTime();
-			that.dishOrders = this.$route.query.dishOrders;
-			that.tableId = this.$route.query.tabledId;
-
-			let newarr = [];
-			that.dishOrders.map((item, index) => {
-				newarr.push(Object.assign(item, {
-					dishPrice: item.dishNum * item.price
-				}))
-			})
-			that.dishOrders = newarr;
+			this.getTime();
+			this.dishOrder = this.$route.query.dishOrder;
+			
+			console.log(this.dishOrder);
+			this.totalPrice = this.dishOrder.newOrder.totalPrice
+			this.timeNow = this.dishOrder.newOrder.orderTime
+			this.tableNum = this.dishOrder.newOrder.tableId
+			
+			this.disharr = this.dishOrder.dishes.map((item, i) => {
+					item.key = i
+					if (item.dish_state == 0) {
+						item.dish_state = "未烹饪";
+						return item
+					} else if(item.dish_state <= 3){
+						item.dish_state = "已烹饪"
+						return item
+					}
+					
+				})
+				
+			console.log(this.disharr);
 		},
 		components: {
 			PageHeader,
@@ -140,21 +143,6 @@
 				this.timeNow = yy + '/' + mm + '/' + dd + ' ' + hh + ':' + mf + ':' + ss;
 				// console.log(this.timeNow)
 			},
-			ConfirmOrder() {
-				let that = this;
-				let newOrder = {};
-				that.$set(newOrder, "tableId", Number(that.tableNum));
-				that.$set(newOrder, "waiter", that.userId);
-				that.$set(newOrder, "remarks", "测试");
-				let newarr = [];
-				that.dishOrder.map((item, index) => {
-					newarr.push(Object.assign({
-						dishId: item.dishId,
-						count: item.dishNum
-					}))
-				});
-
-			},
 
 			toWaiterIndex() {
 				this.$router.push({
@@ -163,31 +151,37 @@
 			},
 			toOrder() {
 				this.$router.push({
-					path: "/order"
+					path: "/checkorder"
 				});
 			},
 			back() {
 				this.$router.push({
-					path: "/order"
+					path: "/checkorder"
 				});
 			},
 			
 			onDelete(key){
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let that = this
-				let dish = this.dishOrders.findIndex(item => item.key == key)
-				let cancel= {
-					orderId:dish.orderId,
-					dishId:dish.dishId,
-					count:dish.count,
-					price:dish.price
-				}
+				let dish = this.disharr.filter(item => item.key == key)[0]
+				
 				this.axios.get("http://47.98.238.175:8080/dishOrder/cancel", {
-						params:cancel
+						params:{
+							orderId:that.dishOrder.newOrder.orderId,
+							dishId:dish.dish_id,
+							count:dish.count,
+							price:dish.price
+						},
+						headers: {
+							'token': token
+						},
 					}).then(res => {
-						that.dishOrders.splice(dish, 1)
+						
 						console.log(res)
-
-					})
+						that.disharr.splice(that.disharr.findIndex(item => item.key == key), 1)
+						that.totalPrice = that.totalPrice-dish.price
+						})
 					.catch(function(error) {
 						console.log(error);
 					});
@@ -259,16 +253,13 @@
 		padding-left: 20px;
 		font-size: 20px;
 		font-weight: bold;
-		width: 80%;
-		margin-left: 1%; 
+		width: 98%;
+		margin: auto; 
 		border-radius: 25px;
 		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 
-
-	.time {
-	}
 
 	.table-number {
 		margin: auto;

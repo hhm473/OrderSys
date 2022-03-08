@@ -148,7 +148,9 @@
 									data: this.$qs.stringify(values)
 								}).then(res => {
 									console.log(res)
-									let values = res.data
+									let values = res.data.user
+									values.token = res.data.message
+									console.log(values)
 									localStorage.setItem('role', JSON.stringify(values));
 									switch(values.roleId){
 										case 0:
