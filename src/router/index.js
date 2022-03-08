@@ -79,7 +79,7 @@ const routes = [{
 		name: 'checkorder',
 		component: CheckOrder,
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 	{
@@ -87,7 +87,7 @@ const routes = [{
 		name: 'orderxiangqing',
 		component: () => import("@/components/Waiter/OrderXiangQing"),
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 
