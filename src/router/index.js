@@ -63,7 +63,7 @@ const routes = [{
 		name: 'order',
 		component: Order,
 		meta: {
-			requireAuth: true, // 判断是否需要登录
+			// requireAuth: true, // 判断是否需要登录
 		},
 	},
 	{

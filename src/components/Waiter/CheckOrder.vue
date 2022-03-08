@@ -205,7 +205,7 @@
 					});
 			},
 
-			toOrderXiangqing() {
+			toOrderXiangqing(record) {
 				let that = this;
 				this.$router.push({
 					path: "/orderxiangqing",
@@ -216,15 +216,11 @@
 					}
 				})
 			},
-			toExtraOrder() {
+			toExtraOrder(record) {
 				let that = this;
+				localStorage.setItem("extraTableId", record.table)
 				this.$router.push({
 					path: "/order",
-					query: {
-						//Todo
-						dishOrder: that.dishOrder,
-						tableNum: that.tableNum,
-					}
 				})
 			},
 		}

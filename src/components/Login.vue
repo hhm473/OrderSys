@@ -69,7 +69,7 @@
 
 					</a-row>
 
-					<a-button html-type="submit" @ style="color: white; background-color: #FE742B; width: 93%;" size="large"
+					<a-button html-type="submit" @ style="color: white; background-color: #ff9963; border-color: #ff9963; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2); width: 93%;" size="large"
 						type="danger" shape="round">
 						登录
 					</a-button>
@@ -77,7 +77,6 @@
 					<a-row style="font-size: 16px; font-weight: bold; margin-top: 20px;">
 						<a-col :span="15"> 没有账号？<router-link to="/signup">注册</router-link>
 						</a-col>
-						<a-col :span="5"> 忘记密码</a-col>
 					</a-row>
 				</a-form>
 			</div>
@@ -88,7 +87,7 @@
 
 <script>
 	import PageHeader from './components/PageHeader.vue'
-	import SIdentify from './components/Identify.vue'
+	import SIdentify from './components/Identify'
 	export default {
 		name: 'Login',
 		components: {
@@ -217,7 +216,8 @@
 	.touming {
 		height: 520px;
 		width: 600px;
-		border-radius: 20px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		margin: auto;
 		margin-top: 120px;
 		padding-top: 10px;
@@ -230,13 +230,14 @@
 		width: 96%;
 		padding: 30px 80px;
 		margin: auto;
-		border-radius: 20px;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+		border-radius: 25px;
 	}
 
 	.header-title {
 		font-size: 36px;
 		font-weight: bold;
-		color: #fe742b;
+		color: #ff9963;
 		margin-bottom: 20px;
 	}
 

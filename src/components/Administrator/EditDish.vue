@@ -55,21 +55,42 @@
 					</div>
 				</a-col>
 				<a-col :span="4">
-					<Uploud v-on:profilePic="profilePic" :dishPic = "dishPic"></Uploud>
+					<Uploud v-on:profilePic="profilePic" :dishPic="dishPic"></Uploud>
 				</a-col>
 				<a-col :span="4">
 					<div class="input-item">
 						是否推荐：
 					</div>
+					<div style="font-size: 18px; font-weight: bold; margin: 35px 0 0 60px;">
+						菜品类型：
+					</div>
 				</a-col>
 				<a-col :span="4">
 					<!-- <a-select :default-value="String(isrec)" style="width: 120px" @change="handleChange"> -->
-					<a-select :default-value=isrec style="width: 120px" @change="handleChange">
+					<a-select :default-value=isrec style="width: 120px" @change="handleChangeRec">
 						<a-select-option value="0">
 							否
 						</a-select-option>
 						<a-select-option value="1">
 							是
+						</a-select-option>
+					</a-select>
+
+					<a-select :default-value="type" style="width: 120px" @change="handleChangeType">
+						<a-select-option value="荤菜">
+							荤菜
+						</a-select-option>
+						<a-select-option value="蔬菜">
+							蔬菜
+						</a-select-option>
+						<a-select-option value="主食">
+							主食
+						</a-select-option>
+						<a-select-option value="小吃">
+							小吃
+						</a-select-option>
+						<a-select-option value="饮料">
+							饮料
 						</a-select-option>
 					</a-select>
 				</a-col>
@@ -109,7 +130,7 @@
 				dishPic: "",
 			}
 		},
-		created () {
+		created() {
 			this.getDataFromRoute();
 		},
 		methods: {
@@ -163,8 +184,12 @@
 				this.$router.go(-1)
 			},
 
-			handleChange(value) {
-				this.isrec = value
+			handleChangeRec(value) {
+				this.isres = value
+			},
+
+			handleChangeType(value) {
+				this.type = value
 			}
 
 		}
@@ -177,6 +202,8 @@
 		width: 100%;
 		background-color: rgba(255, 255, 255, 0.5);
 		padding: 10px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 	}
 
 	.body .title {
@@ -188,6 +215,7 @@
 		font-weight: bold;
 		text-align: center;
 		margin: 20px auto;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.7);
 	}
 

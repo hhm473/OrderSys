@@ -158,17 +158,15 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.sales {
 		width: 30%;
 		height: 280px;
-		border-radius: 20px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		justify-content: space-around;
 		background-color: rgba(255, 255, 255, 0.6);
-
-
 		padding: 20px 0 0 0px;
-
 		font-size: 18px;
 	}
 
@@ -195,7 +193,8 @@
 		width: 65%;
 		padding: 10px;
 		height: 280px;
-		border-radius: 20px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 
@@ -207,7 +206,8 @@
 		margin-top: 20px;
 		width: 97.5%;
 		/* margin-left: 1.2%; */
-		border-radius: 20px;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 

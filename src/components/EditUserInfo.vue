@@ -379,6 +379,8 @@
 		margin-right: 15%;
 		width: 70%;
 		background-color: rgba(255, 255, 255, 0.6);
+		border-radius: 25px;
+		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 	}
 
 	.form {
@@ -388,6 +390,8 @@
 	.body .title {
 		font-size: 30px;
 		font-weight: bold;
+		border-radius: 25px;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 	}
 
 	.input-item {

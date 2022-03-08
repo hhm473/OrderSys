@@ -107,6 +107,7 @@
 	.all-wrap {
 		/* border: 1px solid #A4ADB3; */
 		border-radius: 20px;
+		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		height: 150px;
 		width: 100%;
 		/* width: 70%; */
