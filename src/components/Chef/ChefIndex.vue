@@ -111,8 +111,8 @@
 	];
 
 	const data = [];
-	import PageHeader from './PageHeader.vue'
-	import CallBoard from './CallBoard.vue'
+	import PageHeader from '../components/PageHeader.vue'
+	import CallBoard from '../components/CallBoard.vue'
 	export default {
 		name: 'SignUp',
 		components: {
@@ -270,7 +270,6 @@
 
 	.cata-item {
 		width: 100px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		background-color: #FBECDE;
 		height: 40px;
 		line-height: 40px;
@@ -308,8 +307,7 @@
 		width: 90%;
 		height: 650px;
 		margin: auto;
-		border-radius: 25px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
 		padding-top: 10px;
 		background-color: rgba(255, 255, 255, 0.5);
 	}

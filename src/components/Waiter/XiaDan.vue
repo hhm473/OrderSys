@@ -13,7 +13,7 @@
 					下单
 				</div>
 			</div>
-			<img src="../assets/img/back.png" @click="back" class="img-back">
+			<img src="../../assets/img/back.png" @click="back" class="img-back">
 		</div>
 		<div class="content">
 			<div style="display: flex;">
@@ -30,7 +30,7 @@
 				</div>
 				<div>
 					<a-button type="primary" size="large" @click="ConfirmOrder"
-						style="height:50px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);">
+						style="height:50px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">
 						确认下单</a-button>
 				</div>
 			</div>
@@ -44,9 +44,9 @@
 </template>
 
 <script>
-	import Dish from './Dish.vue'
-	import PageHeader from './PageHeader.vue'
-	import OrderQingdan from './OrderQingdan.vue'
+	import Dish from '../components/Dish.vue'
+	import PageHeader from '../components/PageHeader.vue'
+	import OrderQingdan from '../components/OrderQingdan.vue'
 
 	const columns = [{
 			title: '菜品名称',
@@ -87,8 +87,6 @@
 			let people = JSON.parse(localStorage.getItem('role'))
 
 			this.$data.userId = people.userId
-
-			let dishOrder = JSON.parse(localStorage.getItem('dishOrder'))
 
 			let that = this;
 			that.getTime();
@@ -192,8 +190,7 @@
 	.content {
 		height: 630px;
 		width: 98%;
-		border-radius: 25px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
 		margin: auto;
 		margin-top: 10px;
 		padding-top: 15px;
@@ -220,7 +217,6 @@
 		text-align: center;
 		margin-right: 20px;
 		border-radius: 15px 15px 0 0;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 	}
 
 	.cata-item:hover {
@@ -246,8 +242,7 @@
 		font-weight: bold;
 		width: 80%;
 		margin-left: 1%; 
-		border-radius: 25px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 
@@ -267,7 +262,6 @@
 		width: 98%;
 		margin: auto;
 		border-radius: 25px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		margin-top: 20px;
 		padding: 10px;
 		margin-bottom: 10px;

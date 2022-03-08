@@ -42,9 +42,9 @@
 </template>
 
 <script>
-	import ChartZhu from '../ChartZhu.vue'
-	import ChartZhu2 from '../ChartZhu2.vue'
-	import ChartBing from '../ChartBing.vue'
+	import ChartZhu from '../components/ChartZhu.vue'
+	import ChartZhu2 from '../components/ChartZhu2.vue'
+	import ChartBing from '../components/ChartBing.vue'
 	const columnsRank = [{
 			title: '排名',
 			dataIndex: 'dish_rank',
@@ -158,15 +158,17 @@
 	}
 </script>
 
-<style scoped>
+<style>
 	.sales {
 		width: 30%;
 		height: 280px;
-		border-radius: 25px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
 		justify-content: space-around;
 		background-color: rgba(255, 255, 255, 0.6);
+
+
 		padding: 20px 0 0 0px;
+
 		font-size: 18px;
 	}
 
@@ -193,8 +195,7 @@
 		width: 65%;
 		padding: 10px;
 		height: 280px;
-		border-radius: 25px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 
@@ -206,8 +207,7 @@
 		margin-top: 20px;
 		width: 97.5%;
 		/* margin-left: 1.2%; */
-		border-radius: 25px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 

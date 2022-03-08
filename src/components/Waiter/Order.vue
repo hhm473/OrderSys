@@ -10,7 +10,7 @@
 					点菜
 				</div>
 			</div>
-			<img src="../assets/img/back.png" @click="back" class="img-back">
+			<img src="../../assets/img/back.png" @click="back" class="img-back">
 		</div>
 		<div class="content">
 
@@ -42,15 +42,14 @@
 						</div>
 					</div>
 					<a-button class="btn-back" type="primary" @click="toXiadan"
-						style="height:60px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);">
+						style="height:60px; font-size: 23px; width: 200px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">
 						下单</a-button>
 				</div>
 
 				<div id="wrap"
 					style="height: 85%;overflow: auto;display:flex; justify-content: space-around; flex-wrap:wrap; margin-top: 20px;">
 					<!-- <div v-for="(item, index) in data" :key="index" -->
-					<div v-for="(item, index) in dishData" :key="index"
-						style="margin-bottom: 20px; width: 350px; margin-left: 10px;">
+					<div v-for="(item, index) in dishData" :key="index" style="margin-bottom: 20px; width: 350px; margin-left: 10px;">
 						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :dishPic="item.dishPic"
 							:detail="item.detail" :tuijian="item.isrec" :dishNum="item.dishNum"
 							@minusDish="minusDish(index)" @plusDish="plusDish(index)">
@@ -63,9 +62,9 @@
 </template>
 
 <script>
-	import Dish from './Dish.vue'
-	import PageHeader from './PageHeader.vue'
-	import OrderQingdan from './OrderQingdan.vue'
+	import Dish from '../components/Dish.vue'
+	import PageHeader from '../components/PageHeader.vue'
+	import OrderQingdan from '../components/OrderQingdan.vue'
 
 	export default {
 		data() {
@@ -88,10 +87,7 @@
 			let that = this;
 			this.getData();
 			this.getTime();
-			let dishOrder = JSON.parse(localStorage.getItem('dishOrder'))
-			if(dishOrder){
-				that.dishData = dishOrder
-			}
+
 			console.log(that.dishData);
 
 		},
@@ -119,7 +115,6 @@
 				if (that.dishOrder.length == 0) {
 					that.$message.warning('您还未点菜！');
 				} else {
-					localStorage.setItem('dishOrder', JSON.stringify(that.dishOrder));
 					this.$router.push({
 						// path: "/Xiadan",
 						name: 'xiadan',
@@ -130,6 +125,7 @@
 						}
 					})
 				}
+				// localStorage.setItem('dishOrder', JSON.stringify(values));
 			},
 			getTime() {
 				let yy = new Date().getFullYear();
@@ -207,7 +203,6 @@
 
 <style scoped>
 	.content {
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		height: 90%;
 		width: 98%;
 		border-radius: 20px;
@@ -237,7 +232,6 @@
 		text-align: center;
 		margin-right: 20px;
 		border-radius: 15px 15px 0 0;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 	}
 
 	.cata-item:hover {
@@ -277,9 +271,7 @@
 		width: 65%;
 		font-size: 20px;
 		font-weight: bold;
-		border-radius: 25px;
-
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 

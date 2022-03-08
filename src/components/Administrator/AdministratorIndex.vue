@@ -5,7 +5,7 @@
       <div class="rleft-select">
             <a-menu :default-open-keys="[Subindex]" :default-selected-keys="[Aindex]" style="width: 100% ; background-color: rgba(246, 255, 255, 0.3);" mode="inline" @click="handleClick" >
                 <a-sub-menu key="sub1">
-					<span slot="title"><a-icon type="home" /><span>用户管理</span></span>
+					<span slot="title"><a-icon type="setting" /><span>用户管理</span></span>
 					<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="1">
 						注册申请
 					</a-menu-item>
@@ -14,13 +14,13 @@
 					</a-menu-item>
                 </a-sub-menu>
 				<a-sub-menu key="sub2">
-					<span slot="title"><a-icon type="shopping-cart" /><span>菜品管理</span></span>
+					<span slot="title"><a-icon type="setting" /><span>菜品管理</span></span>
 					<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="2">
 					  菜品管理
 					</a-menu-item>
 				</a-sub-menu>
                 <a-sub-menu key="sub3">
-                	<span slot="title"><a-icon type="account-book" /><span>订单数据</span></span>
+                	<span slot="title"><a-icon type="setting" /><span>订单数据</span></span>
                 	<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="4">
                 		订单管理
                 	</a-menu-item>
@@ -29,7 +29,7 @@
                 	</a-menu-item>
                 </a-sub-menu>
 				<a-sub-menu key="sub4">
-					<span slot="title"><a-icon type="profile" /><span>公告管理</span></span>
+					<span slot="title"><a-icon type="setting" /><span>公告管理</span></span>
 					<a-menu-item style= "background-color: rgba(246, 239, 225, 0.5);" key="5">
 					  实时公告发布
 					</a-menu-item>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import PageHeader from "../PageHeader.vue";
+import PageHeader from "../components/PageHeader.vue";
 
 export default {
   name: "AdministratorIndex",

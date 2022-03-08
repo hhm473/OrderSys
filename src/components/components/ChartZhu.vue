@@ -1,5 +1,5 @@
 <template>
-	<div id="zhuChart2" :style="{width: '400px', height: '300px'}"></div>
+	<div id="zhuChart" :style="{width: '400px', height: '300px'}"></div>
 </template>
 
 <script>
@@ -17,10 +17,10 @@
 		methods: {
 			get7DaysData() {
 				let that = this;
-				this.axios.get("http://47.98.238.175:8080/order/get6MonthsData").then(res => {
-					console.log("get6MonthsData",res)
-					let data6Month = res.data
-					data6Month.map((item, index) => {
+				this.axios.get("http://47.98.238.175:8080/order/get7DaysData").then(res => {
+					console.log("get7DaysData",res)
+					let data7Day = res.data
+					data7Day.map((item, index) => {
 						console.log(item.click_date)
 						that.xAxis.push(item.click_date)
 						console.log(item.totalprice)
@@ -28,8 +28,6 @@
 					})
 					that.xAxis = JSON.parse(JSON.stringify(that.xAxis));
 					that.seriesData = JSON.parse(JSON.stringify(that.seriesData));
-					that.xAxis = that.xAxis.reverse();
-					that.seriesData = that.seriesData.reverse();
 					that.drawLine();
 					console.log("xAxisxAxisxAxisxAxisxAxis",that.xAxis);
 					console.log("seriesDataseriesDataseriesDataseriesData",that.seriesData)
@@ -41,7 +39,7 @@
 			drawLine() {
 				let that = this
 				// 基于准备好的dom，初始化echarts实例
-				let zhuChart = this.$echarts.init(document.getElementById('zhuChart2'))
+				let zhuChart = this.$echarts.init(document.getElementById('zhuChart'))
 				// 绘制图表
 				zhuChart.setOption({
 					title: {
@@ -63,6 +61,6 @@
 	}
 </script>
 
-<style scoped>
+<style>
 
 </style>

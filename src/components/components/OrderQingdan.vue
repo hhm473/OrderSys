@@ -63,7 +63,6 @@
 		height: 60px;
 		margin: auto;
 		border-radius: 25px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		font-size: 23px;
 		font-weight: bold;
 		line-height: 60px;
@@ -75,7 +74,6 @@
 		width: 95%;
 		margin: auto;
 		border-radius: 25px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		margin-top: 20px;
 		padding: 10px;
 		margin-bottom: 10px;

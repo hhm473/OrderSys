@@ -50,11 +50,11 @@
 					</a-col>
 					<a-col :span="14">
 						<a-form-item>
-							<a-textarea maxlength="300" v-decorator="['detail']" placeholder="最多输入300个字" :rows="4" />
+							<a-textarea  maxlength="300" v-decorator="['detail']" placeholder="最多输入300个字" :rows="4" />
 						</a-form-item>
 					</a-col>
 				</a-row>
-				<a-row :gutter="[0,0]">
+				<a-row :gutter="[0,50]">
 					<a-col :span="4">
 						<div class="input-item">
 							菜品图片：
@@ -67,13 +67,10 @@
 						<div class="input-item">
 							是否推荐：
 						</div>
-						<div style="font-size: 18px; font-weight: bold; margin: 35px 0 0 60px;">
-							菜品类型：
-						</div>
 					</a-col>
 					<a-col :span="4">
 						<a-form-item>
-							<a-select default-value="0" style="width: 120px" @change="handleChangeRec">
+							<a-select default-value="0" style="width: 120px" @change="handleChange">
 								<a-select-option value="0">
 									否
 								</a-select-option>
@@ -82,30 +79,11 @@
 								</a-select-option>
 							</a-select>
 						</a-form-item>
-						<a-form-item>
-							<a-select default-value="荤菜" style="width: 120px" @change="handleChangeType">
-								<a-select-option value="荤菜">
-									荤菜
-								</a-select-option>
-								<a-select-option value="蔬菜">
-									蔬菜
-								</a-select-option>
-								<a-select-option value="主食">
-									主食
-								</a-select-option>
-								<a-select-option value="小吃">
-									小吃
-								</a-select-option>
-								<a-select-option value="饮料">
-									饮料
-								</a-select-option>
-							</a-select>
-						</a-form-item>
 					</a-col>
 				</a-row>
 				<a-form-item>
-					<div class="button-wrap">
-						<a-button type="primary" html-type="submit" size="large">提交</a-button>
+					<div class="button-wrap" >
+						<a-button type="primary" html-type="submit" size="large" >提交</a-button>
 						<a-button type="primary" size="large" @click="comeBack">返回</a-button>
 					</div>
 				</a-form-item>
@@ -118,17 +96,16 @@
 
 <script>
 	import axios from 'axios'
-	import Uploud from '../Uploud.vue'
+	import Uploud from '../components/Uploud.vue'
 	export default {
 		name: 'AddDish',
 		components: {
 			Uploud
 		},
-		data() {
-			return {
-				isres: 0,
-				type: "",
-				dishPic: ""
+		data(){
+			return{
+				isres:0,
+				dishPic:""
 			}
 		},
 
@@ -138,14 +115,12 @@
 			});
 		},
 		methods: {
-			profilePic(value) {
+			profilePic(value){
 				this.dishPic = value
 			},
-
+			
 			back() {
-				this.$router.push({
-					path: "/dishmanage"
-				});
+				this.$router.push({path:"/dishmanage"});
 			},
 			handleAddDish() {
 				let that = this;
@@ -154,8 +129,7 @@
 						values.price = Number(values.price)
 						values.dishPic = this.dishPic
 						values.isrec = Number(this.isres)
-						values.type = this.type
-						// values.type = "荤菜"
+						values.type = "荤菜"
 						console.log(values)
 						axios.get("http://47.98.238.175:8080/dishes/add", {
 							params: values
@@ -168,44 +142,36 @@
 					}
 				});
 			},
-
-			comeBack() {
+			
+			comeBack(){
 				this.$router.go(-1)
 			},
-
-			handleChangeRec(value) {
+			
+			handleChange(value){
 				this.isres = value
-			},
-
-			handleChangeType(value) {
-				this.type = value
 			}
-
+			
 		},
 	}
 </script>
 
 <style scoped>
-	.body {
+	.body{
 		padding-top: 10px;
 		width: 100%;
-		border-radius: 25px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
-		background-color: rgba(255, 255, 255, 0.5);
+		background-color: rgba(255,255,255,0.5);
 		padding: 10px;
 	}
-
 	.body .title {
 		width: 270px;
 		height: 50px;
 		line-height: 50px;
 		border-radius: 25px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;
-		margin: 20px auto;
-		background-color: rgba(255, 255, 255, 0.7);
+		margin:20px auto;
+		background-color: rgba(255,255,255,0.7);
 	}
 
 	.highlight {
@@ -238,8 +204,8 @@
 	.ant-col-sm-16 {
 		width: 100% !important;
 	}
-
-	.button-wrap {
+	
+	.button-wrap{
 		margin: auto;
 		width: 200px;
 		display: flex;

@@ -83,8 +83,7 @@
 		width: 90%;
 		height: 650px;
 		/* margin: auto; */
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
-		border-radius: 25px;
+		border-radius: 20px;
 		padding-top: 10px;
 		background-color: rgba(255, 255, 255, 0.5);
 	}

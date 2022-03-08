@@ -10,7 +10,8 @@
 		mounted() {
 			console.log("ssss" + performance.navigation.type);
 			let user = localStorage.getItem('role')
-			if (user && performance.navigation.type == 0) {
+			console.log(user);
+			if (user != null && performance.navigation.type == 0) {
 				if (user.roleId == 3) {
 					this.$router.push({
 						path: "/waiterindex"
@@ -33,8 +34,7 @@
 	}
 </script>
 
-<style lang="less">
-	@import './assets/css/theme.less';
+<style>
 	#app {
 		min-width: 1200px;
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;

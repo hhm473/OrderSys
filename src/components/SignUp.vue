@@ -3,7 +3,8 @@
 		<page-header></page-header>
 		<div class="touming">
 			<div class="body">
-				<div class="top">
+				<div style="display: flex; align-items: center;">
+
 					<div class="title highlight">欢迎注册</div>
 					<div class="hint">已有账号？ 马上
 						<span class="highlight">
@@ -79,7 +80,7 @@
 									确认密码：
 								</div>
 							</a-col>
-							<a-col :span="9">
+							<a-col :span="9" >
 								<a-form-item has-feedback>
 
 									<a-input v-decorator="[
@@ -138,7 +139,7 @@
 						</a-row>
 
 						<a-form-item style="margin:10px 410px;">
-							<a-button html-type="submit" style="color: white; background-color: #ff9963; border-color: #ff9963; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);" type="danger"
+							<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
 								shape="round" @click="showModal" size="large">创建账户</a-button>
 
 						</a-form-item>
@@ -157,9 +158,9 @@
 </template>
 
 <script>
-	import PageHeader from './PageHeader.vue'
-	import SIdentify from './Identify'
-	import Uploud from './Uploud.vue'
+	import PageHeader from './components/PageHeader.vue'
+	import SIdentify from './components/Identify.vue'
+	import Uploud from './components/Uploud.vue'
 
 	function getBase64(img, callback) {
 		const reader = new FileReader();
@@ -306,10 +307,9 @@
 
 <style scoped>
 	.touming {
-		height: 600px;
+		height: 620px;
 		width: 1000px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
-		border-radius: 25px;
+		border-radius: 20px;
 		margin: auto;
 		margin-top: 100px;
 		padding-top: 10px;
@@ -319,15 +319,14 @@
 	.body {
 		margin: auto;
 		background-color: white;
-		height: 580px;
+		height: 600px;
 		width: 98%;
 		padding-right: 20px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
-		border-radius: 25px;
+		border-radius: 20px;
 	}
 
 	.highlight {
-		color: #FF9963;
+		color: #FE742B;
 	}
 
 	.input-kuang {
@@ -374,11 +373,5 @@
 
 	.ant-col-sm-16 {
 		width: 100% !important;
-	}
-
-	.top {
-		display: flex;
-		align-items: center;
-		padding: 30px 0 0 100px;
 	}
 </style>

@@ -10,19 +10,33 @@
 					订单
 				</div>
 			</div>
-			<img src="../assets/img/back.png" @click="back" class="img-back">
+			<img src="../../assets/img/back.png" @click="back" class="img-back">
 		</div>
 		<div class="content">
 			<div>
 				<div class="table-title">
 					正在进行中的订单
 				</div>
-				<a-table class="table" :columns="columnsOrder" :data-source="dataOrder" bordered :scroll="{y: 350 }">
+				<!-- <a-table class="table" :columns="columnsOrder" :data-source="dataOrder" bordered :scroll="{y: 350 }"> -->
+				<a-table class="table" :columns="columnsOrder" :data-source="dataLinshi" bordered :scroll="{y: 350 }">
 					<template slot="pay" slot-scope="text, record">
-						<a-popconfirm v-if="dataOrder.length" title="确定结账 ?" @confirm="() => onDelete(record.key)">
-							<a-button>结账</a-button>
+						<!-- <a-popconfirm v-if="dataOrder.length" title="确定结账 ?" @confirm="() => onDelete(record.key)"> -->
+						<a-popconfirm v-if="dataLinshi.length" title="确定结账 ?" @confirm="() => onDelete(record.key)">
+							<a-button type="primary">结账</a-button>
 						</a-popconfirm>
 					</template>
+
+
+					<a-button type="primary" slot="cook" slot-scope="text, record"
+						@click="() => toOrderXiangqing(record)">
+						详情
+					</a-button>
+
+
+					<a-button type="primary" slot="extra" slot-scope="text, record" @click="() => toExtraOrder(record)">
+						加菜
+					</a-button>
+
 
 				</a-table>
 
@@ -32,30 +46,16 @@
 </template>
 
 <script scoped>
-	const columnsDish = [{
-			title: '菜品名称',
-			dataIndex: 'dish_name',
-			key: 'dish_name',
-		},
-		{
-			title: '菜品桌号',
-			dataIndex: 'table_id',
-			key: 'table_id',
-		},
-		{
-			title: '菜品数量',
-			key: 'count',
-			dataIndex: 'count',
-		},
-		{
-			title: '传送状态',
-			key: 'dish_state',
-			dataIndex: 'dish_state',
-			scopedSlots: {
-				customRender: 'dish_state'
-			},
-		},
-	];
+	const dataLinshi = [{
+		orderId: 181,
+		orderTime: "2022-02-28T06:25:56.000+00:00",
+		tableId: 3,
+		orderState: 1,
+		waiter: "hhm",
+		totalPrice: 77,
+		remarks: "测试",
+		addOrder: "null"
+	}];
 	const columnsOrder = [{
 			title: '菜品桌号',
 			dataIndex: 'tableId',
@@ -75,7 +75,17 @@
 			title: '订单详情',
 			key: 'cook',
 			dataIndex: 'cook',
-			// width:500,
+			scopedSlots: {
+				customRender: 'cook'
+			},
+		},
+		{
+			title: '加菜',
+			key: 'extra',
+			dataIndex: 'extra',
+			scopedSlots: {
+				customRender: 'extra'
+			},
 		},
 		{
 			title: '结账',
@@ -87,7 +97,7 @@
 	];
 
 	const dataOrder = [];
-	import PageHeader from './PageHeader.vue'
+	import PageHeader from '../components/PageHeader.vue'
 	export default {
 		name: 'SignUp',
 		components: {
@@ -99,9 +109,9 @@
 		},
 		data() {
 			return {
+				dataLinshi,
 				dataOrder,
 				columnsOrder,
-				columnsDish,
 				role: "",
 				userId: "",
 			}
@@ -149,20 +159,21 @@
 							orderState: 0
 						}
 					}).then(res => {
-						this.dataOrder = res.data.map((item, i) => {
-							item.newOrder.key = i
-							let cook = ""
-							if (item.dishOrders.length > 0) {
-								item.dishOrders.forEach((ritem, ri) => {
-									cook += item.dishes[ri].dishName + "*" + ritem.count + "  "
-								})
-							}
-							item.newOrder.cook = cook
+						this.dataOrder = res.data
+						// .map((item, i) => {
+						// 	item.newOrder.key = i
+						// 	let cook = ""
+						// 	if (item.dishOrders.length > 0) {
+						// 		item.dishOrders.forEach((ritem, ri) => {
+						// 			cook += item.dishes[ri].dishName + "*" + ritem.count + "  "
+						// 		})
+						// 	}
+						// 	item.newOrder.cook = cook
 
-							delete item.newOrder.waiter,
-								delete item.newOrder.remarks
-							return item.newOrder
-						})
+						// 	delete item.newOrder.waiter,
+						// 		delete item.newOrder.remarks
+						// 	return item.newOrder
+						// })
 
 						console.log(this.dataOrder);
 					})
@@ -192,7 +203,30 @@
 					.catch(function(error) {
 						console.log(error);
 					});
-			}
+			},
+
+			toOrderXiangqing() {
+				let that = this;
+				this.$router.push({
+					path: "/orderxiangqing",
+					query: {
+						//Todo
+						dishOrder: that.dishOrder,
+						tableNum: that.tableNum,
+					}
+				})
+			},
+			toExtraOrder() {
+				let that = this;
+				this.$router.push({
+					path: "/order",
+					query: {
+						//Todo
+						dishOrder: that.dishOrder,
+						tableNum: that.tableNum,
+					}
+				})
+			},
 		}
 	}
 </script>

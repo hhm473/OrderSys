@@ -129,9 +129,9 @@
 </template>
 
 <script>
-	import PageHeader from "./PageHeader.vue";
-	import SIdentify from './Identify'
-	import Uploud from './Uploud.vue'
+	import PageHeader from "./components/PageHeader.vue";
+	import SIdentify from './components/Identify'
+	import Uploud from './components/Uploud.vue'
 	function getBase64(img, callback) {
 		const reader = new FileReader();
 		reader.addEventListener('load', () => callback(reader.result));
@@ -379,8 +379,6 @@
 		margin-right: 15%;
 		width: 70%;
 		background-color: rgba(255, 255, 255, 0.6);
-		border-radius: 25px;
-		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 	}
 
 	.form {
@@ -390,8 +388,6 @@
 	.body .title {
 		font-size: 30px;
 		font-weight: bold;
-		border-radius: 25px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 	}
 
 	.input-item {
