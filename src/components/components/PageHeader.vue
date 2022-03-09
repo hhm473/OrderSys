@@ -4,7 +4,7 @@
 			<div class="img-wrap"><img
 					src="../../assets/img/logo.png" />
 			</div>
-			<div class="title">重庆中软-到店点餐系统</div>
+			<div class="title">橙易-到店点餐系统</div>
 		</div>
 		
 		<div v-if="isLogin" class="user-info">
@@ -103,7 +103,8 @@
 
 	.all-wrap .img-wrap {
 		height: 50px;
-		width: 70px;
+		/* margin-bottom: 10px; */
+		width: 50px;
 		margin-left: 10px;
 	}
 

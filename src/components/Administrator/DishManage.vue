@@ -5,11 +5,11 @@
 			<div class="secondary-head">
 				<div class="time">
 					<div>名称：</div>
-					<a-input v-model="dishName" placeholder="请输入名称" style="width: 150px;"></a-input>
+					<a-input v-model="dishName" placeholder="请输入名称" style="width: 100px;"></a-input>
 				</div>
 				<div class="table-number">
 					是否推荐：
-					<a-select default-value="-1" style="width: 120px" @change="handleTuijian">
+					<a-select default-value="-1" style="width: 60px" @change="handleTuijian">
 						<a-select-option value="1">
 							是
 						</a-select-option>
@@ -22,12 +22,35 @@
 					</a-select>
 				</div>
 				<div class="table-number">
+					类型：
+					<a-select default-value="-1" style="width: 80px" @change="handleType">
+						<a-select-option value="荤菜">
+							荤菜
+						</a-select-option>
+						<a-select-option value="素菜">
+							素菜
+						</a-select-option>
+						<a-select-option value="主食">
+							主食
+						</a-select-option>
+						<a-select-option value="小吃">
+							小吃
+						</a-select-option>
+						<a-select-option value="饮料">
+							饮料
+						</a-select-option>
+						<a-select-option value="-1">
+							全部
+						</a-select-option>
+					</a-select>
+				</div>
+				<div class="price">
 					价格：
 					<div>
-						<a-input type="number" v-model="minPrice" placeholder="最小价格"></a-input>
+						<a-input type="number" v-model="minPrice" placeholder="最小价格" style="width: 90px;"></a-input>
 					</div> -
 					<div>
-						<a-input type="number" v-model="maxPrice" placeholder="最大价格"></a-input>
+						<a-input type="number" v-model="maxPrice" placeholder="最大价格" style="width: 90px;"></a-input>
 					</div>
 
 				</div>
@@ -148,6 +171,7 @@
 				Bdata: [],
 				dishName: '',
 				tuijian: '-1',
+				type: '-1',
 				minPrice: '',
 				maxPrice: '',
 				columns,
@@ -223,6 +247,9 @@
 			handleTuijian(value) {
 				this.tuijian = value
 			},
+			handleType(value) {
+				this.type = value
+			},
 			handlePrice(value) {
 				this.price = value
 			},
@@ -249,6 +276,13 @@
 							} else {
 								return item.isrec == 1
 							}
+						})
+						console.log(that.data1)
+					}
+					if (that.type != '-1') {
+						that.Bdata = that.data1;
+						that.data1 = that.Bdata.filter((item, index) => {
+							return item.type == that.type
 						})
 						console.log(that.data1)
 					}
@@ -293,18 +327,25 @@
 
 	.time {
 		margin-right: 50px;
-		width: 250px;
+		width: 180px;
 		display: flex;
 		justify-content: center;
 	}
 
 	.table-number {
 		margin-right: 50px;
-		width: 250px;
+		width: 160px;
 		display: flex;
 		justify-content: space-around;
 	}
 
+	.price {
+		margin-right: 50px;
+		width: 260px;
+		display: flex;
+		justify-content: space-around;
+	}
+	
 	.table-number div {
 		width: 80px;
 	}
