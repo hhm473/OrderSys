@@ -79,7 +79,7 @@
 				timeNow: "2021-02-26",
 				totalPrice: 35,
 				tableNum: '12',
-				token:''
+				token: ''
 			}
 		},
 		mounted() {
@@ -102,14 +102,14 @@
 				}))
 			})
 			that.dishOrder = newarr;
-			
+
 			// 获取到token数据
 			this.axios.get("http://47.98.238.175:8080/order/form").then(function(res) {
-					console.log(res)
-					that.token = res.data
-				}).catch(function(error) {
-					// that.$message.error(error);
-				});
+				console.log(res)
+				that.token = res.data
+			}).catch(function(error) {
+				// that.$message.error(error);
+			});
 		},
 		components: {
 			PageHeader,
@@ -127,45 +127,80 @@
 			},
 			ConfirmOrder() {
 				let that = this;
-				let newOrder = {};
-				that.$set(newOrder, "tableId", Number(that.tableNum));
-				that.$set(newOrder, "waiter", that.userId);
-				that.$set(newOrder, "remarks", "测试");
-				let newarr = [];
-				that.dishOrder.map((item, index) => {
-					newarr.push(Object.assign({
-						dishId: item.dishId,
-						count: item.dishNum
-					}))
-				});
-				// that.$set(newOrder, "dishes", newarr);
-				// console.log(newOrder)
-				// console.log(newarr)
-				// console.log(this.token)
-				// console.log(that.token)
-				
-				that.axios.post("http://47.98.238.175:8080/order/newOrder", {
-					"newOrder": newOrder,
-					"dishOrders": newarr,
-				},{
-					headers:{
-					'token':this.token　
-					}　　//也是在本地中拿到token
-				},
-				{
-					withCredentials: true
-				}).then(function(response) {
-					that.$message.success('下单成功！');
-					that.$router.push({
-						path: "/WaiterIndex"
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				let extradishOrder = JSON.parse(localStorage.getItem('extraDishOrder'))
+				if (extradishOrder) {
+					let newOrder = {};
+					that.$set(newOrder, "orderId", Number(extradishOrder.newOrder.orderId));
+					that.$set(newOrder, "waiter", that.userId);
+					that.$set(newOrder, "remarks", "加菜");
+					let newarr = [];
+					that.dishOrder.map((item, index) => {
+						newarr.push(Object.assign({
+							dishId: item.dishId,
+							count: item.dishNum
+						}))
 					});
-				}).catch(function(error) {
-					that.$message.error(error);
-				});
-
-
-
-
+					console.log("newOrdernewOrdernewOrdernewOrdernewOrder",newOrder)
+					that.axios.post("http://47.98.238.175:8080/order/addDishes", {
+						"newOrder": newOrder,
+						"dishOrders": newarr,
+					}, {
+						headers: {
+							// 'token': this.token
+							'token': token
+						} //也是在本地中拿到token
+					}, {
+						withCredentials: true
+					}).then(function(response) {
+						localStorage.removeItem("dishOrder");
+						localStorage.removeItem("extradishOrder");
+						localStorage.removeItem("dishTableId");
+						localStorage.removeItem("totalPrice");
+						that.$message.success('下单成功！');
+						that.$router.push({
+							path: "/WaiterIndex"
+						});
+					}).catch(function(error) {
+						console.log(Error)
+						that.$message.error(error);
+					});
+				} else {
+					let newOrder = {};
+					that.$set(newOrder, "tableId", Number(that.tableNum));
+					that.$set(newOrder, "waiter", that.userId);
+					that.$set(newOrder, "remarks", "测试");
+					let newarr = [];
+					that.dishOrder.map((item, index) => {
+						newarr.push(Object.assign({
+							dishId: item.dishId,
+							count: item.dishNum
+						}))
+					});
+					that.axios.post("http://47.98.238.175:8080/order/newOrder", {
+						"newOrder": newOrder,
+						"dishOrders": newarr,
+					}, {
+						headers: {
+							// 'token': this.token
+							'token': token
+						} //也是在本地中拿到token
+					}, {
+						withCredentials: true
+					}).then(function(response) {
+						localStorage.removeItem("dishOrder");
+						localStorage.removeItem("dishTableId");
+						localStorage.removeItem("totalPrice");
+						that.$message.success('下单成功！');
+						that.$router.push({
+							path: "/WaiterIndex"
+						});
+					}).catch(function(error) {
+						console.log(Error)
+						that.$message.error(error);
+					});
+				}
 			},
 
 			toWaiterIndex() {
@@ -245,15 +280,14 @@
 		font-size: 20px;
 		font-weight: bold;
 		width: 80%;
-		margin-left: 1%; 
+		margin-left: 1%;
 		border-radius: 25px;
 		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 
 
-	.time {
-	}
+	.time {}
 
 	.table-number {
 		margin: auto;

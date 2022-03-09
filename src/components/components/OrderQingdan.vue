@@ -6,9 +6,7 @@
 		<a-table id="wrap" class="table" :columns="columns" :data-source="list" bordered :scroll="{y: 700 }">
 
 		</a-table>
-		<div v-show="false">
-			{{totalPrice}}
-		</div>
+
 		<!-- 		<div class="item-wrap">
 			<div class="item" v-for="item in list" v-bind:key="item">
 				<div>{{item.title}}</div>
@@ -39,14 +37,23 @@
 		name: 'OrderQingdan',
 		data() {
 			return {
-				columns
+				columns,
 			}
 		},
 		props: {
 			list: {
 				type: [Object],
-			},
-			totalPrice: String,
+			}
+		},
+		watch: {
+			list:{
+			    handler(newValue,oldValue){
+			      console.log(newValue);
+			    },
+			    deep:true ,//深度监听,
+				immediate: true
+			  },
+			
 		}
 	}
 </script>
@@ -83,17 +90,19 @@
 		height: 85%;
 		overflow: auto;
 	}
-	
+
 	#wrap::-webkit-scrollbar {
-	width: 5px;
-	background-color: #F5F5F5;
+		width: 5px;
+		background-color: #F5F5F5;
 	}
+
 	#wrap::-webkit-scrollbar-thumb {
-	    background-color: #fda03f;
-	    
+		background-color: #fda03f;
+
 	}
+
 	#wrap::-webkit-scrollbar-track {
-	    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
-	    background-color: #F5F5F5;
+		-webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+		background-color: #F5F5F5;
 	}
 </style>

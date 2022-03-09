@@ -66,7 +66,7 @@
 			},
 			'dishNum': {
 				type: Number,
-				 default: 10
+				 default: 0
 			},
 		},
 

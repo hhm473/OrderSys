@@ -211,7 +211,7 @@
 				let disOrder = this.dataOrder[this.dataLinshi.findIndex(item => item.key == record.key)];
 				disOrder = JSON.parse(JSON.stringify(disOrder))
 				console.log(disOrder)
-				localStorage.setItem("extraDisOrder", JSON.stringify(disOrder))
+				localStorage.setItem("extraDishOrder", JSON.stringify(disOrder))
 				this.$router.push({
 					path: "/order",
 				})

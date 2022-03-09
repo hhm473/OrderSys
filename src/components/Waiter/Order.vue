@@ -15,7 +15,7 @@
 		<div class="content">
 
 			<div class="left-select">
-				<OrderQingdan :list="dishOrder" :totalPrice="dishData1"></OrderQingdan>
+				<OrderQingdan :list="dishOrder"></OrderQingdan>
 			</div>
 			<div class="right">
 				<div style="display: flex; justify-content: space-around;">
@@ -46,7 +46,8 @@
 						<div class="table-number">
 							桌号：
 							<div v-if="tableDisable" class="font-size:5px;width: 50px">{{tableNum}}</div>
-							<a-select v-else default-value="" style="width: 50px" @change="ChangeTableNum">
+							<a-select v-else :default-value="tableNum" style="width: 50px; margin: auto;"
+								@change="ChangeTableNum">
 								<a-select-option value="1">
 									1
 								</a-select-option>
@@ -75,7 +76,7 @@
 
 				<div id="wrap"
 					style="height: 85%;overflow: auto;display:flex; justify-content: space-around; flex-wrap:wrap; margin-top: 20px;">
-					<!-- <div v-for="(item, index) in data" :key="index" -->
+
 					<div v-for="(item, index) in dishData" :key="index"
 						style="margin-bottom: 20px; width: 350px; margin-left: 10px;">
 						<Dish :dishName="item.dishName" :intro="item.intro" :price="item.price" :dishPic="item.dishPic"
@@ -116,12 +117,12 @@
 		mounted() {
 			let that = this;
 			this.getData();
-			let dishOrder = JSON.parse(localStorage.getItem('extraDisOrder'))
-			if (dishOrder) {
-				that.tableNum = dishOrder.newOrder.orderId
+			let extradishOrder = JSON.parse(localStorage.getItem('extraDishOrder'))
+			if (extradishOrder) {
+				that.tableNum = extradishOrder.newOrder.tableId
 				that.tableDisable = true
 			}
-			console.log("dishOrderdishOrderdishOrder",that.dishOrder);
+
 		},
 		computed: {
 
@@ -146,11 +147,12 @@
 				console.log(that.dishOrder);
 				if (that.dishOrder.length == 0) {
 					that.$message.warning('您还未点菜！');
-				} else if(that.tableNum == ''){
+				} else if (that.tableNum == '') {
 					that.$message.warning('您还未选择桌号！');
-				}
-				else {
+				} else {
 					localStorage.setItem('dishOrder', JSON.stringify(that.dishOrder));
+					localStorage.setItem('dishTableId', JSON.stringify(that.tableNum));
+					localStorage.setItem('totalPrice', JSON.stringify(that.totalPrice));
 					this.$router.push({
 						// path: "/Xiadan",
 						name: 'xiadan',
@@ -163,22 +165,41 @@
 				}
 			},
 			minusDish(index) {
-				console.log("item.dishNum++;之前的item.dishNum++;", this.dishData)
+				// console.log("item.dishNum++;之前的item.dishNum++;", this.dishData)
+				// let oindex= this.dishOrder.findIndex(item => item.dishId == this.dishData[index].dishId)
+				// this.dishOrder[oindex].dishNum--
+				// this.dishData[index] = this.dishOrder[oindex]
+				// if (this.dishData[index].dishNum == 0) {
+				// 	this.dishOrder.splice(oindex,1)
+				// }
+				// this.ComputetotalPrice();
+				// console.log(this.dishData)
 				this.dishData[index].dishNum--;
+				let oindex = this.dishOrder.findIndex(item => item.dishId == this.dishData[index].dishId)
 				if (this.dishData[index].dishNum == 0) {
-					this.dishOrder.pop(this.dishData[index])
+					this.dishOrder.splice(oindex, 1)
+				} else {
+					this.$set(this.dishOrder, oindex, this.dishData[index])
 				}
-				this.dishData1--;
-				this.ComputetotalPrice();
-				console.log(this.dishData)
 			},
 			plusDish(index) {
 				console.log("item.dishNum++;之前的item.dishNum++;", this.dishData)
 				if (this.dishData[index].dishNum == 0) {
+					this.dishData[index].dishNum++
 					this.dishOrder.push(this.dishData[index])
+				} else {
+					this.dishData[index].dishNum++
+					let oindex = this.dishOrder.findIndex(item => item.dishId == this.dishData[index].dishId)
+					this.$set(this.dishOrder, oindex, this.dishData[index])
 				}
-				this.dishData[index].dishNum++;
+				// let oindex= this.dishOrder.findIndex(item => item.dishId == this.dishData[index].dishId)
+				// let linshi = this.dishOrder[oindex];
+				// linshi.dishNum++
 
+
+				// this.$set(this.dishOrder, oindex, linshi)
+
+				// this.dishData[index] = this.dishOrder[oindex]
 				this.ComputetotalPrice();
 				this.dishData1++;
 				// this.dishData[0].dishNum++;
@@ -207,8 +228,26 @@
 						}))
 					})
 					that.dishData = newarr;
-					
+
 					console.log(that.dishData);
+					let dishOrder = JSON.parse(localStorage.getItem('dishOrder'))
+					let dishTableId = JSON.parse(localStorage.getItem('dishTableId'))
+					let totalPrice = JSON.parse(localStorage.getItem('totalPrice'))
+					if (dishOrder) {
+						that.dishOrder = dishOrder
+						that.tableDisable = true
+						that.tableNum = dishTableId
+						that.totalPrice = totalPrice
+						for (let i = 0; i < that.dishData.length; i++) {
+							for (let j = 0; j < that.dishOrder.length; j++) {
+								if (that.dishData[i].dishName == that.dishOrder[j].dishName) {
+									that.dishData[i].dishNum = that.dishOrder[j].dishNum
+								}
+							}
+						}
+					}
+					console.log("dishDatadishDatadishDatadishDatadishData", that.dishData);
+
 					// that.dishData = res.data;
 				}).catch(res => {
 					console.log(res)
@@ -216,11 +255,13 @@
 				});
 			},
 			toWaiterIndex() {
+				localStorage.removeItem("extraDishOrder")
 				this.$router.push({
 					path: "/waiterindex"
 				})
 			},
 			back() {
+				localStorage.removeItem("extraDishOrder")
 				this.$router.go(-1)
 			},
 			ChangeType(value) {
@@ -232,16 +273,6 @@
 					});
 				}
 
-				// this.userData = this.BuserData.filter((item, index) => {
-				// 	console.log(this.isLockSel, this.IdentitySel);
-				// 	console.log(typeof(this.isLockSel), typeof(this.IdentitySel));
-				// 	if (this.isLockSel == "-1" && this.$data.IdentitySel != "-1") {
-				// 		return item.roleId == this.IdentitySel
-				// 	} else if (this.isLockSel != "-1" && this.IdentitySel == "-1") {
-				// 		return item.isLock == Number(this.isLockSel)
-				// 	}
-				// 	return item.isLock == Number(this.isLockSel) && item.roleId == this.IdentitySel;
-				// })
 			}
 		}
 	}
@@ -333,6 +364,7 @@
 	.table-number {
 		/* margin-right: 50px; */
 		margin: auto;
+		display: flex;
 	}
 
 	.total-price {
