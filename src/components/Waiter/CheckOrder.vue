@@ -36,10 +36,7 @@
 					<a-button type="primary" slot="extra" slot-scope="text, record" @click="() => toExtraOrder(record)">
 						加菜
 					</a-button>
-
-
 				</a-table>
-
 			</div>
 		</div>
 	</div>
@@ -159,6 +156,8 @@
 						that.dataOrder = res.data
 						that.dataLinshi = res.data.map((item, i) => {
 							item.newOrder.key = i
+							//改时间格式
+							item.newOrder.orderTime = that.formatDateTime(item.newOrder.orderTime)
 							return item.newOrder
 						})
 
@@ -186,7 +185,7 @@
 							orderid
 						},
 						headers: {
-									'token': token
+							'token': token
 						},
 					}).then(res => {
 
@@ -209,11 +208,29 @@
 			},
 			toExtraOrder(record) {
 				let that = this;
-				localStorage.setItem("extraTableId", record.table)
+				let disOrder = this.dataOrder[this.dataLinshi.findIndex(item => item.key == record.key)];
+				disOrder = JSON.parse(JSON.stringify(disOrder))
+				console.log(disOrder)
+				localStorage.setItem("extraDisOrder", JSON.stringify(disOrder))
 				this.$router.push({
 					path: "/order",
 				})
 			},
+			formatDateTime(date) {
+				let that = this;
+				let time = new Date(Date.parse(date));
+				time.setTime(time.setHours(time.getHours() + 8));
+				let Y = time.getFullYear() + '-';
+				let M = that.addZero(time.getMonth() + 1) + '-';
+				let D = that.addZero(time.getDate()) + ' ';
+				let h = that.addZero(time.getHours()) + ':';
+				let m = that.addZero(time.getMinutes()) + ':';
+				let s = that.addZero(time.getSeconds());
+				return Y + M + D + h + m + s;
+			},
+			addZero(num) {
+				return num < 10 ? '0' + num : num;
+			}
 		}
 	}
 </script>

@@ -24,9 +24,9 @@
 			WebSocket
 		},
 		mounted() {
-			
+
 			this.GetData()
-			
+
 		},
 		data() {
 			return {
@@ -36,43 +36,65 @@
 			}
 		},
 		methods: {
-			IsRefresh(e){
+			IsRefresh(e) {
 				let that = this
 				console.log("sss");
-				if(e === '管理员发布了一条新公告'){
+				if (e === '管理员发布了一条新公告') {
 					console.log('执行了')
-					setTimeout(function()  {
-					 
-					    that.GetData()
-					 
-					   }, 2000);
-					
-				} else if(e === '有新菜品待传送'){
+					setTimeout(function() {
+
+						that.GetData()
+
+					}, 2000);
+
+				} else if (e === '有新菜品待传送') {
 					this.$emit('WIsRefresh', e)
 				} else {
 					this.$emit('CIsRefresh', e)
 				}
 			},
-			
-			GetData(){
-				let that = this
-				this.axios.get("http://47.98.238.175:8080/notice/all").then(res => {
-					that.lists = res.data.map((item, i) => {
-						item.isShow = false
-						return item
+
+			GetData() {
+				let that = this;
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				this.axios.get("http://47.98.238.175:8080/notice/all", {
+						headers: {
+							'Token': token
+						},
+					}).then(res => {
+						that.lists = res.data.map((item, i) => {
+							item.isShow = false
+							item.sendTime = that.formatDateTime(item.sendTime)
+							return item
+						})
+						console.log(that.lists);
 					})
-					console.log(that.lists);
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
+					.catch(function(error) {
+						console.log(error);
+					});
 			},
-			
+
 			changeShow(index) {
 				let list = this.lists[index]
 				list.isShow = !list.isShow
 				this.$set(this.lists, index, list)
 			},
+			formatDateTime(date) {
+				let that = this;
+				let time = new Date(Date.parse(date));
+				time.setTime(time.setHours(time.getHours() + 8));
+				let Y = time.getFullYear() + '-';
+				let M = that.addZero(time.getMonth() + 1) + '-';
+				let D = that.addZero(time.getDate()) + ' ';
+				let h = that.addZero(time.getHours()) + ':';
+				let m = that.addZero(time.getMinutes()) + ':';
+				let s = that.addZero(time.getSeconds());
+				return Y + M + D + h + m + s;
+			},
+			addZero(num) {
+				return num < 10 ? '0' + num : num;
+			}
 
 		}
 	}
@@ -153,16 +175,19 @@
 		margin-top: 50px;
 		text-align: left;
 	}
+
 	#wrap::-webkit-scrollbar {
-    width: 5px;
-    background-color: #F5F5F5;
+		width: 5px;
+		background-color: #F5F5F5;
 	}
+
 	#wrap::-webkit-scrollbar-thumb {
-	    background-color: #F90;
-	    
+		background-color: #F90;
+
 	}
+
 	#wrap::-webkit-scrollbar-track {
-	    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
-	    background-color: #F5F5F5;
+		-webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+		background-color: #F5F5F5;
 	}
 </style>

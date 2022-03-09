@@ -106,7 +106,13 @@
 		methods: {
 			//获取所有用户信息
 			GetUser() {
-				this.axios.get("http://47.98.238.175:8080/user/queryAll")
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				this.axios.get("http://47.98.238.175:8080/user/queryAll", {
+						headers: {
+							'Token': token
+						},
+					})
 					.then((res) => {
 						let data = res.data;
 						data = data.filter((item) => item.roleId == 0);
@@ -119,6 +125,8 @@
 
 			//同意申请
 			confirm(key) {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let that = this;
 				if (key.roleId == 0) {
 					that.$message.error('请选择用户身份');
@@ -127,6 +135,9 @@
 							method: "post",
 							url: "http://47.98.238.175:8080/user/modify",
 							data: this.$qs.stringify(key),
+							headers: {
+								'Token': token
+							},
 						})
 						.then((res) => {
 							console.log(res);
@@ -140,10 +151,15 @@
 
 			//拒绝申请
 			cancel(key) {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				this.axios
 					.get("http://47.98.238.175:8080/user/remove", {
 						params: {
 							userId: key.userId,
+						},
+						headers: {
+							'Token': token
 						},
 					})
 					.then((res) => {

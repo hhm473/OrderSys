@@ -7,8 +7,8 @@
 		name: 'hello',
 		data() {
 			return {
-				xAxis:[],
-				seriesData:[]
+				xAxis: [],
+				seriesData: []
 			}
 		},
 		mounted() {
@@ -17,26 +17,32 @@
 		methods: {
 			get7DaysData() {
 				let that = this;
-				this.axios.get("http://47.98.238.175:8080/order/get7DaysData").then(res => {
-					console.log("get7DaysData",res)
-					let data7Day = res.data
-					data7Day.map((item, index) => {
-						console.log(item.click_date)
-						that.xAxis.push(item.click_date)
-						console.log(item.totalprice)
-						that.seriesData.push(item.totalprice)
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				this.axios.get("http://47.98.238.175:8080/order/get7DaysData", {
+						headers: {
+							'Token': token
+						},
+					}).then(res => {
+						console.log("get7DaysData", res)
+						let data7Day = res.data
+						data7Day.map((item, index) => {
+							console.log(item.click_date)
+							that.xAxis.push(item.click_date)
+							console.log(item.totalprice)
+							that.seriesData.push(item.totalprice)
+						})
+						that.xAxis = JSON.parse(JSON.stringify(that.xAxis));
+						that.seriesData = JSON.parse(JSON.stringify(that.seriesData));
+						that.xAxis = that.xAxis.reverse();
+						that.seriesData = that.seriesData.reverse();
+						that.drawLine();
+						console.log("xAxisxAxisxAxisxAxisxAxis", that.xAxis);
+						console.log("seriesDataseriesDataseriesDataseriesData", that.seriesData)
 					})
-					that.xAxis = JSON.parse(JSON.stringify(that.xAxis));
-					that.seriesData = JSON.parse(JSON.stringify(that.seriesData));
-					that.xAxis = that.xAxis.reverse();
-					that.seriesData = that.seriesData.reverse();
-					that.drawLine();
-					console.log("xAxisxAxisxAxisxAxisxAxis",that.xAxis);
-					console.log("seriesDataseriesDataseriesDataseriesData",that.seriesData)
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
+					.catch(function(error) {
+						console.log(error);
+					});
 			},
 			drawLine() {
 				let that = this

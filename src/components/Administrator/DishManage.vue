@@ -73,11 +73,13 @@
 			title: '编号',
 			dataIndex: 'dishId',
 			key: 'dishId',
+			width: 65
 		},
 		{
 			title: '名称',
 			dataIndex: 'dishName',
 			key: 'dishName',
+			width: 100
 		},
 		{
 			title: '简介',
@@ -90,12 +92,19 @@
 			dataIndex: 'detail',
 		},
 		{
+			title: '类型',
+			key: 'type',
+			dataIndex: 'type',
+			width: 80
+		},
+		{
 			title: '是否推荐',
 			key: 'isrec',
 			dataIndex: 'isrec',
 			scopedSlots: {
 				customRender: 'isrec'
 			},
+			width: 90
 		},
 		{
 			title: '图片',
@@ -109,6 +118,7 @@
 			title: '价格',
 			key: 'price',
 			dataIndex: 'price',
+			width: 75
 		},
 		{
 			title: '修改',
@@ -117,6 +127,7 @@
 			scopedSlots: {
 				customRender: 'edit'
 			},
+			width: 90
 		},
 		{
 			title: '删除',
@@ -125,6 +136,7 @@
 			scopedSlots: {
 				customRender: 'delete'
 			},
+			width: 90
 		}
 	];
 

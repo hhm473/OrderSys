@@ -46,16 +46,21 @@
 			},
 			Submit() {
 				let that = this;
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				this.axios.get("http://47.98.238.175:8080/notice/add", {
 					params: {
 						"userId": that.userId,
 						"title": that.title,
 						"contents": that.content,
-					}
+					},
+					headers: {
+						'Token': token
+					},
 				}).then(function(response) {
 					that.$message.success('发布成功！');
-					that.title= "",
-					that.content= ""
+					that.title = "",
+						that.content = ""
 				}).catch(function(error) {
 					that.$message.error(error);
 				});

@@ -41,8 +41,14 @@
 		},
 		methods: {
 			get6MonthsData() {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let that = this;
-				this.axios.get("http://47.98.238.175:8080/order/get6MonthsData").then(res => {
+				this.axios.get("http://47.98.238.175:8080/order/get6MonthsData", {
+						headers: {
+							'Token': token
+						},
+					}).then(res => {
 						console.log(res)
 						let data = res.data
 						for (let i = 0; i < data.length; i++) {

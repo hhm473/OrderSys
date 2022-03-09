@@ -79,22 +79,25 @@
 				dataZhu2: [],
 				dataBing: [],
 				showWeek: true,
+				token: ''
 			}
 		},
 		components: {
 			ChartZhu,
 			ChartZhu2,
 			ChartBing
-		},		
+		},
 		mounted() {
+			let user = JSON.parse(localStorage.getItem('role'));
+			this.token = user.token;
 			this.getSaleData()
 			this.getRankData()
 		},
 		methods: {
-			toWeek(){
+			toWeek() {
 				this.showWeek = true
 			},
-			toMonth(){
+			toMonth() {
 				this.showWeek = false
 			},
 			getSaleData() {
@@ -104,7 +107,10 @@
 				this.getMonth()
 			},
 			getToday() {
-				this.axios.get("http://47.98.238.175:8080/order/getToday").then(res => {
+				this.axios.get("http://47.98.238.175:8080/order/getToday",{
+							headers: {
+								'Token': this.token
+							},}).then(res => {
 						// console.log(res)
 						this.todaySales = res.data.totalprice
 					})
@@ -113,7 +119,10 @@
 					});
 			},
 			getYesterday() {
-				this.axios.get("http://47.98.238.175:8080/order/getYesterday").then(res => {
+				this.axios.get("http://47.98.238.175:8080/order/getYesterday",{
+							headers: {
+								'Token': this.token
+							},}).then(res => {
 						// console.log(res)
 						this.yedaySales = res.data.totalprice
 					})
@@ -122,8 +131,11 @@
 					});
 			},
 			getWeek() {
-				this.axios.get("http://47.98.238.175:8080/order/getThisWeek").then(res => {
-						// console.log(res)
+				this.axios.get("http://47.98.238.175:8080/order/getThisWeek",{
+							headers: {
+								'Token': this.token
+							},}).then(res => {
+						console.log("res",res)
 						this.weekSales = res.data
 					})
 					.catch(function(error) {
@@ -131,7 +143,10 @@
 					});
 			},
 			getMonth() {
-				this.axios.get("http://47.98.238.175:8080/order/getThisMonth").then(res => {
+				this.axios.get("http://47.98.238.175:8080/order/getThisMonth",{
+							headers: {
+								'Token': this.token
+							},}).then(res => {
 						// console.log(res)
 						this.monthSales = res.data.totalprice
 					})
@@ -140,7 +155,10 @@
 					});
 			},
 			getRankData() {
-				this.axios.get("http://47.98.238.175:8080/order/querySales").then(res => {
+				this.axios.get("http://47.98.238.175:8080/order/querySales",{
+							headers: {
+								'Token': this.token
+							},}).then(res => {
 						// console.log(res)
 						this.dataRank = res.data
 
@@ -216,6 +234,7 @@
 		color: #FF9E53;
 		border-bottom: #FF9E53 solid 2px;
 	}
+
 	.unpicked {
 		font-size: 25px;
 	}

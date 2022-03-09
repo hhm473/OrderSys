@@ -201,7 +201,6 @@
 						values.type = this.type
 						let user = JSON.parse(localStorage.getItem('role'));
 						let token = user.token;
-						console.log("token", token)
 						axios.get("http://47.98.238.175:8080/dishes/add", {
 							params: values,
 							headers: {

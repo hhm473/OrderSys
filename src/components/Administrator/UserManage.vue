@@ -133,13 +133,20 @@
 		},
 		methods: {
 			back() {
-				this.$router.push({path:"/administratorindex"});
+				this.$router.push({
+					path: "/administratorindex"
+				});
 			},
 			getData: function() {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let that = this
 				this.axios({ //格式a
 					method: 'get',
-					url: 'http://47.98.238.175:8080/user/queryAll'
+					url: 'http://47.98.238.175:8080/user/queryAll',
+					headers: {
+						'Token': token
+					},
 				}).then(function(res) {
 					console.log(res)
 					console.log(res.data);
@@ -192,9 +199,9 @@
 		box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
 		padding-top: 10px;
 		width: 100%;
-		background-color: rgba(255,255,255,0.5);
+		background-color: rgba(255, 255, 255, 0.5);
 	}
-	
+
 	.body .title {
 		width: 270px;
 		height: 50px;
@@ -204,8 +211,8 @@
 		font-size: 24px;
 		font-weight: bold;
 		text-align: center;
-		margin:20px auto;
-		background-color: rgba(255,255,255,0.7);
+		margin: 20px auto;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 
 	.secondary-head {

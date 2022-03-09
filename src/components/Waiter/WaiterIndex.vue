@@ -64,36 +64,6 @@
 			},
 		},
 	];
-	const columnsOrder = [{
-			title: '菜品桌号',
-			dataIndex: 'tableId',
-			key: 'tableId',
-		},
-		{
-			title: '下单时间',
-			dataIndex: 'orderTime',
-			key: 'orderTime',
-		},
-		{
-			title: '总金额',
-			key: 'totalPrice',
-			dataIndex: 'totalPrice',
-		},
-		{
-			title: '订单详情',
-			key: 'check',
-			scopedSlots: {
-				customRender: 'check'
-			},
-		},
-		{
-			title: '结账',
-			dataIndex: 'pay',
-			scopedSlots: {
-				customRender: 'pay'
-			},
-		},
-	];
 
 	const dataDish = [];
 	import PageHeader from '../components/PageHeader.vue'
@@ -111,7 +81,6 @@
 		data() {
 			return {
 				dataDish,
-				columnsOrder,
 				columnsDish,
 				role: "",
 				userId: "",
@@ -155,7 +124,7 @@
 			getDishInfo() {
 				let user = localStorage.getItem('role');
 				let token = user.token;
-				this.axios.get("http://47.98.238.175:8080/dishOrder/sendDishInfo", {headers: {'token': token}}).then(res => {
+				this.axios.get("http://47.98.238.175:8080/dishOrder/sendDishInfo", {headers: {'Token': token}}).then(res => {
 						let dataDish = res.data
 						console.log(dataDish)
 						this.dataDish = dataDish.map((item, i) => {

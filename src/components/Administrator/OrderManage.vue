@@ -63,16 +63,19 @@
 			title: '编号',
 			dataIndex: 'orderId',
 			key: 'orderId',
+			width: 65
 		},
 		{
 			title: '菜品桌号',
 			dataIndex: 'tableId',
 			key: 'tableId',
+			width:90
 		},
 		{
 			title: '下单时间',
 			dataIndex: 'orderTime',
 			key: 'orderTime',
+			width:190
 		},
 		{
 			title: '菜品列表',
@@ -83,11 +86,13 @@
 			title: '总金额',
 			key: 'totalPrice',
 			dataIndex: 'totalPrice',
+			width:90
 		},
 		{
 			title: '订单状态',
 			key: 'orderState',
 			dataIndex: 'orderState',
+			width:100
 		},
 	];
 	const data = [];
@@ -115,7 +120,13 @@
 				});
 			},
 			getOrder() {
-				this.axios.get("http://47.98.238.175:8080/order/queryOrder").then(res => {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				this.axios.get("http://47.98.238.175:8080/order/queryOrder", {
+						headers: {
+							'Token': token
+						},
+					}).then(res => {
 						this.data = res.data.map((item, i) => {
 							item.newOrder.key = i
 							let cook = ""
@@ -131,7 +142,10 @@
 							} else {
 								item.newOrder.orderState = "已完成"
 							}
-
+							
+							//改时间格式
+							item.newOrder.orderTime = this.formatDateTime(item.newOrder.orderTime)
+							
 							delete item.newOrder.waiter,
 								delete item.newOrder.remarks
 							return item.newOrder

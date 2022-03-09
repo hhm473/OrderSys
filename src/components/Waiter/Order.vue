@@ -45,7 +45,8 @@
 						</div>
 						<div class="table-number">
 							桌号：
-							<a-select default-value="" style="width: 50px" @change="ChangeTableNum">
+							<div v-if="tableDisable" class="font-size:5px;width: 50px">{{tableNum}}</div>
+							<a-select v-else default-value="" style="width: 50px" @change="ChangeTableNum">
 								<a-select-option value="1">
 									1
 								</a-select-option>
@@ -100,6 +101,7 @@
 				dishData: [],
 				BdishData: [],
 				tableNum: '',
+				tableDisable: false,
 				dishOrder: [],
 				dishData1: 1,
 				totalPrice: 0,
@@ -114,12 +116,12 @@
 		mounted() {
 			let that = this;
 			this.getData();
-			let dishOrder = JSON.parse(localStorage.getItem('dishOrder'))
+			let dishOrder = JSON.parse(localStorage.getItem('extraDisOrder'))
 			if (dishOrder) {
-				that.dishData = dishOrder
+				that.tableNum = dishOrder.newOrder.orderId
+				that.tableDisable = true
 			}
-			console.log(that.dishData);
-
+			console.log("dishOrderdishOrderdishOrder",that.dishOrder);
 		},
 		computed: {
 
@@ -205,9 +207,7 @@
 						}))
 					})
 					that.dishData = newarr;
-					console.log(
-						'console.log(that.dishData);t.dishData);.log(that.dishData); console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);console.log(that.dishData);'
-					);
+					
 					console.log(that.dishData);
 					// that.dishData = res.data;
 				}).catch(res => {
@@ -221,9 +221,7 @@
 				})
 			},
 			back() {
-				this.$router.push({
-					path: "/waiterindex"
-				});
+				this.$router.go(-1)
 			},
 			ChangeType(value) {
 				if (value == "全部") {

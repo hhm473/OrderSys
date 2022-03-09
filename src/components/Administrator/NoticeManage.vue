@@ -43,31 +43,10 @@
 		},
 	];
 
-	const data = [{
-			key: "0",
-			name: "John Brown",
-			pic: "2",
-			password: "1",
-		},
-		{
-			key: "1",
-			name: "John Brown",
-			pic: "2",
-			password: "1",
-		},
-		{
-			key: "2",
-			name: "John Brown",
-			pic: "2",
-			password: "1",
-		},
-	];
-
 	export default {
 		name: "Registeration",
 		data() {
 			return {
-				data,
 				columns,
 				noticeList: []
 			};
@@ -80,10 +59,17 @@
 			//获取所有公告
 			GetNotice() {
 				let that = this
-				this.axios.get("http://47.98.238.175:8080/notice/all")
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				this.axios.get("http://47.98.238.175:8080/notice/all", {
+						headers: {
+							'Token': token
+						},
+					})
 					.then(res => {
 						that.noticeList = res.data.map((item, i) => {
 							item.key = i
+							item.sendTime = that.formatDateTime(item.sendTime)
 							return item
 						})
 						console.log(that.noticeList)
@@ -114,8 +100,23 @@
 				}).catch(function(error) {
 					that.$message.error(error);
 				});
-				},
-	},
+			},
+			formatDateTime(date) {
+				let that = this;
+				let time = new Date(Date.parse(date));
+				time.setTime(time.setHours(time.getHours() + 8));
+				let Y = time.getFullYear() + '-';
+				let M = that.addZero(time.getMonth() + 1) + '-';
+				let D = that.addZero(time.getDate()) + ' ';
+				let h = that.addZero(time.getHours()) + ':';
+				let m = that.addZero(time.getMinutes()) + ':';
+				let s = that.addZero(time.getSeconds());
+				return Y + M + D + h + m + s;
+			},
+			addZero(num) {
+				return num < 10 ? '0' + num : num;
+			}
+		},
 	};
 </script>
 

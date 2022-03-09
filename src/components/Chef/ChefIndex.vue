@@ -66,8 +66,9 @@
 								全部烹制状态
 							</a-select-option>
 						</a-select>
-						<a-button @click="postSelect" 
-						style="height:30px; font-size: 15px; width: 100px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">查询菜品</a-button>
+						<a-button @click="postSelect"
+							style="height:30px; font-size: 15px; width: 100px; background-color: #FDA03F; border: #FDA03F 1px solid; color: #FFFFFF; margin-left: 70px;">
+							查询菜品</a-button>
 					</div>
 					<a-table class="table" :columns="columns" :data-source="data" bordered :scroll="{y: 340 }">
 						<a-tag slot="dish_state" slot-scope="text, record"
@@ -139,16 +140,16 @@
 			}
 		},
 		methods: {
-			CIsRefresh(e){
+			CIsRefresh(e) {
 				let that = this
 				console.log("hhh");
-				
-					setTimeout(function()  {
-					 
-					    that.RequestData(this.dishName, this.tableId, this.dishState)
-					 
-					   }, 2000);
-					
+
+				setTimeout(function() {
+
+					that.RequestData(this.dishName, this.tableId, this.dishState)
+
+				}, 2000);
+
 			},
 			handlecook(key) {
 				console.log("进入handlebook")
@@ -172,8 +173,13 @@
 					dishState
 				}
 				console.log(selet);
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				this.axios.get("http://47.98.238.175:8080/dishOrder/querySome", {
-						params: selet
+						params: selet,
+						headers: {
+							'Token': token
+						},
 					}).then(res => {
 						let data = res.data
 						console.log(res)
@@ -188,8 +194,8 @@
 							}
 							return item
 						})
-						
-						
+
+
 						console.log(this.data)
 					})
 					.catch(function(error) {
@@ -198,7 +204,13 @@
 			},
 
 			RequestKind() {
-				this.axios.get("http://47.98.238.175:8080/dishes/all").then(res => {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				this.axios.get("http://47.98.238.175:8080/dishes/all", {
+						headers: {
+							'Token': token
+						},
+					}).then(res => {
 						this.kind = res.data
 						console.log(this.kind);
 					})
@@ -210,11 +222,17 @@
 			RequestChangeState(orderId, dishId) {
 
 				console.log(orderId, dishId);
+
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				this.axios.get("http://47.98.238.175:8080/dishOrder/update", {
 						params: {
 							orderId,
 							dishId
-						}
+						},
+						headers: {
+							'Token': token
+						},
 					}).then(res => {
 						console.log(res);
 					})
@@ -345,6 +363,7 @@
 		font-weight: bold;
 		padding-left: 60px;
 	}
+
 	.table {
 		width: 97%;
 		margin: auto;

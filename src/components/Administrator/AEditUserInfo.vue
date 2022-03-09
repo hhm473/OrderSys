@@ -216,10 +216,15 @@
 							isLock: Number(values.isLock)
 						}
 
+						let users = JSON.parse(localStorage.getItem('role'));
+						let token = users.token;
 						this.axios({
 								method: 'post',
 								url: 'http://47.98.238.175:8080/user/modify',
-								data: this.$qs.stringify(user)
+								data: this.$qs.stringify(user),
+								headers: {
+									'Token': token
+								},
 							})
 
 							.then(function(response) {

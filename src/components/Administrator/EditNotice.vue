@@ -59,6 +59,8 @@
 				this.$router.go(-1);
 			},
 			Submit() {
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				let that = this;
 				this.axios.get("http://47.98.238.175:8080/notice/edit", {
 					params: {
@@ -66,7 +68,10 @@
 						"title": that.title,
 						"contents": that.contents,
 						"noticeId":that.noticeId
-					}
+					},
+					headers: {
+						'Token': token
+					},
 				}).then(function(response) {
 					that.$message.success('修改成功！');
 					that.$router.go(-1);
