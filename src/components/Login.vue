@@ -33,7 +33,7 @@
 							<div class="username">密码：</div>
 						</a-col>
 
-						<a-col :span="16">
+						<a-col :span="16" style="position: relative;">
 							<a-form-item has-feedback>
 								<a-input v-decorator="[
 								'password',
@@ -45,7 +45,9 @@
 									},
 								],
 								},
-							]" placeholder="请输入密码" type="password" style="height: 50px; border-radius: 50px; padding-left: 15px;" />
+							]" placeholder="请输入密码" :type="pwdType" 
+							style="height: 50px; border-radius: 50px; padding-left: 15px;" />
+							<img :src="openeye" class="eye" @click="changeType()" style="width: 20px;height: 20px;position: absolute; left: 300px; top:2px; z-index: 10;">
 							</a-form-item>
 						</a-col>
 					</a-row>
@@ -103,6 +105,8 @@
 				identifyCodes: "1234567890",
 				identifyCode: "",
 				writeCode: "",
+				pwdType: 'password', // 密码类型
+				openeye: require('@/assets/img/beye.png'), //图片地址
 			};
 		},
 
@@ -119,6 +123,11 @@
 		},
 		methods: {
 
+			changeType() {
+				this.pwdType = this.pwdType === 'password' ? 'text' : 'password';
+				this.openeye = this.openeye == require("@/assets/img/beye.png") ? require("@/assets/img/eye.png") : require(
+					"@/assets/img/beye.png");
+			},
 			randomNum(min, max) {
 				return Math.floor(Math.random() * (max - min) + min);
 			},
