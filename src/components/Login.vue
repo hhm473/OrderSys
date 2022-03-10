@@ -20,7 +20,7 @@
 								rules: [
 									{
 									required: true,
-									message: '用户名不能为空!',
+									message: '用户名不能为空',
 									},
 								],
 								},
@@ -45,13 +45,13 @@
 									},
 								],
 								},
-							]" placeholder="请输入密码" :type="pwdType" 
-							style="height: 50px; border-radius: 50px; padding-left: 15px;" />
-							<img :src="openeye" class="eye" @click="changeType()" style="width: 20px;height: 20px;position: absolute; left: 300px; top:2px; z-index: 10;">
+							]" placeholder="请输入密码" :type="pwdType" style="height: 50px; border-radius: 50px; padding-left: 15px;" />
+								<img :src="openeye" class="eye" @click="changeType()"
+									style="width: 20px;height: 20px;position: absolute; left: 300px; top:2px; z-index: 10;">
 							</a-form-item>
 						</a-col>
 					</a-row>
-					
+
 					<a-row style="height: 90px;">
 						<a-col :span="6">
 							<div class="username">验证码：</div>
@@ -71,8 +71,9 @@
 
 					</a-row>
 
-					<a-button html-type="submit" @ style="color: white; background-color: #ff9963; border-color: #ff9963; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2); width: 93%;" size="large"
-						type="danger" shape="round">
+					<a-button html-type="submit" @
+						style="color: white; background-color: #ff9963; border-color: #ff9963; box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2); width: 93%;"
+						size="large" type="danger" shape="round">
 						登录
 					</a-button>
 
@@ -125,8 +126,9 @@
 
 			changeType() {
 				this.pwdType = this.pwdType === 'password' ? 'text' : 'password';
-				this.openeye = this.openeye == require("@/assets/img/beye.png") ? require("@/assets/img/eye.png") : require(
-					"@/assets/img/beye.png");
+				this.openeye = this.openeye == require("@/assets/img/beye.png") ? require("@/assets/img/eye.png") :
+					require(
+						"@/assets/img/beye.png");
 			},
 			randomNum(min, max) {
 				return Math.floor(Math.random() * (max - min) + min);
@@ -147,7 +149,7 @@
 
 			handleSubmit(e) {
 				// console.log(this.form);
-
+				let that = this;
 				if (this.writeCode == this.identifyCode) {
 					this.form.validateFields((err, values) => {
 						if (!err) {
@@ -157,53 +159,71 @@
 									data: this.$qs.stringify(values)
 								}).then(res => {
 									console.log(res)
-									let values = res.data.user
-									values.token = res.data.message
+									console.log(res)
+									let values;
 									console.log(values)
-									localStorage.setItem('role', JSON.stringify(values));
-									switch(values.roleId){
+									console.log(res.data)
+									console.log(res.data.roleId)
+									switch (res.data.roleId) {
+										// switch(values.roleId){
 										case 0:
+											console.log("进入case0")
 											this.$message.warning('您申请的账号还未通过审核，请耐心等待');
 											break
 										case 1:
+											values = res.data.user
+											values.token = res.data.message
+											localStorage.setItem('role', JSON.stringify(values));
+											console.log("进入case1")
 											this.$router.push({
 												path: "/AdministratorIndex"
 											})
-											break	
+											break
 										case 2:
+											values = res.data.user
+											values.token = res.data.message
+											localStorage.setItem('role', JSON.stringify(values));
+											console.log("进入case2")
 											this.$router.push({
 												path: "/ChefIndex"
 											})
 											break
 										case 3:
+											values = res.data.user
+											values.token = res.data.message
+											localStorage.setItem('role', JSON.stringify(values));
+											console.log("进入case3")
 											this.$router.push({
 												path: "/waiterindex"
 											})
 											break
 										case 4:
+											console.log("进入case4")
 											this.form.setFields({
-											  userId: {
-											    value: values.userId,
-											    errors: [new Error('您的账号不存在，请申请')],
-											  },
+												userId: {
+													// value: values.userId,
+													errors: [new Error('您的账号不存在，请申请')],
+												},
 											});
 											break
 										case 5:
+											console.log("进入case5")
 											this.form.setFields({
-											  userId: {
-											    value: values.userId,
-											    errors: [new Error('用户已被锁定!请找管理员解锁')],
-											  },
+												userId: {
+													// value: values.userId,
+													errors: [new Error('用户已被锁定！请找管理员解锁')],
+												},
 											});
 											break
 										case 6:
-											this.form.setFields({
-											  password: {
-											    value: values.password,
-											    errors: [new Error('密码错误！请重新输入！')],
-											  },
+											console.log("进入case6")
+											that.form.setFields({
+												password: {
+													// value: values.password,
+													errors: [new Error('密码错误！请重新输入！')],
+												},
 											});
-											break														
+											break
 									}
 
 								})
@@ -232,7 +252,7 @@
 		margin: auto;
 		margin-top: 120px;
 		padding-top: 10px;
-		background-color: rgba(255,255,255,0.6);
+		background-color: rgba(255, 255, 255, 0.6);
 	}
 
 	.login-wrap {

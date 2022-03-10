@@ -116,6 +116,10 @@
 					.then((res) => {
 						let data = res.data;
 						data = data.filter((item) => item.roleId == 0);
+						data = data.map((item, i) => {
+							item.key = i
+							return item
+						})
 						this.data = data;
 					})
 					.catch(function(error) {
@@ -128,6 +132,8 @@
 				let user = JSON.parse(localStorage.getItem('role'));
 				let token = user.token;
 				let that = this;
+				
+				delete key.key;
 				if (key.roleId == 0) {
 					that.$message.error('请选择用户身份');
 				} else {

@@ -235,7 +235,16 @@
 		border-bottom: #FF9E53 solid 2px;
 	}
 
+	.picked:hover{
+		cursor: pointer
+		
+	}
 	.unpicked {
 		font-size: 25px;
+	}
+	
+	.unpicked:hover{
+		cursor: pointer
+		
 	}
 </style>

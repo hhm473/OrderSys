@@ -79,7 +79,7 @@
 				timeNow: "2021-02-26",
 				totalPrice: 35,
 				tableNum: '12',
-				token: ''
+				verify: ''
 			}
 		},
 		mounted() {
@@ -106,7 +106,7 @@
 			// 获取到token数据
 			this.axios.get("http://47.98.238.175:8080/order/form").then(function(res) {
 				console.log(res)
-				that.token = res.data
+				that.verify = res.data
 			}).catch(function(error) {
 				// that.$message.error(error);
 			});
@@ -149,7 +149,7 @@
 					}, {
 						headers: {
 							// 'token': this.token
-							'token': token
+							'Token': token
 						} //也是在本地中拿到token
 					}, {
 						withCredentials: true
@@ -167,10 +167,11 @@
 						that.$message.error(error);
 					});
 				} else {
+					console.log("进入正常点菜接口");
 					let newOrder = {};
 					that.$set(newOrder, "tableId", Number(that.tableNum));
 					that.$set(newOrder, "waiter", that.userId);
-					that.$set(newOrder, "remarks", "测试");
+					that.$set(newOrder, "remarks", "正常下单");
 					let newarr = [];
 					that.dishOrder.map((item, index) => {
 						newarr.push(Object.assign({
@@ -184,11 +185,14 @@
 					}, {
 						headers: {
 							// 'token': this.token
-							'token': token
+							'token': token,
+							'verify': this.verify
 						} //也是在本地中拿到token
 					}, {
 						withCredentials: true
 					}).then(function(response) {
+						console.log(response);
+						console.log("dishOrder",newOrder)
 						localStorage.removeItem("dishOrder");
 						localStorage.removeItem("dishTableId");
 						localStorage.removeItem("totalPrice");

@@ -10,7 +10,8 @@
 					点菜
 				</div>
 			</div>
-			<img src="../../assets/img/back.png" @click="back" class="img-back">
+			<img v-if="tableDisable" src="../../assets/img/back.png" @click="back" class="img-back">
+			<img v-else src="../../assets/img/back.png" @click="toWaiterIndex" class="img-back">
 		</div>
 		<div class="content">
 
@@ -104,7 +105,6 @@
 				tableNum: '',
 				tableDisable: false,
 				dishOrder: [],
-				dishData1: 1,
 				totalPrice: 0,
 				type: ""
 			}
@@ -172,7 +172,6 @@
 				// if (this.dishData[index].dishNum == 0) {
 				// 	this.dishOrder.splice(oindex,1)
 				// }
-				// this.ComputetotalPrice();
 				// console.log(this.dishData)
 				this.dishData[index].dishNum--;
 				let oindex = this.dishOrder.findIndex(item => item.dishId == this.dishData[index].dishId)
@@ -181,6 +180,7 @@
 				} else {
 					this.$set(this.dishOrder, oindex, this.dishData[index])
 				}
+				this.ComputetotalPrice();
 			},
 			plusDish(index) {
 				console.log("item.dishNum++;之前的item.dishNum++;", this.dishData)
@@ -201,7 +201,6 @@
 
 				// this.dishData[index] = this.dishOrder[oindex]
 				this.ComputetotalPrice();
-				this.dishData1++;
 				// this.dishData[0].dishNum++;
 				console.log(this.dishData)
 			},
@@ -255,13 +254,19 @@
 				});
 			},
 			toWaiterIndex() {
-				localStorage.removeItem("extraDishOrder")
+				localStorage.removeItem("extraDishOrder");
+				localStorage.removeItem("dishOrder");
+				localStorage.removeItem("dishTableId");
+				localStorage.removeItem("totalPrice");
 				this.$router.push({
 					path: "/waiterindex"
 				})
 			},
 			back() {
-				localStorage.removeItem("extraDishOrder")
+				localStorage.removeItem("extraDishOrder");
+				localStorage.removeItem("dishOrder");
+				localStorage.removeItem("dishTableId");
+				localStorage.removeItem("totalPrice");
 				this.$router.go(-1)
 			},
 			ChangeType(value) {

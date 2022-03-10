@@ -59,9 +59,6 @@
 							<a-select-option value="1">
 								正在烹饪
 							</a-select-option>
-							<a-select-option value="2">
-								已烹饪
-							</a-select-option>
 							<a-select-option value="-1">
 								全部烹制状态
 							</a-select-option>

@@ -76,7 +76,7 @@
 						</a-select-option>
 					</a-select>
 
-					<a-select :default-value="type" style="width: 120px" @change="handleChangeType">
+					<a-select :default-value="type" style="width: 120px; margin-top: 25px;" @change="handleChangeType">
 						<a-select-option value="荤菜">
 							荤菜
 						</a-select-option>
@@ -99,7 +99,7 @@
 			<a-form-item>
 				<div class="button-wrap">
 					<a-button type="primary" @click="dishEdit" size="large">提交</a-button>
-					<a-button type="primary" size="large" @click="comeBack">返回</a-button>
+					<a-button size="large" @click="comeBack">返回</a-button>
 				</div>
 			</a-form-item>
 			<div style="text-align: center;">

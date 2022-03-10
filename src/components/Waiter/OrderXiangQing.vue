@@ -33,16 +33,18 @@
 			<a-table class="table" :columns="columns" :data-source="disharr" bordered :scroll="{y: 350 }">
 				<a-tag slot="dish_state" slot-scope="text, record"
 					:color="record.dish_state === '未烹饪' ? 'geekblue' :'red'">
-				
+
 					{{ record.dish_state}}
 					<!-- {{record}} -->
 				</a-tag>
-				
+
 				<template slot="cancel" slot-scope="text, record">
 					<!-- <a-popconfirm v-if="dataOrder.length" title="确定结账 ?" @confirm="() => onDelete(record.key)"> -->
-					<a-popconfirm title="确定撤菜 ?" @confirm="() => onDelete(record.key)">
-						<a-button type="primary" :disabled="record.dish_state === '未烹饪' ?false:true">撤菜</a-button>
+					<a-popconfirm title="确定撤菜 ?" @confirm="() => onDelete(record.key)"
+						v-if="record.dish_state === '未烹饪'">
+						<a-button type="primary">撤菜</a-button>
 					</a-popconfirm>
+					<a-button type="primary" disabled v-else>撤菜</a-button>
 				</template>
 			</a-table>
 		</div>
@@ -92,12 +94,12 @@
 			return {
 				columns,
 				dishOrder: [],
-				disharr:[],
+				disharr: [],
 				userId: '',
 				timeNow: "2021-02-26",
 				totalPrice: 35,
 				tableNum: '12',
-				token:''
+				token: ''
 			}
 		},
 		mounted() {
@@ -105,28 +107,44 @@
 			let people = JSON.parse(localStorage.getItem('role'))
 
 			this.$data.userId = people.userId
-			
+
 
 			this.getTime();
 			this.dishOrder = this.$route.query.dishOrder;
-			
+
 			console.log(this.dishOrder);
 			this.totalPrice = this.dishOrder.newOrder.totalPrice
 			this.timeNow = this.dishOrder.newOrder.orderTime
 			this.tableNum = this.dishOrder.newOrder.tableId
-			
-			this.disharr = this.dishOrder.dishes.map((item, i) => {
-					item.key = i
-					if (item.dish_state == 0) {
-						item.dish_state = "未烹饪";
-						return item
-					} else if(item.dish_state <= 3){
-						item.dish_state = "已烹饪"
-						return item
-					}
-					
+
+
+			let dishes = this.dishOrder.dishes
+			if (this.dishOrder.addOrders) {
+				this.dishOrder.addOrders.map((item, index) => {
+
+					dishes.push.apply(dishes, item.addOrderDetail)
+
 				})
-				
+			}
+
+
+			let rdishes = dishes.filter(item => item.dish_state != 4)
+
+			this.disharr = rdishes
+
+			this.disharr = rdishes.map((item, i) => {
+				item.key = i
+				if (item.dish_state == 0) {
+					item.dish_state = "未烹饪";
+
+				} else if (item.dish_state <= 3) {
+					item.dish_state = "已烹饪"
+
+				}
+				return item
+
+			})
+
 			console.log(this.disharr);
 		},
 		components: {
@@ -159,38 +177,38 @@
 					path: "/checkorder"
 				});
 			},
-			
-			onDelete(key){
+
+			onDelete(key) {
 				let user = JSON.parse(localStorage.getItem('role'));
 				let token = user.token;
 				let that = this
 				let dish = this.disharr.filter(item => item.key == key)[0]
-				
+
 				this.axios.get("http://47.98.238.175:8080/dishOrder/cancel", {
-						params:{
-							orderId:that.dishOrder.newOrder.orderId,
-							dishId:dish.dish_id,
-							count:dish.count,
-							price:dish.price
+						params: {
+							orderId: that.dishOrder.newOrder.orderId,
+							dishId: dish.dish_id,
+							count: dish.count,
+							price: dish.price
 						},
 						headers: {
 							'token': token
 						},
 					}).then(res => {
-						
+
 						console.log(res)
 						that.disharr.splice(that.disharr.findIndex(item => item.key == key), 1)
-						that.totalPrice = that.totalPrice-dish.price
-						})
+						that.totalPrice = that.totalPrice - dish.price
+					})
 					.catch(function(error) {
 						console.log(error);
 					});
-				
-				
-				
-				
 
-				
+
+
+
+
+
 			}
 
 		},
@@ -254,7 +272,7 @@
 		font-size: 20px;
 		font-weight: bold;
 		width: 98%;
-		margin: auto; 
+		margin: auto;
 		border-radius: 25px;
 		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 		background-color: rgba(255, 255, 255, 0.6);

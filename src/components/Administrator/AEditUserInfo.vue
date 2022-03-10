@@ -117,8 +117,10 @@
 						</a-col>
 					</a-row> -->
 					<a-form-item v-bind="tailFormItemLayout">
-						<a-button html-type="submit" style="color: white; background-color: #FE742B;" type="danger"
+						<a-button html-type="submit" style="color: white; background-color: #FE742B; margin-right: 10px;" type="danger"
 							shape="round" size="large">确认修改</a-button>
+						<a-button @click="back" style="color: white; background-color: white; color: #FE742B;"
+							shape="round" size="large">返回</a-button>
 					</a-form-item>
 				</a-form>
 			</div>

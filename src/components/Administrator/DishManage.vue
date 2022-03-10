@@ -8,8 +8,8 @@
 					<a-input v-model="dishName" placeholder="请输入名称" style="width: 100px;"></a-input>
 				</div>
 				<div class="table-number">
-					是否推荐：
-					<a-select default-value="-1" style="width: 60px" @change="handleTuijian">
+					推荐：
+					<a-select default-value="-1" style="width: 80px" @change="handleTuijian">
 						<a-select-option value="1">
 							是
 						</a-select-option>
@@ -47,10 +47,10 @@
 				<div class="price">
 					价格：
 					<div>
-						<a-input type="number" v-model="minPrice" placeholder="最小价格" style="width: 90px;"></a-input>
+						<a-input type="number" v-model="minPrice" placeholder="最小价格" style="width: 50px;"></a-input>
 					</div> -
 					<div>
-						<a-input type="number" v-model="maxPrice" placeholder="最大价格" style="width: 90px;"></a-input>
+						<a-input type="number" v-model="maxPrice" placeholder="最大价格" style="width: 50px;"></a-input>
 					</div>
 
 				</div>
@@ -228,13 +228,20 @@
 			},
 			onDelete(record) {
 				let that = this;
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
+				console.log("0record",record);
 				console.log(record.key);
 				this.data1.splice(this.data1.findIndex(item => item.key == record.key), 1)
 				axios.get("http://47.98.238.175:8080/dishes/remove", {
 					params: {
 						'dishid': record.dishId
-					}
+					},
+					headers: {
+						'token': token
+					},
 				}).then(function(response) {
+					// console.log(response)
 					that.$message.success('删除成功！');
 				}).catch(function(error) {
 					that.$message.error(error);
@@ -326,14 +333,14 @@
 	}
 
 	.time {
-		margin-right: 50px;
+		margin-right: 20px;
 		width: 180px;
 		display: flex;
 		justify-content: center;
 	}
 
 	.table-number {
-		margin-right: 50px;
+		margin-right: 20px;
 		width: 160px;
 		display: flex;
 		justify-content: space-around;
@@ -341,7 +348,7 @@
 
 	.price {
 		margin-right: 50px;
-		width: 260px;
+		width: 190px;
 		display: flex;
 		justify-content: space-around;
 	}

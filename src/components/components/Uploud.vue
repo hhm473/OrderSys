@@ -55,6 +55,7 @@
 					})
 					  .then(res => {
 						  console.log(res)
+						  // this.$emit('profilePic', "http://diancan.drbxsj.top/"+res.data)
 						  this.$emit('profilePic', "http://diancan.drbxsj.top/"+res.data)
 					  }).catch(err => {
 					  console.log(err)

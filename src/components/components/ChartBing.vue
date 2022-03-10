@@ -83,7 +83,7 @@
 						left: 'center'
 					},
 					series: [{
-						name: '销售量',
+						name: '销售额',
 						type: 'pie',
 						radius: ['40%', '70%'],
 						avoidLabelOverlap: false,

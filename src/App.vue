@@ -8,8 +8,10 @@
 	export default {
 		name: 'app',
 		mounted() {
-			console.log("ssss" + performance.navigation.type);
-			let user = localStorage.getItem('role')
+			console.log("performance.navigation.type" + performance.navigation.type);
+			let user = JSON.parse(localStorage.getItem('role'))
+			console.log("user" + user);
+			console.log("user.roleId" + user.roleId);
 			if (user && performance.navigation.type == 0) {
 				if (user.roleId == 3) {
 					this.$router.push({

@@ -4,15 +4,10 @@
 			已购菜品
 		</div>
 		<a-table id="wrap" class="table" :columns="columns" :data-source="list" bordered :scroll="{y: 700 }">
-
+			<template slot="totalprice" slot-scope="text, record">
+				{{record.dishNum*record.price}}
+			</template>
 		</a-table>
-
-		<!-- 		<div class="item-wrap">
-			<div class="item" v-for="item in list" v-bind:key="item">
-				<div>{{item.title}}</div>
-				<div>{{item.send_time}}</div>
-			</div>
-		</div> -->
 	</div>
 </template>
 
@@ -31,6 +26,9 @@
 			title: '金额',
 			key: 'price',
 			dataIndex: 'price',
+			scopedSlots: {
+				customRender: 'totalprice'
+			},
 		},
 	];
 	export default {
@@ -46,14 +44,14 @@
 			}
 		},
 		watch: {
-			list:{
-			    handler(newValue,oldValue){
-			      console.log(newValue);
-			    },
-			    deep:true ,//深度监听,
+			list: {
+				handler(newValue, oldValue) {
+					console.log(newValue);
+				},
+				deep: true, //深度监听,
 				immediate: true
-			  },
-			
+			},
+
 		}
 	}
 </script>

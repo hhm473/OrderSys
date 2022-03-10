@@ -122,9 +122,15 @@
 				})
 			},
 			getDishInfo() {
-				let user = localStorage.getItem('role');
+				let user = JSON.parse(localStorage.getItem('role'));
 				let token = user.token;
-				this.axios.get("http://47.98.238.175:8080/dishOrder/sendDishInfo", {headers: {'Token': token}}).then(res => {
+				console.log("user",user)
+				console.log("token",token)
+				this.axios.get("http://47.98.238.175:8080/dishOrder/sendDishInfo", {
+						headers: {
+							'Token': token
+						}
+					}).then(res => {
 						let dataDish = res.data
 						console.log(dataDish)
 						this.dataDish = dataDish.map((item, i) => {
@@ -140,11 +146,16 @@
 
 			RequestChangeState(orderId, dishId) {
 
+				let user = JSON.parse(localStorage.getItem('role'));
+				let token = user.token;
 				console.log(orderId, dishId);
 				this.axios.get("http://47.98.238.175:8080/dishOrder/update", {
 						params: {
 							orderId,
 							dishId
+						},
+						headers: {
+							'Token': token
 						}
 					}).then(res => {
 						console.log(res);

@@ -55,7 +55,7 @@
 										rules: [
 										{
 											required: true,
-											message: '请输入密码!',
+											message: '请输入密码！',
 										},
 										{
 											validator: validateToNextPassword,
@@ -88,7 +88,7 @@
 											rules: [
 											{
 												required: true,
-												message: '请再次输入密码!',
+												message: '请再次输入密码！',
 											},
 											{
 												validator: compareToFirstPassword,
@@ -233,7 +233,7 @@
 								userId: values.userId,
 								password: values.password,
 								roleId: "",
-								profilePic: "http://diancan.drbxsj.top/" + this.dishPic,
+								profilePic: this.dishPic,
 								isLock: ""
 							}
 							console.log('Received values of form: ', data);
@@ -248,7 +248,7 @@
 						}
 					});
 				} else {
-					this.$message.error('验证码错误!');
+					this.$message.error('验证码错误！');
 					this.makeCode(this.identifyCodes, 4);
 				}
 			},
@@ -260,7 +260,7 @@
 			compareToFirstPassword(rule, value, callback) {
 				const form = this.form;
 				if (value && value !== form.getFieldValue('password')) {
-					callback('输入的两个密码不一致!');
+					callback('输入的两个密码不一致！');
 				} else {
 					callback();
 				}

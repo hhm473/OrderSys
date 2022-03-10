@@ -83,7 +83,7 @@
 			formatDateTime(date) {
 				let that = this;
 				let time = new Date(Date.parse(date));
-				time.setTime(time.setHours(time.getHours() + 8));
+				time.setTime(time.setHours(time.getHours()));
 				let Y = time.getFullYear() + '-';
 				let M = that.addZero(time.getMonth() + 1) + '-';
 				let D = that.addZero(time.getDate()) + ' ';

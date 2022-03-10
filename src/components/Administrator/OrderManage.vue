@@ -127,6 +127,7 @@
 							'Token': token
 						},
 					}).then(res => {
+						
 						this.data = res.data.map((item, i) => {
 							item.newOrder.key = i
 							let cook = ""
@@ -151,6 +152,7 @@
 							return item.newOrder
 						})
 
+						this.data = this.data.reverse();
 						this.Bdata = this.data
 					})
 					.catch(function(error) {
@@ -186,7 +188,7 @@
 			formatDateTime(date) {
 				let that = this;
 				let time = new Date(Date.parse(date));
-				time.setTime(time.setHours(time.getHours() + 8));
+				time.setTime(time.setHours(time.getHours()));
 				let Y = time.getFullYear() + '-';
 				let M = that.addZero(time.getMonth() + 1) + '-';
 				let D = that.addZero(time.getDate()) + ' ';
