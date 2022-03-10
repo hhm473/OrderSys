@@ -391,7 +391,7 @@
 		font-size: 30px;
 		font-weight: bold;
 		border-radius: 25px;
-		box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+		/* box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2); */
 	}
 
 	.input-item {
